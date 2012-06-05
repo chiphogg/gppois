@@ -1,0 +1,15 @@
+Package: GPPois
+Type: Package
+Title: Gaussian Processes for Poisson-noised Data
+Version: 0.1-0
+Date: 2012-05-30
+Author: Charles R. Hogg III
+Maintainer: Charles R. Hogg III <charles.hogg@nist.gov>
+Description: Analyzes data using Gaussian processes.  Supported noise models
+  include Gaussian or Poisson; the latter is handled using the Anscombe
+  transform to turn it into Gaussian noise.
+License: GPL-3
+LazyLoad: yes
+Suggests: debug,geometry,rgl,Cairo
+Depends: R.oo
+URL: http://www.nist.gov/mml/ceramics/structure_determination/gppois.cfm
