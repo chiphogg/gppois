@@ -5,9 +5,9 @@
 #' debugging, and re-runs to assist debugging.  Debugging is turned off for this
 #' function at the end.
 #'
-#' @param FUN:  The function to call (either a character string or just the name
+#' @param FUN  The function to call (either a character string or just the name
 #'    of the function).
-#' @param ...:  The argument list for \code{FUN.}
+#' @param ...  The argument list for \code{FUN.}
 #'
 #' @return The result of calling \code{FUN(...)}, or else the exception.
 DebugIfError <- function(FUN, ...) {
@@ -42,43 +42,16 @@ DebugIfError <- function(FUN, ...) {
 
 #' Fast trace for matrix product
 #'
-#' Computes the trace of the matrix product \code{m1 %*% m2}, without actually
+#' Computes the trace of the matrix product \code{m1 m2}, without actually
 #' evaluating that product.
 #'
 #' @param m1 One matrix.
 #' @param m2 The other matrix.
 #'
 #' @export
-#' @return Trace(\code{m1 %*% m2})
+#' @return Trace(\code{m1 m2})
 SmartTrace <- function(m1, m2) {
   return (sum(as.vector(m1) * as.vector(t(m2))))
-}
-
-Clamp <- function(x, bounds) {
-  # Clamps every value in 'x' to lie within the range of 'bounds'.
-  #
-  # Args:
-  #   x: Some numeric object whose values must be clamped.
-  #   bounds: A numeric object whose range sets the range for clamping.
-  #
-  # Returns:
-  #   'x', but with values clamped according to 'bounds'.
-  return (pmax(pmin(x, max(bounds)), min(bounds)))
-}
-
-ClampNamed <- function(x, lower, upper) {
-  # Clamps every value in 'x' to lie between the values of 'lower' and of
-  # 'upper' with the same name.
-  #
-  # Args:
-  #   x: A named numeric vector to be clamped.
-  #   lower: A numeric vector holding the lower bounds.
-  #   upper: A numeric vector holding the upper bounds.
-  #
-  # Returns:
-  #   'x', but with values clamped between 'lower' and 'upper'.
-  n.x <- names(x)
-  return (pmax(pmin(x[n.x], upper[n.x]), lower[n.x]))
 }
 
 ItTakes <- function(my.task, how.i.do.it) {
@@ -97,17 +70,17 @@ ItTakes <- function(my.task, how.i.do.it) {
   cat(sprintf("%12g sec\n", elapsed["user.self"]))
 }
 
+#' Plots a numeric matrix
+#'
+#' Makes a quick plot of numeric matrix data.  Not very customizable, but handy
+#' for a first glance.
+#'
+#' @param M   The numeric matrix to plot.
+#' @param ...   Unused
+#'
+#' @note Adapted from:
+#' \url{http://www.phaget4.org/R/image_matrix.html} 2011-01-06 15:35
 PlotMatrixQuickAndDirty <- function(M, ...) {
-  # Plots a matrix using base R graphics.
-  #
-  # Args:
-  #   M:  The matrix to plot.
-  #
-  # Returns:
-  #   Used for its side-effect.
-  #
-  # Adapted from:
-  # http://www.phaget4.org/R/image_matrix.html 2011-01-06 15:35
 
   min <- min(M)
   max <- max(M)
@@ -174,31 +147,37 @@ PlotMatrixQuickAndDirty <- function(M, ...) {
   layout(1)
 }
 
+#' Computes the width of each point in X.
+#'
+#' For a sorted sequence of one-dimensional points X, calculates the width of
+#' each point's "territory" (i.e., the set of points closer to that point than
+#' any other).  The sum of all widths is the range of X.
+#'
+#' @param X   A sorted numeric 1-D vector, representing points on a line.
+#'
+#' @export
+#' @return The width of the "territory" for each point in X.
 Widths <- function(X) {
-  # For a sorted sequence of one-dimensional points X, calculates the width of
-  # each point's "territory" (i.e., the set of points closer to that point than
-  # any other).
-  #
-  # Args:
-  #   X:  A sorted numeric 1-D vector, representing points on a line.
-  #
-  # Returns:
-  #   The width of the "territory" for each point in X.
   N <- length(X)
   return (diff(c(X[1], (X[-N] + X[-1]) * 0.5, X[N])))
 }
 
+#' Pairwise distances between points in X and X.out
+#'
+#' Computes the distance from every point in X to every point in X.out.  Both
+#' arguments are assumed to be numeric matrices with as many columns as the
+#' dimensionality of the space.  (i.e., N 2D points would be represented by an
+#' (N x 2) matrix, etc.)  Vector arguments are assumed to be 1D points, and are
+#' automatically converted to matrices.
+#'
+#' @param X   A numeric matrix of input points.
+#' @param X.out   A matrix of output points, whose distance to every point in
+#'    'X' is desired.
+#'
+#' @export
+#' @return A matrix whose [i, j] component gives the Euclidean distance from
+#'   X.out[i, ] to X[j, ].
 DistanceMatrix <- function(X, X.out=X) {
-  # Computes the distance from every point in X to every point in X.out.
-  #
-  # Args:
-  #   X:  A matrix of input points.
-  #   X.out.:  A matrix of output points, whose distance to every point in 'X'
-  #      is desired.
-  #
-  # Returns:
-  #   A matrix whose [i, j] component gives the Euclidean distance from
-  #   X.out[i, ] to X[j, ].
   X <- as.matrix(X)
   X.out <- as.matrix(X.out)
   if (ncol(X) != ncol(X.out)) {
@@ -218,28 +197,34 @@ DistanceMatrix <- function(X, X.out=X) {
   return (matrix(sqrt(dist.sq), nrow=N.out, ncol=N))
 }
 
-Anscombe <- function(Y.p) {
-  # Calculate the Anscombe transform of some (presumably Poisson-distributed)
-  # data.
-  #
-  # Args:
-  #   Y.p:  A numeric vector of (presumably Poisson-distributed) data.
-  #
-  # Returns:
-  #   The Anscombe transform of Y.p: very close to Gaussian distribution, with
-  #   variance 1/4.
-  return (sqrt(Y.p + 3.0 / 8.0))
+
+#' Clamps \code{x} to within \code{bounds}
+#'
+#' Clamps every value in \code{x} (numeric) to lie within the range of
+#' \code{bounds} (numeric).
+#'
+#' @param x Some numeric object whose values must be clamped.
+#' @param bounds A numeric object whose range sets the range for clamping.
+#'
+#' @return \code{x}, but with values clamped according to \code{bounds}.
+Clamp <- function(x, bounds) {
+  bounds <- range(bounds)
+  return (pmax(pmin(x, bounds[2]), bounds[1]))
 }
 
-AnscombeInverse <- function(Y.g) {
-  # Calculate the (statistical!) inverse Anscombe transform of some data.
+ClampNamed <- function(x, lower, upper) {
+  # Clamps every value in 'x' to lie between the values of 'lower' and of
+  # 'upper' with the same name.
   #
   # Args:
-  #   Y.g:  A numeric vector of (presumably Anscombe-transformed) data.
+  #   x: A named numeric vector to be clamped.
+  #   lower: A numeric vector holding the lower bounds.
+  #   upper: A numeric vector holding the upper bounds.
   #
   # Returns:
-  #   The inverse Anscombe transform of Y.
-  return (Y.g ^ 2 - (1 / 8))
+  #   'x', but with values clamped between 'lower' and 'upper'.
+  n.x <- names(x)
+  return (pmax(pmin(x[n.x], upper[n.x]), lower[n.x]))
 }
 
 InitializeBoundedQuantity <- function(quantity, bounds,
@@ -347,20 +332,26 @@ SetupFileInfo <- function(name, type, name.default="DEFAULT") {
   return (list(name=name, type=type))
 }
 
+#' Generate marginally normal smooth random timetraces
+#'
+#' This function is an "engine" for visualizing uncertainty using animations --
+#' at least, as long as that uncertainty is normally distributed.  The output is
+#' a matrix whose rows represent independent oscillators, and whose columns
+#' represent timesteps.  Every column is i.i.d. normal.  Every row has a CDF
+#' which approaches the normal distribution for large N, but which is
+#' nevertheless smooth to all orders of time derivatives.  Increasing N improves
+#' the statistical properties, while increasing n.times relative to N yields
+#' smoother animations.
+#'
+#' @param n.pts  The number of independent oscillators.
+#' @param N  One-half the number of independent draws to take for each
+#'    oscillator.
+#' @param n.times  The final number of interpolated points.
+#'
+#' @export
+#' @return  A numeric matrix with n rows and n.times columns, showing the
+#'    timetraces of the oscillators.
 BubblingRandomMatrix <- function(n.pts, N=10, n.times=100, ...) {
-  # Compute a matrix whose rows appear to "bubble" independently, i.e., each
-  # row is a periodic timetrace which linearly interpolates between draws from
-  # a normal distribution.
-  #
-  # Args:
-  #   n.pts:  The number of independent bubblers.
-  #   N:  Half the number of independent draws to take for each bubbler.
-  #   n.times:  The final number of interpolated points.
-  #
-  # Returns:
-  #   A numeric matrix with n rows and n.times columns, showing the traces
-  #   of the datapoints.
-
   # First: "seed matrix", which contains enough independent random draws
   max.time <- n.draws <- 2 * N
   d.t <- max.time / n.times

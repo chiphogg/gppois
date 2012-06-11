@@ -10,10 +10,10 @@
   \item{m2}{The other matrix.}
 }
 \value{
-  Trace(\code{m1 %*% m2})
+  Trace(\code{m1 m2})
 }
 \description{
-  Computes the trace of the matrix product \code{m1 %*%
-  m2}, without actually evaluating that product.
+  Computes the trace of the matrix product \code{m1 m2},
+  without actually evaluating that product.
 }
 

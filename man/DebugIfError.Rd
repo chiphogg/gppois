@@ -5,10 +5,10 @@
   DebugIfError(FUN, ...)
 }
 \arguments{
-  \item{FUN:}{The function to call (either a character
+  \item{FUN}{The function to call (either a character
   string or just the name of the function).}
 
-  \item{...:}{The argument list for \code{FUN.}}
+  \item{...}{The argument list for \code{FUN.}}
 }
 \value{
   The result of calling \code{FUN(...)}, or else the
