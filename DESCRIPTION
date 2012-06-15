@@ -1,4 +1,4 @@
-Package: GPPois
+Package: gppois
 Type: Package
 Title: Gaussian Processes for Poisson-noised Data
 Version: 0.1-0

@@ -391,9 +391,6 @@ Wrap <- function(x, wrapper) {
   #
   # Returns:
   #   Strings in the format "<wrapper><x><wrapper>".
-
-  # NB: I've started working on bracket matching, in the function
-  # InvertPairedSymbols() in testing.R
   return (paste(sep='', wrapper, x, wrapper))
 }
 
