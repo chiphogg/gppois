@@ -450,32 +450,16 @@ setMethodS3("setUpper", "Covariance", conflict="quiet",
     return (invisible(this))
   })
 
-###########################################################################/**
-# @RdocMethod clone
-#
-# @title "Deep-clones a Dataset"
-#
-# \description{
-#   @get "title".  (Clones LazyMatrix objects too.)
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{this}{The Covariance object to clone.}
-#   \item{...}{Not used.}
-# }
-#
-# @author
-#
-# \value{A deep clone of the Covariance object.}
-#
-# \seealso{
-#   @see "R.oo::clone.Object"
-#   @seeclass
-# }
-#
-#*/###########################################################################
+#' Deep-clone a Dataset
+#'
+#' Deep-clone a Dataset (i.e., clones LazyMatrix objects too).
+#'
+#' @param this The Covariance object to clone.
+#' @param ... Not used.
+#'
+#' @return A deep clone of the Covariance object.
+#'
+#' @seealso \code{\link{Covariance}}
 clone.Covariance <- function(this, ...) {
   Cov <- clone.Object(this, ...)
   return (Cov)
@@ -514,7 +498,6 @@ clone.Covariance <- function(this, ...) {
 #
 # @author
 #*/###########################################################################
-
 setMethodS3("EncodeForTraining", "Covariance", conflict="quiet",
   function(this, values, ...) {
     # Takes a named (i.e., with the 'id' tag already prepended) vector of
