@@ -108,7 +108,7 @@ setMethodS3("getParamNames", "Covariance", conflict="quiet",
 #'
 #' The current values of the parameters which govern this Covariance.
 #'
-#' \emph{OPTIMIZATION MODE}\cr
+#' \bold{Optimization mode}\cr
 #' By default, we return all parameters.  However, this would if the caller
 #' is an \emph{optimization} routine, there are at least two important
 #' drawbacks.  First, if any parameters are fixed, it's wasteful (and
@@ -124,7 +124,7 @@ setMethodS3("getParamNames", "Covariance", conflict="quiet",
 #' uncertainty about the \emph{order of magnitude} of the parameter.)
 #'
 #'
-#' \emph{HANDLING CROSSED BOUNDARIES}\cr
+#' \bold{Handling crossed boundaries}\cr
 #' The lower bound, upper bound, and value of every parameter must
 #' \emph{always} be properly ordered:\cr
 #' lower <= param <= upper\cr
@@ -182,31 +182,30 @@ setMethodS3("setParams", "Covariance", conflict="quiet",
     return (invisible(this))
   })
 
+
 #' Set parameters using undecorated names
 #'
 #' Set parameters of this covariance using "undecorated" or "plain" names.
 #'
-#' \section{Undecorated Names}{
-#'    Covariance objects decorate their parameter names with their ID: e.g., a
-#'    Covariance with id "SE" will have a parameter named "SE.ell".  This is
-#'    important when you have multiple Covariance objects; decorating with the
-#'    ID keeps the names unique.  However, it does make it less convenient to
-#'    refer to them.  This function allows to access them with the more
-#'    intuitive, \emph{undecorated} names.
+#' \bold{Undecorated Names}\cr
+#' Covariance objects decorate their parameter names with their ID: e.g., a
+#' Covariance with id "SE" will have a parameter named "SE.ell".  This is
+#' important when you have multiple Covariance objects; decorating with the ID
+#' keeps the names unique.  However, it does make it less convenient to refer to
+#' them.  This function allows to access them with the more intuitive,
+#' \emph{undecorated} names.
 #'
-#'    I do not provide anything like the \code{for.training} option from
-#'    \code{\link{getParams}}, because it doesn't make any sense.  The training
-#'    functions always have to use the \emph{decorated} names, or else risk name
-#'    collisions.
-#' }
+#' I do not provide anything like the \code{for.training} option from
+#' \code{\link{getParams}}, because it doesn't make any sense.  The training
+#' functions always have to use the \emph{decorated} names, or else risk name
+#' collisions.
 #'
-#' \section{Note for developers}{
-#'    For developers who plan to write new Covariance classes: the corresponding
-#'    \emph{accessor} method is the responsibility of subclasses.  i.e., you
-#'    must define a method "getParamsPlain" for your class.  (I suggest looking
-#'    at the corresponding methods for the \code{\link{CovarianceSE}} class to
-#'    get started.)
-#' }
+#' \bold{Note for developers}\cr
+#' For developers who plan to write new Covariance classes: the corresponding
+#' \emph{accessor} method is the responsibility of subclasses.  i.e., you must
+#' define a method "getParamsPlain" for your class.  (I suggest looking at the
+#' corresponding methods for the \code{\link{CovarianceSE}} class to get
+#' started.)
 #'
 #' @name setParamsPlain.Covariance
 #' @aliases Covariance$paramsPlain setParamsPlain.Covariance getParamsPlain

@@ -1,7 +1,7 @@
 #############################################################################/**
 # @RdocClass LazyMatrix
 #
-# Wrapper to avoid recomputing matrices
+# @title Wrapper to avoid recomputing matrices
 #
 # \description{
 #   This is the \emph{constructor} for a \code{LazyMatrix} object:
@@ -23,6 +23,7 @@
 #
 # \section{Fields and Methods}{
 #  @allmethods
+#
 # }
 #
 # @author

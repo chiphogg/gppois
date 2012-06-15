@@ -26,7 +26,7 @@
   Covariance.
 }
 \details{
-  \emph{OPTIMIZATION MODE}\cr By default, we return all
+  \bold{Optimization mode}\cr By default, we return all
   parameters.  However, this would if the caller is an
   \emph{optimization} routine, there are at least two
   important drawbacks.  First, if any parameters are fixed,
@@ -44,7 +44,7 @@
   uncertainty about the \emph{order of magnitude} of the
   parameter.)
 
-  \emph{HANDLING CROSSED BOUNDARIES}\cr The lower bound,
+  \bold{Handling crossed boundaries}\cr The lower bound,
   upper bound, and value of every parameter must
   \emph{always} be properly ordered:\cr lower <= param <=
   upper\cr Sometimes a proposed move might violate that

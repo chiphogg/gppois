@@ -17,7 +17,7 @@
   "plain" names.
 }
 \details{
-  \section{Undecorated Names}{ Covariance objects decorate
+  \bold{Undecorated Names}\cr Covariance objects decorate
   their parameter names with their ID: e.g., a Covariance
   with id "SE" will have a parameter named "SE.ell".  This
   is important when you have multiple Covariance objects;
@@ -30,15 +30,15 @@
   option from \code{\link{getParams}}, because it doesn't
   make any sense.  The training functions always have to
   use the \emph{decorated} names, or else risk name
-  collisions. }
+  collisions.
 
-  \section{Note for developers}{ For developers who plan to
+  \bold{Note for developers}\cr For developers who plan to
   write new Covariance classes: the corresponding
   \emph{accessor} method is the responsibility of
   subclasses.  i.e., you must define a method
   "getParamsPlain" for your class.  (I suggest looking at
   the corresponding methods for the
-  \code{\link{CovarianceSE}} class to get started.) }
+  \code{\link{CovarianceSE}} class to get started.)
 }
 \seealso{
   \code{\link{getParamsPlain}}
