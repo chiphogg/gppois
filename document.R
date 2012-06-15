@@ -24,8 +24,8 @@ if (!exists("list2env")){
 
 non.r.oo.files <- paste(sep="", "R/", c("gppois.R",
     "geometry.R", "layout.R", "poisson.R", "rgl.R", "utils.R"))
-r.oo.files <- paste(sep="", "R/", c(
-    "Covariance.R", "Dataset.R", "LazyMatrix.R"))
+r.oo.files <- paste(sep="", "R/", c("Dataset.R", "LazyMatrix.R",
+    "Covariance.R", "CovarianceNoise.R"))
 sourcefiles <- c(non.r.oo.files, r.oo.files)
 
 # Document non-R.oo code (utility functions and the like):

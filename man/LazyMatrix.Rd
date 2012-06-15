@@ -11,11 +11,11 @@
 \alias{LazyMatrix}
 
 
-\title{Wrapper} to avoid recomputing matrices
+\title{Wrapper to avoid recomputing matrices}
 
 \description{
   This is the \emph{constructor} for a \code{LazyMatrix} object:
-  Wrapper.
+  Wrapper to avoid recomputing matrices.
 
   Note that this class doesn't do any actual computation!  It just stores the
   results, and also tells other code whether or not it needs to.
