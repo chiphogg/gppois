@@ -74,22 +74,22 @@ extends \link{Covariance}\cr
 \section{Fields and Methods}{
  \bold{Methods:}\cr
 \tabular{rll}{
- \tab \code{getLogspaceNames} \tab  -\cr
- \tab \code{getLowerPlain} \tab  -\cr
- \tab \code{getParamNamesPlain} \tab  -\cr
- \tab \code{getParamsPlain} \tab  -\cr
- \tab \code{getUpperPlain} \tab  -\cr
- \tab \code{KDerivImplementation} \tab  -\cr
- \tab \code{K.specific} \tab  -\cr
+ \tab \code{\link[R:getLogspaceNames.CovarianceSEAniso2D]{getLogspaceNames}} \tab Names of "scale"-type parameters.\cr
+ \tab \code{\link[R:getLowerPlain.CovarianceSEAniso2D]{getLowerPlain}} \tab Lower bounds for params, with plain names.\cr
+ \tab \code{\link[R:getParamNamesPlain.CovarianceSEAniso2D]{getParamNamesPlain}} \tab Basenames of parameters.\cr
+ \tab \code{\link[R:getParamsPlain.CovarianceSEAniso2D]{getParamsPlain}} \tab Parameter values with plain names.\cr
+ \tab \code{\link[R:getUpperPlain.CovarianceSEAniso2D]{getUpperPlain}} \tab Upper bounds for params, with plain names.\cr
+ \tab \code{\link[R:KDerivImplementation.CovarianceSEAniso2D]{KDerivImplementation}} \tab Element-wise derivatives of Covariance matrix.\cr
+ \tab \code{\link[R:K.specific.CovarianceSEAniso2D]{K.specific}} \tab Anisotropic 2D SE Covariance matrix.\cr
  \tab \code{paramsPlainImplementation} \tab  -\cr
  \tab \code{setLowerPlain} \tab  -\cr
  \tab \code{setUpperPlain} \tab  -\cr
- \tab \code{Variance} \tab  -\cr
+ \tab \code{\link[R:Variance.CovarianceSEAniso2D]{Variance}} \tab Anisotropic 2D SE variance at each point.\cr
 }
 
 
  \bold{Methods inherited from Covariance}:\cr
-clone, EncodeForTraining, FixConstParam, getId, getLower, getParamNames, getParams, getUpper, KInIn, KInInDeriv, KInOut, KOutIn, KOutOut, PrependId, print, setId, setLower, setParams, setParamsPlain, setUpper
+clone, EncodeForTraining, FixConstParam, getId, getLower, getParamNames, getParams, getUpper, KInIn, KInInDeriv, KInOut, KOutIn, KOutOut, PrependId, print, setId, setLower, setParams, setParamsPlain, setUpper, clone, EncodeForTraining, FixConstParam, getId, getLower, getParamNames, getParams, getUpper, KInIn, KInInDeriv, KInOut, KOutIn, KOutOut, PrependId, print, setId, setLower, setParams, setParamsPlain, setUpper
 
  \bold{Methods inherited from Object}:\cr
 as.character, attachLocally, attach, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, [[<-, [[, $<-, $, objectSize, print, registerFinalizer, save

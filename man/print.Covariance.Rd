@@ -7,6 +7,9 @@
 \arguments{
   \item{this}{The Covariance object to print.}
 
+  \item{indent}{Aids in formatting: the number of spaces to
+  print before every line.}
+
   \item{...}{Not used.}
 }
 \description{

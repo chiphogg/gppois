@@ -507,6 +507,8 @@ setMethodS3("PrependId", "Covariance", conflict="quiet",
 #' @method print Covariance
 #'
 #' @param this The Covariance object to print.
+#' @param indent Aids in formatting: the number of spaces to print before every
+#'    line.
 #' @param ... Not used.
 #'
 #' @seealso \code{\link{Covariance}}

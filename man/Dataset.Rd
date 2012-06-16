@@ -62,25 +62,25 @@ extends \link[R.oo]{Object}\cr
 \section{Fields and Methods}{
  \bold{Methods:}\cr
 \tabular{rll}{
- \tab \code{DeleteRows} \tab  -\cr
- \tab \code{getDataOffset} \tab  -\cr
- \tab \code{getD} \tab  -\cr
- \tab \code{getDpts} \tab  -\cr
+ \tab \code{\link[R:DeleteRows.Dataset]{DeleteRows}} \tab Delete datapoints.\cr
+ \tab \code{\link[R:getDataOffset.Dataset]{getDataOffset}} \tab The offset for this dataset.\cr
+ \tab \code{\link[R:getD.Dataset]{getD}} \tab The dimensionality of the Dataset.\cr
+ \tab \code{\link[R:getDpts.Dataset]{getDpts}} \tab Datapoint values.\cr
  \tab \code{getId} \tab  -\cr
- \tab \code{getIsPoisson} \tab  -\cr
- \tab \code{getN} \tab  -\cr
- \tab \code{getNoiseVar} \tab  -\cr
+ \tab \code{\link[R:getIsPoisson.Dataset]{getIsPoisson}} \tab Is the current column Poisson?.\cr
+ \tab \code{\link[R:getN.Dataset]{getN}} \tab The number of datapoints.\cr
+ \tab \code{\link[R:getNoiseVar.Dataset]{getNoiseVar}} \tab Noise variance for current column.\cr
  \tab \code{getQuantity} \tab  -\cr
- \tab \code{getX} \tab  -\cr
- \tab \code{getXformedDpts} \tab  -\cr
- \tab \code{MSR} \tab  -\cr
- \tab \code{Plot2D} \tab  -\cr
- \tab \code{print} \tab  -\cr
- \tab \code{RemoveRange} \tab  -\cr
- \tab \code{Same} \tab  -\cr
+ \tab \code{\link[R:getX.Dataset]{getX}} \tab X-values.\cr
+ \tab \code{\link[R:getXformedDpts.Dataset]{getXformedDpts}} \tab Transformed datapoint values.\cr
+ \tab \code{\link[R:MSR.Dataset]{MSR}} \tab Mean square residuals.\cr
+ \tab \code{\link[R:Plot2D.Dataset]{Plot2D}} \tab Scatterplot for 2D dataset.\cr
+ \tab \code{\link[R:print.Dataset]{print}} \tab Pretty-printing for Dataset objects.\cr
+ \tab \code{\link[R:RemoveRange.Dataset]{RemoveRange}} \tab Remove datapoints within a given range.\cr
+ \tab \code{\link[R:Same.Dataset]{Same}} \tab Check whether two Datasets are identical.\cr
  \tab \code{setId} \tab  -\cr
  \tab \code{setQuantity} \tab  -\cr
- \tab \code{Untransform} \tab  -\cr
+ \tab \code{\link[R:Untransform.Dataset]{Untransform}} \tab Undo any transformations on the datapoints.\cr
 }
 
 
