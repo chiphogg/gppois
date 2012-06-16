@@ -45,30 +45,6 @@ library("R.oo")
 # Methods:
 #   KDerivImplementation:  The element-wise derivative of KInIn.
 
-setConstructorS3("CovarianceSEAniso2D",
-  function(..., id="Aniso2D", ell.1=NA, ell.2=NA, theta.1=NA, sigma.f=NA,
-    ell.1.bounds=NA, ell.2.bounds=NA, theta.1.bounds=NA, sigma.f.bounds=NA) {
-    pos.def.range <- c(0, Inf)
-    ell.1.good <- InitializeBoundedQuantity(ok.range=pos.def.range,
-      quantity=ell.1, bounds=ell.1.bounds, logspace=TRUE)
-    ell.2.good <- InitializeBoundedQuantity(ok.range=pos.def.range,
-      quantity=ell.2, bounds=ell.2.bounds, logspace=TRUE)
-    theta.1.good <- InitializeBoundedQuantity(ok.range=pi * c(-1, 1),
-      quantity=theta.1, bounds=theta.1.bounds)
-    sigma.f.good <- InitializeBoundedQuantity(ok.range=pos.def.range,
-      quantity=sigma.f, bounds=sigma.f.bounds, logspace=TRUE)
-
-    extend(Covariance(..., id=id), "CovarianceSEAniso2D",
-      .ell.1          = ell.1.good$quantity,
-      .ell.1.bounds   = ell.1.good$bounds,
-      .ell.2          = ell.2.good$quantity,
-      .ell.2.bounds   = ell.2.good$bounds,
-      .theta.1        = theta.1.good$quantity,
-      .theta.1.bounds = theta.1.good$bounds,
-      .sigma.f        = sigma.f.good$quantity,
-      .sigma.f.bounds = sigma.f.good$bounds)
-  })
-
 #-------------------------------------------------------------------------------
 # (CovarianceSEAniso2D) PUBLIC VIRTUAL FIELDS:
 
