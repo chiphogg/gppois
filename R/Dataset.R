@@ -517,7 +517,9 @@ setMethodS3("MSR", "Dataset", conflict="quiet",
 #' @name Plot2D.Dataset
 #'
 #' @param max.points The maximum number of points to show (these are randomly
-#'      sampled from the available points).
+#'    sampled from the available points).
+#' @param dist.factor The ratio of the datapoint radius to the minimum
+#'    datapoint separation.
 #' @param ... Not used.
 #'
 #' @return Used for its side-effect.
@@ -536,6 +538,10 @@ setMethodS3("Plot2D", "Dataset", conflict="quiet",
     }
     rgl.clear()
     rgl.spheres(x=d$X[, 1], z=d$X[, 2], y=d$dpts, radius=dist.factor * unit)
+    if (!hasArg(Y.scale)) {
+      Y.scale <- range(this$dpts) / max(dist(d$X))
+    }
+    ScaleY(Y.scale=Y.scale)
     return (invisible(this))
   })
 

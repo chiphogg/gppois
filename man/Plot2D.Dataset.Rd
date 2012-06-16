@@ -5,6 +5,9 @@
   \item{max.points}{The maximum number of points to show
   (these are randomly sampled from the available points).}
 
+  \item{dist.factor}{The ratio of the datapoint radius to
+  the minimum datapoint separation.}
+
   \item{...}{Not used.}
 }
 \value{

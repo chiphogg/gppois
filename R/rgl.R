@@ -1,3 +1,14 @@
+#' Set the aspect ratio for rgl
+#'
+#' Changes the ratio of datapoints to X-points in the rgl window.
+ScaleY <- function(Y.scale) {
+  Y.scale.old <- par3d()$scale[2]
+  # Only scale the Y-axis if we haven't already
+  if (Y.scale.old == 1 && !is.na(Y.scale)) {
+    par3d(scale=c(1, Y.scale, 1))
+  }
+}
+
 #' Plot a triangulated surface using rgl
 #'
 #' This function takes a set of function values (\code{Y}) evaluated at
@@ -33,11 +44,7 @@ PlotSurface <- function(X, Y, dY=NA, tri=NA, new.window=FALSE,
     rgl.triangles(X[i, 1], (Y[i] + dY[i]), X[i, 2], alpha=0.3, ...)
     rgl.triangles(X[i, 1], (Y[i] - dY[i]), X[i, 2], alpha=0.3, ...)
   }
-  # Scale the Y-axis if we haven't already
-  Y.scale.old <- par3d()$scale[2]
-  if (Y.scale.old == 1 && !is.na(Y.scale)) {
-    par3d(scale=c(1, Y.scale, 1))
-  }
+  ScaleY(Y.scale=Y.scale)
 }
 
 
