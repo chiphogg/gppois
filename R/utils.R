@@ -414,3 +414,16 @@ PrintParams <- function(lower, params, upper, indent=0, ...) {
 
 }
 
+#' Error function
+#'
+#' The standard function 'erf', based on the CDF of the standard normal
+#' distribution.
+#'
+#' @param x The x-value for erf(x)
+#'
+#' @export
+#' @return  erf(x)
+erf <- function(x) {
+  2 * pnorm(sqrt(2) * x) - 1
+}
+
