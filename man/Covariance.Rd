@@ -29,7 +29,7 @@
 \code{~~+--}\code{Covariance}\cr
 
 \bold{Directly known subclasses:}\cr
-\link{CovarianceNoise}\cr
+\link{CovarianceNoise}, \link[gppois]{CovarianceSE}\cr
 
 public static class \bold{Covariance}\cr
 extends \link[R.oo]{Object}\cr
