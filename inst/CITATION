@@ -1,0 +1,20 @@
+citHeader("To cite package 'gppois' in publications use:")
+
+vers <- paste("R package version", meta$Version)
+
+citEntry(entry="article",
+  author = personList(
+    as.person("Charles R. Hogg III"),
+    as.person("Katharine Mullen"),
+    as.person("Igor Levin")),
+  year = 2012,
+  volume = 45,
+  number = 3,
+  journal = "Journal of Applied Crystallography",
+  pages = "471--481",
+  title = "A Bayesian approach for denoising one-dimensional data",
+  url = "http://dx.doi.org/10.1107/S0021889812015154",
+  textVersion=paste(
+    "Charles R. Hogg III, Katharine Mullen, and Igor Levin (2012). ",
+    "A Bayesian approach for denoising one-dimensional data.",
+    vers, ".", sep=""))
