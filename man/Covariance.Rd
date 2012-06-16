@@ -29,7 +29,7 @@
 \code{~~+--}\code{Covariance}\cr
 
 \bold{Directly known subclasses:}\cr
-\link{CovarianceNoise}, \link{CovarianceSE}, \link{CovarianceSELocalized}, \link{CovarianceSEVaryingEll}\cr
+\cr
 
 public static class \bold{Covariance}\cr
 extends \link[R.oo]{Object}\cr
@@ -61,53 +61,28 @@ extends \link[R.oo]{Object}\cr
 \tabular{rll}{
  \tab \code{ClampedParamVals} \tab  -\cr
  \tab \code{ClampParams} \tab  -\cr
- \tab \code{\link[R:clone.Covariance]{clone}} \tab Deep-clone a Dataset.\cr
+ \tab \code{clone} \tab  -\cr
  \tab \code{EncodeForTraining} \tab  -\cr
- \tab \code{\link[R:FixConstParam.Covariance]{FixConstParam}} \tab Set a parameter to a constant value..\cr
- \tab \code{\link[R:getId.Covariance]{getId}} \tab The ID for this Covariance.\cr
+ \tab \code{FixConstParam} \tab  -\cr
+ \tab \code{getId} \tab  -\cr
  \tab \code{getLower} \tab  -\cr
- \tab \code{\link[R:getParamNames.Covariance]{getParamNames}} \tab ID-decorated names of Covariance parameters.\cr
- \tab \code{\link[R:getParams.Covariance]{getParams}} \tab Parameter values for this Covariance.\cr
+ \tab \code{getParamNames} \tab  -\cr
+ \tab \code{getParams} \tab  -\cr
  \tab \code{getUpper} \tab  -\cr
  \tab \code{KInIn} \tab  -\cr
- \tab \code{\link[R:KInInDeriv.Covariance]{KInInDeriv}} \tab Element-wise derivatives of covariance matrix.\cr
+ \tab \code{KInInDeriv} \tab  -\cr
  \tab \code{KInOut} \tab  -\cr
  \tab \code{KOutIn} \tab  -\cr
  \tab \code{KOutOut} \tab  -\cr
  \tab \code{PrependId} \tab  -\cr
- \tab \code{\link[R:print.Covariance]{print}} \tab Pretty-printing for Covariance objects.\cr
+ \tab \code{print} \tab  -\cr
  \tab \code{PushLowerBounds} \tab  -\cr
  \tab \code{PushUpperBounds} \tab  -\cr
  \tab \code{setId} \tab  -\cr
- \tab \code{\link[R:setLower.Covariance]{setLower}} \tab Lower bounds for parameters using full names.\cr
+ \tab \code{setLower} \tab  -\cr
  \tab \code{setParams} \tab  -\cr
- \tab \code{\link[R:setParamsPlain.Covariance]{setParamsPlain}} \tab Set parameters using undecorated names.\cr
- \tab \code{\link[R:setUpper.Covariance]{setUpper}} \tab Upper bounds for parameters using full names.\cr
- \tab \code{UndecorateNames} \tab  -\cr
- \tab \code{ClampedParamVals} \tab  -\cr
- \tab \code{ClampParams} \tab  -\cr
- \tab \code{\link[R:clone.Covariance]{clone}} \tab Deep-clone a Dataset.\cr
- \tab \code{EncodeForTraining} \tab  -\cr
- \tab \code{\link[R:FixConstParam.Covariance]{FixConstParam}} \tab Set a parameter to a constant value..\cr
- \tab \code{\link[R:getId.Covariance]{getId}} \tab The ID for this Covariance.\cr
- \tab \code{getLower} \tab  -\cr
- \tab \code{\link[R:getParamNames.Covariance]{getParamNames}} \tab ID-decorated names of Covariance parameters.\cr
- \tab \code{\link[R:getParams.Covariance]{getParams}} \tab Parameter values for this Covariance.\cr
- \tab \code{getUpper} \tab  -\cr
- \tab \code{KInIn} \tab  -\cr
- \tab \code{\link[R:KInInDeriv.Covariance]{KInInDeriv}} \tab Element-wise derivatives of covariance matrix.\cr
- \tab \code{KInOut} \tab  -\cr
- \tab \code{KOutIn} \tab  -\cr
- \tab \code{KOutOut} \tab  -\cr
- \tab \code{PrependId} \tab  -\cr
- \tab \code{\link[R:print.Covariance]{print}} \tab Pretty-printing for Covariance objects.\cr
- \tab \code{PushLowerBounds} \tab  -\cr
- \tab \code{PushUpperBounds} \tab  -\cr
- \tab \code{setId} \tab  -\cr
- \tab \code{\link[R:setLower.Covariance]{setLower}} \tab Lower bounds for parameters using full names.\cr
- \tab \code{setParams} \tab  -\cr
- \tab \code{\link[R:setParamsPlain.Covariance]{setParamsPlain}} \tab Set parameters using undecorated names.\cr
- \tab \code{\link[R:setUpper.Covariance]{setUpper}} \tab Upper bounds for parameters using full names.\cr
+ \tab \code{setParamsPlain} \tab  -\cr
+ \tab \code{setUpper} \tab  -\cr
  \tab \code{UndecorateNames} \tab  -\cr
 }
 

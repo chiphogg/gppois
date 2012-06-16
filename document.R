@@ -27,7 +27,7 @@ non.r.oo.files <- paste(sep="", "R/", c("gppois.R",
 r.oo.files <- paste(sep="", "R/", c("Dataset.R", "LazyMatrix.R",
     "Covariance.R", "CovarianceNoise.R", "CovarianceSE.R",
     "CovarianceSELocalized.R", "CovarianceSEVaryingEll.R",
-    "CovarianceSEAniso2D"))
+    "CovarianceSEAniso2D.R"))
 sourcefiles <- c(non.r.oo.files, r.oo.files)
 
 # Document non-R.oo code (utility functions and the like):

@@ -47,12 +47,9 @@ extends \link[R.oo]{Object}\cr
 \section{Fields and Methods}{
  \bold{Methods:}\cr
 \tabular{rll}{
- \tab \code{\link[R:getM.LazyMatrix]{getM}} \tab The previously-computed matrix.\cr
- \tab \code{\link[R:NeedToRecalculate.LazyMatrix]{NeedToRecalculate}} \tab Decides whether we need to recompute.\cr
- \tab \code{\link[R:StoreMatrix.LazyMatrix]{StoreMatrix}} \tab Stores a calculated matrix.\cr
- \tab \code{\link[R:getM.LazyMatrix]{getM}} \tab The previously-computed matrix.\cr
- \tab \code{\link[R:NeedToRecalculate.LazyMatrix]{NeedToRecalculate}} \tab Decides whether we need to recompute.\cr
- \tab \code{\link[R:StoreMatrix.LazyMatrix]{StoreMatrix}} \tab Stores a calculated matrix.\cr
+ \tab \code{getM} \tab  -\cr
+ \tab \code{NeedToRecalculate} \tab  -\cr
+ \tab \code{StoreMatrix} \tab  -\cr
 }
 
 

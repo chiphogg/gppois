@@ -1,63 +1,60 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Do not modify this file since it was automatically generated from:
 % 
-%  R/CovarianceSELocalized.R
+%  R/CovarianceSEAniso2D.R
 % 
 % by the Rdoc compiler part of the R.oo package.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\name{CovarianceSELocalized}
+\name{CovarianceSEAniso2D}
 \docType{class}
-\alias{CovarianceSELocalized}
+\alias{CovarianceSEAniso2D}
 
 
-\title{Localized Squared-exponential Covariance}
+\title{2D Anisotropic SE Covariance}
 
 \description{
-  A squared-exponential covariance which is limited in spatial extent.
-  In addition to the two usual parameters (i.e., the horizontal and vertical
-  lengthscales), there are two \dQuote{boundary} parameters, \code{X.L} and
-  \code{X.R}.  \code{sigma.f} transitions smoothly to zero outside the region
-  between \code{X.L} and \code{X.R}.  The transition lengthscale is
-  \code{ell} (if it were any smaller, it could introduce sub-\code{ell}
-  features).
+  A 2D squared-exponential covariance whose eigenvalues of the covariance
+  matrix are not assumed identical.  In other words, features might vary more
+  rapidly in one direction than in the orthogonal direction.
 
   Package:   \cr
-\bold{Class CovarianceSELocalized}\cr
+\bold{Class CovarianceSEAniso2D}\cr
 
 \code{\link[R.oo]{Object}}\cr
 \code{~~|}\cr
 \code{~~+--}\code{\link{Covariance}}\cr
 \code{~~~~~~~|}\cr
-\code{~~~~~~~+--}\code{CovarianceSELocalized}\cr
+\code{~~~~~~~+--}\code{CovarianceSEAniso2D}\cr
 
 \bold{Directly known subclasses:}\cr
 \cr
 
-public static class \bold{CovarianceSELocalized}\cr
+public static class \bold{CovarianceSEAniso2D}\cr
 extends \link{Covariance}\cr
 
 
 }
 
-\usage{CovarianceSELocalized(..., id="SE", ell=NA, sigma.f=NA, X.L=NA, X.R=NA, ell.bounds=NA, sigma.f.bounds=NA, X.L.bounds=NA, X.R.bounds=NA)}
+\usage{CovarianceSEAniso2D(..., id="Aniso2D", ell.1=NA, ell.2=NA, theta.1=NA, sigma.f=NA, ell.1.bounds=NA, ell.2.bounds=NA, theta.1.bounds=NA, sigma.f.bounds=NA)}
 
 \arguments{
   \item{id}{(character) A string to identify this covariance object.}
-  \item{ell}{(numeric) A characteristic horizontal scale for features in
-     functions being modeled.}
+  \item{ell.1}{(numeric) One characteristic horizontal scale for features in
+     the functions.}
+  \item{ell.2}{(numeric) Another characteristic horizontal scale for features
+     in the functions.}
+  \item{theta.1}{(numeric) The angle of the ell.1 direction.}
   \item{sigma.f}{(numeric) A characteristic vertical scale for features in
      functions being modeled.}
-  \item{X.L}{(numeric) The left boundary of the localized region.}
-  \item{X.R}{(numeric) The right boundary of the localized region.}
-  \item{ell.bounds}{(numeric) The range of values which \code{ell} might
+  \item{ell.1.bounds}{(numeric) The range of values which \code{ell.1} might
      assume.}
+  \item{ell.2.bounds}{(numeric) The range of values which \code{ell.2} might
+     assume.}
+  \item{theta.1.bounds}{(numeric) The range of values which \code{theta.1}
+     might assume.}
   \item{sigma.f.bounds}{(numeric) The range of values which \code{sigma.f}
      might assume.}
-  \item{X.L.bounds}{(numeric) The range of values which \code{X.L} might
-     assume.}
-  \item{X.R.bounds}{(numeric) The range of values which \code{X.R} might
-     assume.}
   \item{...}{Not used.}
 }
 
@@ -67,10 +64,10 @@ extends \link{Covariance}\cr
   optimized in log-space, consistent with the Jeffreys prior.
 
   \describe{
-    \item{ell}{(Scale parameter) The horizontal feature lengthscale.}
+    \item{ell.1}{(Scale parameter) One horizontal feature lengthscale.}
+    \item{ell.2}{(Scale parameter) Another horizontal feature lengthscale.}
+    \item{theta.1}{The angle of the ell.1 axis}
     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
-    \item{X.L}{The left boundary of the localized region.}
-    \item{X.R}{The right boundary of the localized region.}
   }
 }
 

@@ -56,14 +56,11 @@ extends \link{Covariance}\cr
 
 \arguments{
   \item{id}{(character) A string to identify this covariance object.}
-  \item{ell}{(numeric) A characteristic horizontal scale for features in
-     functions being modeled.}
+  \item{X.ell}{(numeric) The X-values where \code{ell} is specified.}
+  \item{ell}{(numeric) A series of local values for the characteristic
+     horizontal scale for features in functions being modeled.}
   \item{sigma.f}{(numeric) A characteristic vertical scale for features in
      functions being modeled.}
-  \item{ell.bounds}{(numeric) The range of values which \code{ell} might
-     assume.}
-  \item{sigma.f.bounds}{(numeric) The range of values which \code{sigma.f}
-     might assume.}
   \item{...}{Not used.}
 }
 
@@ -81,37 +78,24 @@ extends \link{Covariance}\cr
 \section{Fields and Methods}{
  \bold{Methods:}\cr
 \tabular{rll}{
- \tab \code{\link[R:ell.CovarianceSEVaryingEll]{ell}} \tab ell(X).\cr
- \tab \code{\link[R:getLogspaceNames.CovarianceSEVaryingEll]{getLogspaceNames}} \tab Names of "scale"-type parameters.\cr
- \tab \code{\link[R:getLowerPlain.CovarianceSEVaryingEll]{getLowerPlain}} \tab Lower bounds for params, with plain names.\cr
- \tab \code{\link[R:getParamNamesPlain.CovarianceSEVaryingEll]{getParamNamesPlain}} \tab Basenames of parameters.\cr
- \tab \code{\link[R:getParamsPlain.CovarianceSEVaryingEll]{getParamsPlain}} \tab Parameter values with plain names.\cr
- \tab \code{\link[R:getUpperPlain.CovarianceSEVaryingEll]{getUpperPlain}} \tab Upper bounds for params, with plain names.\cr
- \tab \code{\link[R:KDerivImplementation.CovarianceSEVaryingEll]{KDerivImplementation}} \tab Element-wise derivatives of Covariance matrix.\cr
- \tab \code{\link[R:K.specific.CovarianceSEVaryingEll]{K.specific}} \tab Nonstationary Squared-exponential Covariance matrix.\cr
+ \tab \code{ell} \tab  -\cr
+ \tab \code{getLogspaceNames} \tab  -\cr
+ \tab \code{getLowerPlain} \tab  -\cr
+ \tab \code{getParamNamesPlain} \tab  -\cr
+ \tab \code{getParamsPlain} \tab  -\cr
+ \tab \code{getUpperPlain} \tab  -\cr
+ \tab \code{KDerivImplementation} \tab  -\cr
+ \tab \code{K.specific} \tab  -\cr
  \tab \code{paramsPlainImplementation} \tab  -\cr
  \tab \code{setLowerPlain} \tab  -\cr
  \tab \code{setUpperPlain} \tab  -\cr
- \tab \code{\link[R:sigma.f.CovarianceSEVaryingEll]{sigma.f}} \tab sigma.f(X).\cr
- \tab \code{\link[R:Variance.CovarianceSEVaryingEll]{Variance}} \tab Nonstationary SE variance at each point.\cr
- \tab \code{\link[R:ell.CovarianceSEVaryingEll]{ell}} \tab ell(X).\cr
- \tab \code{\link[R:getLogspaceNames.CovarianceSEVaryingEll]{getLogspaceNames}} \tab Names of "scale"-type parameters.\cr
- \tab \code{\link[R:getLowerPlain.CovarianceSEVaryingEll]{getLowerPlain}} \tab Lower bounds for params, with plain names.\cr
- \tab \code{\link[R:getParamNamesPlain.CovarianceSEVaryingEll]{getParamNamesPlain}} \tab Basenames of parameters.\cr
- \tab \code{\link[R:getParamsPlain.CovarianceSEVaryingEll]{getParamsPlain}} \tab Parameter values with plain names.\cr
- \tab \code{\link[R:getUpperPlain.CovarianceSEVaryingEll]{getUpperPlain}} \tab Upper bounds for params, with plain names.\cr
- \tab \code{\link[R:KDerivImplementation.CovarianceSEVaryingEll]{KDerivImplementation}} \tab Element-wise derivatives of Covariance matrix.\cr
- \tab \code{\link[R:K.specific.CovarianceSEVaryingEll]{K.specific}} \tab Nonstationary Squared-exponential Covariance matrix.\cr
- \tab \code{paramsPlainImplementation} \tab  -\cr
- \tab \code{setLowerPlain} \tab  -\cr
- \tab \code{setUpperPlain} \tab  -\cr
- \tab \code{\link[R:sigma.f.CovarianceSEVaryingEll]{sigma.f}} \tab sigma.f(X).\cr
- \tab \code{\link[R:Variance.CovarianceSEVaryingEll]{Variance}} \tab Nonstationary SE variance at each point.\cr
+ \tab \code{sigma.f} \tab  -\cr
+ \tab \code{Variance} \tab  -\cr
 }
 
 
  \bold{Methods inherited from Covariance}:\cr
-clone, EncodeForTraining, FixConstParam, getId, getLower, getParamNames, getParams, getUpper, KInIn, KInInDeriv, KInOut, KOutIn, KOutOut, PrependId, print, setId, setLower, setParams, setParamsPlain, setUpper, clone, EncodeForTraining, FixConstParam, getId, getLower, getParamNames, getParams, getUpper, KInIn, KInInDeriv, KInOut, KOutIn, KOutOut, PrependId, print, setId, setLower, setParams, setParamsPlain, setUpper
+clone, EncodeForTraining, FixConstParam, getId, getLower, getParamNames, getParams, getUpper, KInIn, KInInDeriv, KInOut, KOutIn, KOutOut, PrependId, print, setId, setLower, setParams, setParamsPlain, setUpper
 
  \bold{Methods inherited from Object}:\cr
 as.character, attachLocally, attach, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, [[<-, [[, $<-, $, objectSize, print, registerFinalizer, save
