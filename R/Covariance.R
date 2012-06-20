@@ -566,7 +566,6 @@ setMethodS3("ClampedParamVals", "Covariance", private=TRUE, conflict="quiet",
     lower <- this$getLowerPlain()
     upper <- this$getUpperPlain()
     p.new <- ClampNamed(x=p, lower=lower, upper=upper)
-    p.p <- p
     if (warn && !isTRUE(all.equal(p.new[names(p)], p[names(p)]))) {
       culprits <- paste(sep='', collapse=' ', '"',
         names(p)[which(p != p.new)], '"')

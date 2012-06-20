@@ -879,10 +879,11 @@ setMethodS3("Train", "Model", conflict="quiet",
       old.params <- this$params
       lower <- this$getLower(for.training=TRUE)
       upper <- this$getUpper(for.training=TRUE)
+      epsilon <- 1e-1 * (upper - lower)
       params <- this$getParams(for.training=TRUE)
       if (length(params) > 1) {
         this$.opt <- optim(method="L-BFGS-B", control=list(fnscale=-1),
-          par=params, lower=lower, upper=upper,
+          par=params, lower=lower + epsilon, upper=upper - epsilon,
           fn=LogML, gr=GradLogML,
           # Extra parameters needed by 'fn' and 'gr':
           model=this, d=d)

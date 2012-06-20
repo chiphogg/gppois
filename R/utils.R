@@ -427,3 +427,14 @@ erf <- function(x) {
   2 * pnorm(sqrt(2) * x) - 1
 }
 
+#' Pause during demos
+#'
+#' Prompts the user for input, to break up the demos
+#'
+#' @param msg The prompt message to display
+#' @export
+DemoPause <- function(msg="Press Enter to continue:") {
+  cat(msg)
+  readline()
+  cat("\n")
+}
