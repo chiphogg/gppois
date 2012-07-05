@@ -37,29 +37,34 @@ for (filename in sourcefiles) {
   roc_out(roclet=roclet, input=filename, base_path=".")
 }
 
-# Document R.oo object code; steps listed here:
-# http://www.aroma-project.org/developers
-install("gppois")
-
-# KEYWORDS.db may be in a different location; if so, the following hack makes
-# it work for R.oo<=1.9.3:
-rhome <- Sys.getenv("R_HOME")
-sane.install <- file.exists(file.path(rhome, "/doc/KEYWORDS.db"))
-if (!sane.install) {
-  old.home <- rhome
-  doc.dir <- sub(x=Sys.getenv("R_DOC_DIR"), pattern="/doc", replacement="")
-  Sys.setenv("R_HOME"=doc.dir)
-}
-
-author <- "Charles R. Hogg III"
-
-for (filename in r.oo.files) {
-  Rdoc$compile(filename=filename, destPath="man/", source=TRUE, verbose=TRUE)
-}
-
-if (!sane.install) {
-  Sys.setenv("R_HOME"=old.home)
-}
+################################################
+# COMMENTED OUT R.OO SECTION 2012-06-16
+# It only does the constructor helpfiles, but it does them in a weird way.
+# I don't want it to clobber my manually-fixed versions.
+#
+## Document R.oo object code; steps listed here:
+## http://www.aroma-project.org/developers
+#install("gppois")
+#
+## KEYWORDS.db may be in a different location; if so, the following hack makes
+## it work for R.oo<=1.9.3:
+#rhome <- Sys.getenv("R_HOME")
+#sane.install <- file.exists(file.path(rhome, "/doc/KEYWORDS.db"))
+#if (!sane.install) {
+#  old.home <- rhome
+#  doc.dir <- sub(x=Sys.getenv("R_DOC_DIR"), pattern="/doc", replacement="")
+#  Sys.setenv("R_HOME"=doc.dir)
+#}
+#
+#author <- "Charles R. Hogg III"
+#
+#for (filename in r.oo.files) {
+#  Rdoc$compile(filename=filename, destPath="man/", source=TRUE, verbose=TRUE)
+#}
+#
+#if (!sane.install) {
+#  Sys.setenv("R_HOME"=old.home)
+#}
 
 # Doing this again adds the new changes to the R.oo parts of the documentation
 install("gppois")

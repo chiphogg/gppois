@@ -520,13 +520,13 @@ setMethodS3("MSR", "Dataset", conflict="quiet",
 #'    sampled from the available points).
 #' @param dist.factor The ratio of the datapoint radius to the minimum
 #'    datapoint separation.
-#' @param ... Not used.
+#' @param ... Other graphical parameters for rgl functions.
 #'
 #' @return Used for its side-effect.
 #'
 #' @seealso \code{\link{Dataset}}
 setMethodS3("Plot2D", "Dataset", conflict="quiet",
-  function(this, max.points=1000, dist.factor=0.2, ...) {
+  function(this, max.points=1000, dist.factor=0.2, clear=TRUE, ...) {
     d <- clone(this)
     if (max.points < this$n) {
       i <- sample(x=1:this$n, size=max.points, replace=FALSE)
@@ -536,11 +536,12 @@ setMethodS3("Plot2D", "Dataset", conflict="quiet",
     if (require("rgl") == FALSE) {
       stop("The Plot2D() method requires the rgl library to be installed.")
     }
-    rgl.clear()
-    rgl.spheres(x=d$X[, 1], z=d$X[, 2], y=d$dpts, radius=dist.factor * unit)
-    if (!hasArg(Y.scale)) {
-      Y.scale <- range(this$dpts) / max(dist(d$X))
+    if (clear) {
+      rgl.clear()
     }
+    rgl.spheres(x=d$X[, 1], z=d$X[, 2], y=d$dpts, radius=dist.factor * unit, ...)
+    Y.scale <- ifelse(hasArg(Y.scale), list(...)$Y.scale,
+      max(dist(d$X)) / diff(range(this$dpts)))
     ScaleY(Y.scale=Y.scale)
     return (invisible(this))
   })
