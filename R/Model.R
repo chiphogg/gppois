@@ -308,6 +308,11 @@ setMethodS3("getLower", "Model", conflict="quiet",
     for (covar in this$.contributions) {
       L <- c(L, covar$getLower(for.training=for.training))
     }
+    if (for.training) {
+      unlog.params <- DecodeForTraining(L)
+      i.vary <- which(names(unlog.params) %in% this$getVaryingParamNames())
+      L <- L[i.vary]
+    }
     return (L)
   })
 setMethodS3("setLower", "Model", conflict="quiet",
@@ -348,6 +353,11 @@ setMethodS3("getUpper", "Model", conflict="quiet",
     U <- c()
     for (covar in this$.contributions) {
       U <- c(U, covar$getUpper(for.training=for.training))
+    }
+    if (for.training) {
+      unlog.params <- DecodeForTraining(U)
+      i.vary <- which(names(unlog.params) %in% this$getVaryingParamNames())
+      U <- U[i.vary]
     }
     return (U)
   })
@@ -879,23 +889,10 @@ setMethodS3("Train", "Model", conflict="quiet",
       old.params <- this$params
       lower <- this$getLower(for.training=TRUE)
       upper <- this$getUpper(for.training=TRUE)
-      epsilon <- 1e-1 * (upper - lower)
       params <- this$getParams(for.training=TRUE)
-      # The optimizer gets confused when near boundaries in log-space: I've
-      # noticed it's "sticky" there for suboptimal values whenever the
-      # parameters get clamped.  To get around this, I'm going to move the
-      # bounds far away at the beginning, then move them back at the end.  (The
-      # L-BFGS-B bounds-checking should take care of keeping it within the
-      # allowed range).
-      old.upper <- this$upper
-      old.lower <- this$lower
-      p.names <- names(old.upper)
-      p.range <- old.upper[p.names] - old.lower[p.names]
-      this$upper <- this$upper[p.names] + p.range[p.names]
-      this$lower <- this$lower[p.names] - p.range[p.names]
       if (length(params) > 1) {
         this$.opt <- optim(method="L-BFGS-B", control=list(fnscale=-1),
-          par=params, lower=lower + epsilon, upper=upper - epsilon,
+          par=params, lower=lower, upper=upper,
           fn=LogML, gr=GradLogML,
           # Extra parameters needed by 'fn' and 'gr':
           model=this, d=d)
@@ -916,9 +913,6 @@ setMethodS3("Train", "Model", conflict="quiet",
         names(best) <- names(params)
         this$params <- best
       }
-      # Restoring the old values, as per the above comment.
-      this$upper <- old.upper
-      this$lower <- old.lower
     }
     return (invisible(this))
   })
