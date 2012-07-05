@@ -1,4 +1,5 @@
 require("gppois")
+suppressMessages(suppressWarnings(require("debug")))
 
 data(steelStrain)
 
@@ -45,3 +46,13 @@ print(M.aniso)
 DemoPause("Hit Enter to begin the training:")
 ItTakes(my.task="Train the anisotropic model",
   how.i.do.it=M.aniso$Train(d=d.strain))
+
+# Having trained the Model, let's compute and plot the resulting fit surface.
+# (This may take a minute or so.)
+DemoPause()
+# Shortcut: calculate minimum distance to single datapoint (N instead of N^2)
+min.dist <- min(DistanceMatrix(X=d.strain$X[-1, ],
+    X.out=matrix(nrow=1, d.strain$X[1, ])))
+hex.grid <- GriddedConvexHull(X=d.strain$X, spacing=min.dist)
+f <- M.aniso$PosteriorMean(d=d.strain, X.out=hex.grid)
+PlotSurface(X=hex.grid, Y=f)
