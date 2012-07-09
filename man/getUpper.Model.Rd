@@ -1,6 +1,6 @@
 \name{getUpper.Model}
-\alias{getUpper.Model}
 \alias{Model$upper}
+\alias{getUpper.Model}
 \alias{setUpper.Model}
 \title{Upper bounds for parameters}
 \arguments{

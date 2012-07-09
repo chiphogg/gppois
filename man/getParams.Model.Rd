@@ -1,6 +1,6 @@
 \name{getParams.Model}
-\alias{getParams.Model}
 \alias{Model$params}
+\alias{getParams.Model}
 \alias{setParams.Model}
 \title{Parameters for the Model}
 \arguments{

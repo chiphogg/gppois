@@ -1,6 +1,6 @@
 \name{getLower.Model}
-\alias{getLower.Model}
 \alias{Model$lower}
+\alias{getLower.Model}
 \alias{setLower.Model}
 \title{Lower bounds for parameters}
 \arguments{

@@ -6,22 +6,6 @@ require("R.oo")
 
 source("setup_env.R")
 
-# This function taken from the editrules package (and slightly reformatted).
-# The roxygen2 package uses the list2env function, which the Debian squeeze
-# version of R (2.11) lacks.  Adding this function enables me to
-# auto-generate documentation of my non-R.oo code.
-if (!exists("list2env")){
-  list2env <- function(x, envir=NULL, parent=parent.frame()){
-    if (is.null(envir)) {
-      envir <- new.env(parent=parent)
-    }
-    for (i in names(x)){
-      envir[[i]] <- x[[i]]
-    }
-    return (envir)
-  }
-}
-
 non.r.oo.files <- paste(sep="", "R/", c("gppois.R",
     "geometry.R", "layout.R", "poisson.R", "rgl.R", "utils.R"))
 r.oo.files <- paste(sep="", "R/", c("Dataset.R", "LazyMatrix.R",
