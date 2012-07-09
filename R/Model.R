@@ -283,8 +283,8 @@ setMethodS3("setParams", "Model", conflict="quiet",
 #'
 #' @name getLower.Model
 #' @aliases Model$lower getLower.Model setLower.Model
-#' @S3method getLower.Model Model
-#' @S3method setLower.Model Model
+#' @S3method getLower Model
+#' @S3method setLower Model
 #'
 #' @param this The Model object.
 #' @param L A (named) vector of new parameter values (we ONLY use ones which are
@@ -329,8 +329,8 @@ setMethodS3("setLower", "Model", conflict="quiet",
 #'
 #' @name getUpper.Model
 #' @aliases Model$upper getUpper.Model setUpper.Model
-#' @S3method getUpper.Model Model
-#' @S3method setUpper.Model Model
+#' @S3method getUpper Model
+#' @S3method setUpper Model
 #'
 #' @param this The Model object.
 #' @param L A (named) vector of new parameter values (we ONLY use ones which are
