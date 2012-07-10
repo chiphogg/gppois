@@ -475,6 +475,7 @@ setMethodS3("AddCovariance", "Model", conflict="quiet",
 #'
 #' @return A deep clone of the Model object.
 #'
+#' @export
 #' @seealso \code{\link{Model}}
 clone.Model <- function(this, ...) {
   M <- clone.Object(this)
@@ -822,6 +823,7 @@ setMethodS3("PosteriorStandardDeviation", "Model", conflict="quiet",
 #'    line.
 #' @param ... Not used.
 #'
+#' @export
 #' @seealso \code{\link{Model}}
 print.Model <- function(this, indent=0, ...) {
   tab <- Spaces(num=indent)

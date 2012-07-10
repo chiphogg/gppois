@@ -558,6 +558,7 @@ setMethodS3("Plot2D", "Dataset", conflict="quiet",
 #' @param this The Dataset object to print.
 #' @param ... Not used.
 #'
+#' @export
 #' @seealso \code{\link{Dataset}}
 print.Dataset <- function(this, ...) {
   cat(sprintf("Dataset '%s': %d datapoints in %d dimensions.\n",

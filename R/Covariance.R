@@ -343,6 +343,7 @@ setMethodS3("setUpper", "Covariance", conflict="quiet",
 #' @param ... Not used.
 #'
 #' @return A deep clone of the Covariance object.
+#' @export
 #'
 #' @seealso \code{\link{Covariance}}
 clone.Covariance <- function(this, ...) {
@@ -511,6 +512,7 @@ setMethodS3("PrependId", "Covariance", conflict="quiet",
 #'    line.
 #' @param ... Not used.
 #'
+#' @export
 #' @seealso \code{\link{Covariance}}
 print.Covariance <- function(this, indent=0, ...) {
   tab <- paste(collapse='', rep(' ', indent))
