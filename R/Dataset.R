@@ -171,7 +171,7 @@ ComputeNoiseVariance <- function(data, specs, tol, poisson.names=c()) {
   leftover <- names(noise.var)[which(is.na(noise.var))]
   if (length(leftover) > 0) {
     # 'defaults': initialize with the "Rule 3b" values
-    defaults <- (tol * sd(data[, leftover])) ^ 2
+    defaults <- (tol * sapply(data[, leftover], sd)) ^ 2
     # If specs has any named entries, it's safe to look for unnamed ones
     # (i.e., Rule 3a)
     if (!is.null(names(specs)) ) {
