@@ -103,7 +103,7 @@ setMethodS3("getParamNames", "Covariance", conflict="quiet",
     if (!is.character(getId(this)) || nchar(getId(this)) < 1) {
       return (getParamNamesPlain(this))
     }
-    return (gppois:::PrependId(this=this, strings=getParamNamesPlain(this)))
+    return (PrependId(this=this, strings=getParamNamesPlain(this)))
   })
 
 #' Parameter values for this Covariance
@@ -173,16 +173,16 @@ setMethodS3("getParams", "Covariance", conflict="quiet",
     p <- getParamsPlain(this)
     names(p) <- getParamNames(this)
     if (for.training) {
-      p <- gppois:::EncodeForTraining(this, p)
+      p <- EncodeForTraining(this, p)
     }
     return (p)
   })
 setMethodS3("setParams", "Covariance", conflict="quiet",
   function(this, p, for.training=FALSE, ...) {
     if (for.training) {
-      p <- gppois:::DecodeForTraining(p)
+      p <- DecodeForTraining(p)
     }
-    p.plain <- gppois:::UndecorateNames(this, p=p)
+    p.plain <- UndecorateNames(this, p=p)
     this$setParamsPlain(p=p.plain)
     return (invisible(this))
   })
@@ -237,11 +237,11 @@ setMethodS3("setParamsPlain", "Covariance", conflict="quiet",
     p.good.names[to.change] <- p[to.change]
     # paramsPlainImplementation requires a vector with a value for every
     # parameter; we took care of this above.
-    gppois:::paramsPlainImplementation(this, p=p.good.names)
-    p.clamped <- gppois:::ClampedParamVals(this, p=p.good.names)
+    paramsPlainImplementation(this, p=p.good.names)
+    p.clamped <- ClampedParamVals(this, p=p.good.names)
     p.names <- names(p.clamped)
     clamped <- which(p.good.names[p.names] != p.clamped[p.names])
-    gppois:::paramsPlainImplementation(this, p=p.clamped)
+    paramsPlainImplementation(this, p=p.clamped)
     if (any(clamped)) {
       culprits <- paste(sep='', collapse=' ', '"', p.names[clamped], '"')
       warning(paste("These parameters had to be clamped:\n", culprits, "\n"))
@@ -282,16 +282,16 @@ setMethodS3("getLower", "Covariance", conflict="quiet",
     L <- this$getLowerPlain()
     names(L) <- this$getParamNames()
     if (for.training) {
-      L <- gppois:::EncodeForTraining(this, L)
+      L <- EncodeForTraining(this, L)
     }
     return (L)
 })
 setMethodS3("setLower", "Covariance", conflict="quiet",
   function(this, L, for.training=FALSE, ...) {
     if (for.training) {
-      L <- gppois:::DecodeForTraining(L)
+      L <- DecodeForTraining(L)
     }
-    L.plain <- gppois:::UndecorateNames(this, L)
+    L.plain <- UndecorateNames(this, L)
     this$setLowerPlain(L=L.plain)
     return (invisible(this))
 })
@@ -329,16 +329,16 @@ setMethodS3("getUpper", "Covariance", conflict="quiet",
     U <- this$getUpperPlain()
     names(U) <- this$getParamNames()
     if (for.training) {
-      U <- gppois:::EncodeForTraining(this, U)
+      U <- EncodeForTraining(this, U)
     }
     return (U)
   })
 setMethodS3("setUpper", "Covariance", conflict="quiet",
   function(this, U, for.training=FALSE, ...) {
     if (for.training) {
-      U <- gppois:::DecodeForTraining(U)
+      U <- DecodeForTraining(U)
     }
-    U.plain <- gppois:::UndecorateNames(this, U)
+    U.plain <- UndecorateNames(this, U)
     this$setUpperPlain(U=U.plain)
     return (invisible(this))
   })
@@ -374,7 +374,7 @@ setMethodS3("EncodeForTraining", "Covariance", conflict="quiet",
     # Returns:
     #   'values', but with scale-type parameters changed to their log (and
     #   appropriately renamed)
-    logspace.names <- gppois:::PrependId(this, this$logspaceNames)
+    logspace.names <- PrependId(this, this$logspaceNames)
     i.log <- which(names(values) %in% logspace.names)
     values[i.log] <- log(values[i.log])
     names(values)[i.log] <- paste(sep="", names(values)[i.log], LogspaceTag())
@@ -502,7 +502,7 @@ setMethodS3("KInInDeriv", "Covariance", conflict="quiet",
   function(this, d, param, ...) {
     if (param %in% this$paramNames) {
       names(param) <- param
-      param.plain <- names(gppois:::UndecorateNames(this, p=param))
+      param.plain <- names(UndecorateNames(this, p=param))
       K.deriv <- this$KDerivImplementation(d=d, param=param.plain)
     } else {
       K.deriv <- matrix(0, nrow=d$n, ncol=d$n)
@@ -607,7 +607,7 @@ setMethodS3("ClampParams", "Covariance", private=TRUE, conflict="quiet",
 
     # The following *should* be OK, as long as neither setParams nor
     # setParamsPlain calls ClampParams...
-    this$setParamsPlain(p=gppois:::ClampedParamVals(this, warn=warn))
+    this$setParamsPlain(p=ClampedParamVals(this, warn=warn))
     return (invisible(this))
   })
 

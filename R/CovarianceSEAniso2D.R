@@ -197,7 +197,7 @@ setMethodS3("getLowerPlain", "CovarianceSEAniso2D", conflict="quiet",
 setMethodS3("setLowerPlain", "CovarianceSEAniso2D", conflict="quiet",
   function(this, L, ...) {
     # Adjust upper bounds to make way for the new values of L
-    L.change <- gppois:::PushUpperBounds(this, U.min=L)
+    L.change <- PushUpperBounds(this, U.min=L)
 
     L.vals <- this$getLowerPlain()
     L.vals[names(L.change)] <- L.change[names(L.change)]
@@ -205,7 +205,7 @@ setMethodS3("setLowerPlain", "CovarianceSEAniso2D", conflict="quiet",
     this$.ell.2.bounds[1] <- L.vals["ell.2"]
     this$.theta.1.bounds[1] <- L.vals["theta.1"]
     this$.sigma.f.bounds[1] <- L.vals["sigma.f"]
-    gppois:::ClampParams(this, warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
@@ -241,7 +241,7 @@ setMethodS3("getUpperPlain", "CovarianceSEAniso2D", conflict="quiet",
 setMethodS3("setUpperPlain", "CovarianceSEAniso2D", conflict="quiet",
   function(this, U, ...) {
     # Adjust lower bounds to make way for the new values of U
-    U.change <- gppois:::PushLowerBounds(this, L.max=U)
+    U.change <- PushLowerBounds(this, L.max=U)
 
     U.vals <- this$getUpperPlain()
     U.vals[names(U.change)] <- U.change[names(U.change)]
@@ -249,7 +249,7 @@ setMethodS3("setUpperPlain", "CovarianceSEAniso2D", conflict="quiet",
     this$.ell.2.bounds[2] <- U.vals["ell.2"]
     this$.theta.1.bounds[2] <- U.vals["theta.1"]
     this$.sigma.f.bounds[2] <- U.vals["sigma.f"]
-    gppois:::ClampParams(this, warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 

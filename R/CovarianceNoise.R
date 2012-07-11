@@ -163,12 +163,12 @@ setMethodS3("setLowerPlain", "CovarianceNoise", conflict="quiet",
     L.posdef <- pmax(L, 0)  # Noise cannot be negative
 
     # Adjust upper bounds to make way for the new values of L
-    L.change <- gppois:::PushUpperBounds(this, U.min=L.posdef)
+    L.change <- PushUpperBounds(this, U.min=L.posdef)
 
     L.vals <- this$getLowerPlain()
     L.vals[names(L.change)] <- L.change[names(L.change)]
     this$.sigma.bounds[1] <- L.vals["sigma"]
-    gppois:::ClampParams(this, warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
@@ -207,12 +207,12 @@ setMethodS3("setUpperPlain", "CovarianceNoise", conflict="quiet",
     U.posdef <- pmax(U, 0)  # SE has no possibly-negative parameters
 
     # Adjust lower bounds to make way for the new values of U
-    U.change <- gppois:::PushLowerBounds(this, L.max=U.posdef)
+    U.change <- PushLowerBounds(this, L.max=U.posdef)
 
     U.vals <- this$getUpperPlain()
     U.vals[names(U.change)] <- U.change[names(U.change)]
     this$.sigma.bounds[2] <- U.vals["sigma"]
-    gppois:::ClampParams(this, warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 

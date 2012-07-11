@@ -102,12 +102,12 @@ LogML <- function(par=model$getParams(for.training=TRUE), model, d,
   if (!update.params) {
     model <- clone(model)
   }
-  model$setParams(p=gppois:::DecodeForTraining(par))
+  model$setParams(p=DecodeForTraining(par))
   Y <- d$xformedDpts
   # The following calculation is based on Equation 5.8 in
   # Rasmussen and Williams (2005):
-  term.data.fit   <- -0.5 * t(Y) %*% gppois:::KInv(this=model, d) %*% Y
-  term.complexity <- -0.5 * gppois:::LogDetK(this=model, d)
+  term.data.fit   <- -0.5 * t(Y) %*% KInv(this=model, d) %*% Y
+  term.complexity <- -0.5 * LogDetK(this=model, d)
   term.num.dpts   <- -0.5 * d$n * log(2 * pi)
   return (term.data.fit + term.complexity + term.num.dpts)
 }
@@ -159,17 +159,17 @@ GradLogML <- function(par=model$getParams(for.training=TRUE), model, d,
   if (!update.params) {
     model <- clone(model)
   }
-  model$setParams(p=gppois:::DecodeForTraining(par))
+  model$setParams(p=DecodeForTraining(par))
   Y <- d$xformedDpts
   # The following calculations are based on Equation 5.9 in
   # Rasmussen and Williams (2005).
-  alpha <- gppois:::KInv(this=model, d) %*% Y
-  mat.for.grad <- alpha %*% t(alpha) - gppois:::KInv(this=model, d)
+  alpha <- KInv(this=model, d) %*% Y
+  mat.for.grad <- alpha %*% t(alpha) - KInv(this=model, d)
   var.names <- names(model$getParams(for.training=TRUE))
   good.names <- names(par)[which(names(par) %in% var.names)]
   grad <- c()
   for (p.n in good.names) {
-    grad[p.n] <- 0.5 * SmartTrace(gppois:::KDeriv(this=model, d=d, param=p.n),
+    grad[p.n] <- 0.5 * SmartTrace(KDeriv(this=model, d=d, param=p.n),
       mat.for.grad)
   }
   return (grad)
@@ -268,7 +268,7 @@ setMethodS3("getParams", "Model", conflict="quiet",
       p <- c(p, covar$getParams(for.training=for.training))
     }
     if (for.training) {
-      unlog.params <- gppois:::DecodeForTraining(p)
+      unlog.params <- DecodeForTraining(p)
       i.vary <- which(names(unlog.params) %in% this$getVaryingParamNames())
       p <- p[i.vary]
     }
@@ -316,7 +316,7 @@ setMethodS3("getLower", "Model", conflict="quiet",
       L <- c(L, covar$getLower(for.training=for.training))
     }
     if (for.training) {
-      unlog.params <- gppois:::DecodeForTraining(L)
+      unlog.params <- DecodeForTraining(L)
       i.vary <- which(names(unlog.params) %in% this$getVaryingParamNames())
       L <- L[i.vary]
     }
@@ -364,7 +364,7 @@ setMethodS3("getUpper", "Model", conflict="quiet",
       U <- c(U, covar$getUpper(for.training=for.training))
     }
     if (for.training) {
-      unlog.params <- gppois:::DecodeForTraining(U)
+      unlog.params <- DecodeForTraining(U)
       i.vary <- which(names(unlog.params) %in% this$getVaryingParamNames())
       U <- U[i.vary]
     }
@@ -571,7 +571,7 @@ setMethodS3("Freeze", "Model", conflict="quiet",
 #' @seealso \code{\link{Model}}
 setMethodS3("L", "Model", conflict="quiet",
   function(this, d, X.out=d$X, contributions=this$getSignalIds(), ...) {
-    gppois:::ComputeL(this, d=d, X.out=X.out, contributions=contributions)
+    ComputeL(this, d=d, X.out=X.out, contributions=contributions)
     return (this$.L$M)
   })
 
@@ -699,7 +699,7 @@ setMethodS3("PlotBubblingSurfaces2D", "Model", conflict="quiet",
 setMethodS3("PosteriorMean", "Model", conflict="quiet",
   function(this, d, X.out=d$X, contributions=this$getSignalIds(),
     untransform.result=TRUE, ...) {
-    contributions <- gppois:::CheckContributionsAndWarn(this, contributions)
+    contributions <- CheckContributionsAndWarn(this, contributions)
     M <- this$PredictionMatrix(d=d, X.out=X.out, contributions=contributions)
     result <- M %*% d$xformedDpts
     if (untransform.result) {
@@ -742,7 +742,7 @@ setMethodS3("PredictionMatrix", "Model", conflict="quiet",
       rm(covar.K)
       gc()
     }
-    M <- K.in.out %*% gppois:::KInv(this, d=d)
+    M <- K.in.out %*% KInv(this, d=d)
     rm(K.in.out)
     gc()
     return (M)
@@ -809,7 +809,7 @@ setMethodS3("PosteriorInterval", "Model", conflict="quiet",
 #' @seealso \code{\link{Model}}
 setMethodS3("PosteriorStandardDeviation", "Model", conflict="quiet",
   function(this, d, X.out=d$X, contributions=this$getSignalIds(), ...) {
-    contributions <- gppois:::CheckContributionsAndWarn(this, contributions)
+    contributions <- CheckContributionsAndWarn(this, contributions)
     # Calculate the posterior predictive mean.
     N.out <- NumPoints(X.out)
     K.in.out <- matrix(0, nrow=N.out, ncol=d$n)
@@ -996,7 +996,7 @@ setMethodS3("ComputeL", "Model", private=TRUE, conflict="quiet",
     ingredients <- list(X=d$X, X.out=X.out, noiseVar=d$noiseVar,
       params=this$params)
     if (this$.L$NeedToRecalculate(ingredients=ingredients)) {
-      gppois:::ComputeKChol(this, d=d)
+      ComputeKChol(this, d=d)
       K.out.out <- d$noiseVar * diag(NumPoints(X.out))
       K.in.out <- matrix(0, nrow=NumPoints(X.out), ncol=NumPoints(d$X))
       for (c.id in contributions) {
@@ -1024,7 +1024,7 @@ setMethodS3("ComputeKChol", "Model", private=TRUE, conflict="quiet",
     #   model.
     ingredients <- list(X=d$X, noiseVar=d$noiseVar, params=this$params)
     if (this$.K.chol$NeedToRecalculate(ingredients=ingredients)) {
-      K.tot <- gppois:::KTotal(this, d=d)
+      K.tot <- KTotal(this, d=d)
       K.chol <- DebugIfError(chol.default, K.tot)
       this$.K.chol$StoreMatrix(M=K.chol, ingredients=ingredients)
     }
@@ -1113,7 +1113,7 @@ setMethodS3("KInv", "Model", private=TRUE, conflict="quiet",
     #
     # Returns:
     #   The inverse total covariance matrix for this model.
-    gppois:::ComputeKChol(this, d=d)
+    ComputeKChol(this, d=d)
     return (chol2inv(this$.K.chol$M))
   })
 
@@ -1127,7 +1127,7 @@ setMethodS3("LogDetK", "Model", private=TRUE, conflict="quiet",
     #
     # Returns:
     #   The logarithm of the determinant of the model's covariance matrix.
-    gppois:::ComputeKChol(this, d=d)
+    ComputeKChol(this, d=d)
     return (2 * sum(log(diag(this$.K.chol$M))))
   })
 

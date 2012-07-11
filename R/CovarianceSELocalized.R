@@ -238,7 +238,7 @@ setMethodS3("setLowerPlain", "CovarianceSELocalized", conflict="quiet",
     posdef.names <- c('ell', 'sigma.f')
     L[posdef.names] <- pmax(L[posdef.names], 0)
     # Adjust upper bounds to make way for the new values of L
-    L.change <- gppois:::PushUpperBounds(this, U.min=L)
+    L.change <- PushUpperBounds(this, U.min=L)
 
     L.vals <- this$getLowerPlain()
     L.vals[names(L.change)] <- L.change[names(L.change)]
@@ -246,7 +246,7 @@ setMethodS3("setLowerPlain", "CovarianceSELocalized", conflict="quiet",
     this$.sigma.f.bounds[1] <- L.vals["sigma.f"]
     this$.X.L.bounds[1] <- L.vals["X.L"]
     this$.X.R.bounds[1] <- L.vals["X.R"]
-    gppois:::ClampParams(this, warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
@@ -288,7 +288,7 @@ setMethodS3("setUpperPlain", "CovarianceSELocalized", conflict="quiet",
     posdef.names <- c('ell', 'sigma.f')
     U[posdef.names] <- pmax(U[posdef.names], 0)
     # Adjust lower bounds to make way for the new values of U
-    U.change <- gppois:::PushLowerBounds(this, L.max=U)
+    U.change <- PushLowerBounds(this, L.max=U)
 
     U.vals <- this$getUpperPlain()
     U.vals[names(U.change)] <- U.change[names(U.change)]
@@ -296,7 +296,7 @@ setMethodS3("setUpperPlain", "CovarianceSELocalized", conflict="quiet",
     this$.sigma.f.bounds[2] <- U.vals["sigma.f"]
     this$.X.L.bounds[2] <- U.vals["X.L"]
     this$.X.R.bounds[2] <- U.vals["X.R"]
-    gppois:::ClampParams(this, warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 

@@ -175,12 +175,12 @@ setMethodS3("setLowerPlain", "CovarianceSE", conflict="quiet",
     }
     L.posdef <- pmax(L, 0)  # SE has no possibly-negative parameters
     # Adjust upper bounds to make way for the new values of L
-    L.change <- gppois:::PushUpperBounds(this, U.min=L.posdef)
+    L.change <- PushUpperBounds(this, U.min=L.posdef)
     L.vals <- this$getLowerPlain()
     L.vals[names(L.change)] <- L.change[names(L.change)]
     this$.ell.bounds[1] <- L.vals["ell"]
     this$.sigma.f.bounds[1] <- L.vals["sigma.f"]
-    gppois:::ClampParams(this, warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
@@ -218,13 +218,13 @@ setMethodS3("setUpperPlain", "CovarianceSE", conflict="quiet",
     }
     U.posdef <- pmax(U, 0)  # SE has no possibly-negative parameters
     # Adjust lower bounds to make way for the new values of U
-    U.change <- gppois:::PushLowerBounds(this, L.max=U.posdef)
+    U.change <- PushLowerBounds(this, L.max=U.posdef)
 
     U.vals <- this$getUpperPlain()
     U.vals[names(U.change)] <- U.change[names(U.change)]
     this$.ell.bounds[2] <- U.vals["ell"]
     this$.sigma.f.bounds[2] <- U.vals["sigma.f"]
-    gppois:::ClampParams(this, warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
