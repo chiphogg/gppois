@@ -56,3 +56,7 @@ min.dist <- min(DistanceMatrix(X=d.strain$X[-1, ],
 hex.grid <- GriddedConvexHull(X=d.strain$X, spacing=min.dist)
 f <- M.aniso$PosteriorMean(d=d.strain, X.out=hex.grid)
 PlotSurface(X=hex.grid, Y=f)
+
+# How good is this prediction?  Let's add in the missing datapoints:
+DemoPause()
+d.gap$Plot2D(max.points=Inf, color="green", clear=FALSE)
