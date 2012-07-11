@@ -403,23 +403,23 @@ setMethodS3("getSignalIds", "Model", conflict="quiet",
         which(this$getContributionIds() != 'noise')])
   })
 
-# Non-constant Model parameters
-#
-# Names of the parameters which are not constant.
-#
-# @name getVaryingParamNames.Model
-# @aliases Model$varyingParamNames getVaryingParamNames.Model
-# @S3method getVaryingParamNames Model
-# @export getVaryingParamNames getVaryingParamNames.Model
-#
-# @param this The Model object.
-# @param ... Not used.
-#
-# @usage Model$varyingParamNames
-#
-# @return The names of all parameters which are not constant.
-#
-# @seealso \code{\link{Model}}
+#' Non-constant Model parameters
+#'
+#' Names of the parameters which are not constant.
+#'
+#' @name getVaryingParamNames.Model
+#' @aliases Model$varyingParamNames getVaryingParamNames.Model
+#' @S3method getVaryingParamNames Model
+#' @export getVaryingParamNames getVaryingParamNames.Model
+#'
+#' @param this The Model object.
+#' @param ... Not used.
+#'
+#' @usage Model$varyingParamNames
+#'
+#' @return The names of all parameters which are not constant.
+#'
+#' @seealso \code{\link{Model}}
 setMethodS3("getVaryingParamNames", "Model", conflict="quiet",
   function(this, ...) {
     U <- this$getUpper()

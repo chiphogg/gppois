@@ -147,6 +147,8 @@ setMethodS3("getParamNames", "Covariance", conflict="quiet",
 #'
 #' @name getParams.Covariance
 #' @aliases Covariance$params getParams.Covariance setParams.Covariance
+#' @S3method setParams Covariance
+#' @export setParams setParams.Covariance
 #' @S3method getParams Covariance
 #' @export getParams getParams.Covariance
 #'
