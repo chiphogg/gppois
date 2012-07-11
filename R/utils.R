@@ -411,7 +411,6 @@ PrintParams <- function(lower, params, upper, indent=0, ...) {
     cat(sprintf("%s  %15s   %14.8g   %14.8g   %14.8g\n", tab, name,
         lower[name], params[name], upper[name]))
   }
-
 }
 
 #' Error function

@@ -2,7 +2,7 @@
 \alias{print.Dataset}
 \title{Pretty-printing for Dataset objects}
 \usage{
-  \method{print}{Dataset} (this, ...)
+  print.Dataset(this, ...)
 }
 \arguments{
   \item{this}{The Dataset object to print.}

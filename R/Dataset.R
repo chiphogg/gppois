@@ -203,11 +203,10 @@ DatasetFromFile <- function(file, sep='\t', id=basename(file), ...) {
 #' The dimensionality of the independent variable in this Dataset. i.e., 1 for
 #' curves, 2 for surfaces, etc.
 #'
-#' @S3method getD Dataset
-#'
 #' @name getD.Dataset
 #' @aliases getD d getD.Dataset
 #' @S3method getD Dataset
+#' @export getD getD.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -231,6 +230,7 @@ setMethodS3("getD", "Dataset", conflict="quiet",
 #' @name getDataOffset.Dataset
 #' @aliases dataOffset getDataOffset getDataOffset.Dataset
 #' @S3method getDataOffset Dataset
+#' @export getDataOffset getDataOffset.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -254,6 +254,7 @@ setMethodS3("getDataOffset", "Dataset", conflict="quiet",
 #' @name getDpts.Dataset
 #' @aliases dpts getDpts getDpts.Dataset
 #' @S3method getDpts Dataset
+#' @export getDpts getDpts.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -279,6 +280,7 @@ setMethodS3("getDpts", "Dataset", conflict="quiet",
 #' @name getXformedDpts.Dataset
 #' @aliases xformedDpts getXformedDpts getXformedDpts.Dataset
 #' @S3method getXformedDpts Dataset
+#' @export getXformedDpts getXformedDpts.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -310,6 +312,7 @@ setMethodS3("getXformedDpts", "Dataset", conflict="quiet",
 #' @name Dataset$id
 #' @aliases id getId setId getId.Dataset setId.Dataset
 #' @S3method getId Dataset
+#' @export getId getId.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -338,6 +341,7 @@ setMethodS3("setId", "Dataset", conflict="quiet",
 #' @name getIsPoisson.Dataset
 #' @aliases isPoisson getIsPoisson getIsPoisson.Dataset
 #' @S3method getIsPoisson Dataset
+#' @export getIsPoisson getIsPoisson.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -361,6 +365,7 @@ setMethodS3("getIsPoisson", "Dataset", conflict="quiet",
 #' @name getN.Dataset
 #' @aliases n getN getN.Dataset
 #' @S3method getN Dataset
+#' @export getN getN.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -384,6 +389,7 @@ setMethodS3("getN", "Dataset", conflict="quiet",
 #' @name getNoiseVar.Dataset
 #' @aliases noiseVar getNoiseVar getNoiseVar.Dataset
 #' @S3method getNoiseVar Dataset
+#' @export getNoiseVar getNoiseVar.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -409,7 +415,9 @@ setMethodS3("getNoiseVar", "Dataset", conflict="quiet",
 #' @name Dataset$quantity
 #' @aliases quantity getQuantity setQuantity getQuantity.Dataset setQuantity.Dataset
 #' @S3method getQuantity Dataset
+#' @export getQuantity getQuantity.Dataset
 #' @S3method setQuantity Dataset
+#' @export setQuantity setQuantity.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -443,6 +451,7 @@ setMethodS3("setQuantity", "Dataset", conflict="quiet",
 #' @name getX.Dataset
 #' @aliases x getX getX.Dataset
 #' @S3method getX Dataset
+#' @export getX getX.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -461,6 +470,7 @@ setMethodS3("getX", "Dataset", conflict="quiet",
 #' Removes the indicated datapoints from the Dataset.
 #'
 #' @S3method DeleteRows Dataset
+#' @export DeleteRows DeleteRows.Dataset
 #' @name DeleteRows.Dataset
 #'
 #' @param indices The indices of the datapoints to be removed.
@@ -486,6 +496,7 @@ setMethodS3("DeleteRows", "Dataset", conflict="quiet",
 #' column by default.
 #'
 #' @S3method MSR Dataset
+#' @export MSR MSR.Dataset
 #' @name MSR.Dataset
 #'
 #' @param test.data A sequence of datapoints, which live in the same space as
@@ -513,8 +524,9 @@ setMethodS3("MSR", "Dataset", conflict="quiet",
 #' interacting become very slow.  Thus, this function allows to limit the number
 #' plotted using the \code{max.points} parameter.
 #'
-#' @S3method Plot2D Dataset
 #' @name Plot2D.Dataset
+#' @S3method Plot2D Dataset
+#' @export Plot2D Plot2D.Dataset
 #'
 #' @param max.points The maximum number of points to show (these are randomly
 #'    sampled from the available points).
@@ -553,7 +565,7 @@ setMethodS3("Plot2D", "Dataset", conflict="quiet",
 #' various quantities which can be selected (name, type, range, and noise
 #' variance).
 #'
-#' @method print Dataset
+#' @S3method print Dataset
 #'
 #' @param this The Dataset object to print.
 #' @param ... Not used.
@@ -601,6 +613,7 @@ print.Dataset <- function(this, ...) {
 #' spheres, L-oo norm for boxes, etc.  But for now: 1D only!
 #'
 #' @S3method RemoveRange Dataset
+#' @export RemoveRange RemoveRange.Dataset
 #' @name RemoveRange.Dataset
 #'
 #' @param X.min The left boundary of the X-range to remove.
@@ -633,6 +646,7 @@ setMethodS3("RemoveRange", "Dataset", conflict="quiet",
 #' the cached result, saving considerable time.
 #'
 #' @S3method Same Dataset
+#' @export Same Same.Dataset
 #' @name Same.Dataset
 #'
 #' @param d The Dataset for comparison.
@@ -700,6 +714,7 @@ setMethodS3("Same", "Dataset", conflict="quiet",
 #' the \emph{transformed} space).
 #'
 #' @S3method Untransform Dataset
+#' @export Untransform Untransform.Dataset
 #' @name Untransform.Dataset
 #'
 #' @param values A numeric vector whose values "live" in the

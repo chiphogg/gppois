@@ -182,6 +182,7 @@ GradLogML <- function(par=model$getParams(for.training=TRUE), model, d,
 #' @name getContributionIds.Model
 #' @aliases Model$contributionIds getContributionIds.Model
 #' @S3method getContributionIds Model
+#' @export getContributionIds getContributionIds.Model
 #'
 #' @param this The Model object.
 #' @param ... Not used.
@@ -207,6 +208,7 @@ setMethodS3("getContributionIds", "Model", conflict="quiet",
 #' @name getId.Model
 #' @aliases Model$id getId.Model setId.Model
 #' @S3method getId Model
+#' @export getId getId.Model
 #'
 #' @param this The \code{Model} whose contributions to list.
 #' @param id (character) The new ID for \code{this}.
@@ -237,7 +239,9 @@ setMethodS3("setId", "Model", conflict="quiet",
 #' @name getParams.Model
 #' @aliases Model$params getParams.Model setParams.Model
 #' @S3method getParams Model
+#' @export getParams getParams.Model
 #' @S3method setParams Model
+#' @export setParams setParams.Model
 #'
 #' @param this The Model object.
 #' @param p A (named) vector of new parameter values (we ONLY use ones which are
@@ -284,7 +288,9 @@ setMethodS3("setParams", "Model", conflict="quiet",
 #' @name getLower.Model
 #' @aliases Model$lower getLower.Model setLower.Model
 #' @S3method getLower Model
+#' @export getLower getLower.Model
 #' @S3method setLower Model
+#' @export setLower setLower.Model
 #'
 #' @param this The Model object.
 #' @param L A (named) vector of new parameter values (we ONLY use ones which are
@@ -330,7 +336,9 @@ setMethodS3("setLower", "Model", conflict="quiet",
 #' @name getUpper.Model
 #' @aliases Model$upper getUpper.Model setUpper.Model
 #' @S3method getUpper Model
+#' @export getUpper getUpper.Model
 #' @S3method setUpper Model
+#' @export setUpper setUpper.Model
 #'
 #' @param this The Model object.
 #' @param L A (named) vector of new parameter values (we ONLY use ones which are
@@ -379,6 +387,7 @@ setMethodS3("setUpper", "Model", conflict="quiet",
 #' @name getSignalIds.Model
 #' @aliases Model$signalIds getSignalIds.Model
 #' @S3method getSignalIds Model
+#' @export getSignalIds getSignalIds.Model
 #'
 #' @param this The Model object.
 #' @param ... Not used.
@@ -401,6 +410,7 @@ setMethodS3("getSignalIds", "Model", conflict="quiet",
 # @name getVaryingParamNames.Model
 # @aliases Model$varyingParamNames getVaryingParamNames.Model
 # @S3method getVaryingParamNames Model
+# @export getVaryingParamNames getVaryingParamNames.Model
 #
 # @param this The Model object.
 # @param ... Not used.
@@ -430,6 +440,7 @@ setMethodS3("getVaryingParamNames", "Model", conflict="quiet",
 #' Covariance object, EXCEPT this Model object.)
 #'
 #' @S3method AddCovariance Model
+#' @export AddCovariance AddCovariance.Model
 #' @name AddCovariance.Model
 #'
 #' @param covariance  A Covariance object to be cloned and added to this model.
@@ -497,6 +508,7 @@ clone.Model <- function(this, ...) {
 #' This method tells the Model to forget its results and free up some memory.
 #'
 #' @S3method Forget Model
+#' @export Forget Forget.Model
 #' @name Forget.Model
 #'
 #' @param this The Model object.
@@ -518,6 +530,7 @@ setMethodS3("Forget", "Model", conflict="quiet",
 #' equal to the current parameter value.  Defaults to freezing all parameters.
 #'
 #' @S3method Freeze Model
+#' @export Freeze Freeze.Model
 #' @name Freeze.Model
 #'
 #' @param this The Model object.
@@ -540,6 +553,7 @@ setMethodS3("Freeze", "Model", conflict="quiet",
 #' This is useful for taking random draws from the posterior.
 #'
 #' @S3method L Model
+#' @export L L.Model
 #' @name L.Model
 #'
 #' @param this The Model object.
@@ -566,6 +580,7 @@ setMethodS3("L", "Model", conflict="quiet",
 #' id.
 #'
 #' @S3method NamedCovariance Model
+#' @export NamedCovariance NamedCovariance.Model
 #' @name NamedCovariance.Model
 #'
 #' @param this The Model object.
@@ -593,6 +608,7 @@ setMethodS3("NamedCovariance", "Model", conflict="quiet",
 #' This function helps visualize uncertainty using animations.  (See Details.)
 #'
 #' @S3method PlotBubblingSurfaces2D Model
+#' @export PlotBubblingSurfaces2D PlotBubblingSurfaces2D.Model
 #' @name PlotBubblingSurfaces2D.Model
 #'
 #' @param this The Model object.
@@ -662,6 +678,7 @@ setMethodS3("PlotBubblingSurfaces2D", "Model", conflict="quiet",
 #' at every point in 'X.out'.
 #'
 #' @S3method PosteriorMean Model
+#' @export PosteriorMean PosteriorMean.Model
 #' @name PosteriorMean.Model
 #'
 #' @param this The Model object.
@@ -696,6 +713,7 @@ setMethodS3("PosteriorMean", "Model", conflict="quiet",
 #' the input points.
 #'
 #' @S3method PredictionMatrix Model
+#' @export PredictionMatrix PredictionMatrix.Model
 #' @name PredictionMatrix.Model
 #'
 #' @param this The Model object.
@@ -735,6 +753,7 @@ setMethodS3("PredictionMatrix", "Model", conflict="quiet",
 #' the prediction at a given point, along with the prediction.
 #'
 #' @S3method PosteriorInterval Model
+#' @export PosteriorInterval PosteriorInterval.Model
 #' @name PosteriorInterval.Model
 #'
 #' @param this The Model object.
@@ -770,6 +789,7 @@ setMethodS3("PosteriorInterval", "Model", conflict="quiet",
 #' Computes the posterior \dQuote{sigma} at a given point.
 #'
 #' @S3method PosteriorStandardDeviation Model
+#' @export PosteriorStandardDeviation PosteriorStandardDeviation.Model
 #' @name PosteriorStandardDeviation.Model
 #'
 #' @param this The Model object.
@@ -850,6 +870,7 @@ print.Model <- function(this, indent=0, ...) {
 #' magnitude ahead of time!)
 #'
 #' @S3method SetNoiseBounds Model
+#' @export SetNoiseBounds SetNoiseBounds.Model
 #' @name SetNoiseBounds.Model
 #'
 #' @param this The Model object.
@@ -869,6 +890,7 @@ setMethodS3("SetNoiseBounds", "Model", conflict="quiet",
 #' Optimize this Model's parameters so they describe the given data.
 #'
 #' @S3method Train Model
+#' @export Train Train.Model
 #' @name Train.Model
 #'
 #' @param this The Model object.

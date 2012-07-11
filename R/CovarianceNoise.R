@@ -57,6 +57,7 @@ setConstructorS3("CovarianceNoise",
 #' @name getLogspaceNames.CovarianceNoise
 #' @aliases CovarianceNoise$logspaceNames getLogspaceNames.CovarianceNoise
 #' @S3method getLogspaceNames CovarianceNoise
+#' @export getLogspaceNames getLogspaceNames.CovarianceNoise
 #'
 #' @param ... Not used.
 #'
@@ -78,6 +79,7 @@ setMethodS3("getLogspaceNames", "CovarianceNoise", conflict="quiet",
 #' @name getParamNamesPlain.CovarianceNoise
 #' @aliases CovarianceNoise$paramNamesPlain getParamNamesPlain.CovarianceNoise
 #' @S3method getParamNamesPlain CovarianceNoise
+#' @export getParamNamesPlain getParamNamesPlain.CovarianceNoise
 #'
 #' @param ... Not used.
 #'
@@ -99,6 +101,7 @@ setMethodS3("getParamNamesPlain", "CovarianceNoise", conflict="quiet",
 #' @name getParamsPlain.CovarianceNoise
 #' @aliases CovarianceNoise$paramsPlain getParamsPlain.CovarianceNoise
 #' @S3method getParamsPlain CovarianceNoise
+#' @export getParamsPlain getParamsPlain.CovarianceNoise
 #'
 #' @param ... Not used.
 #'
@@ -133,6 +136,7 @@ setMethodS3("paramsPlainImplementation", "CovarianceNoise", conflict="quiet",
 #' @name getLowerPlain.CovarianceNoise
 #' @aliases CovarianceNoise$lowerPlain getLowerPlain.CovarianceNoise setLowerPlain.CovarianceNoise
 #' @S3method getLowerPlain CovarianceNoise
+#' @export getLowerPlain getLowerPlain.CovarianceNoise
 #'
 #' @param L A (named) vector of new lower bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -176,6 +180,7 @@ setMethodS3("setLowerPlain", "CovarianceNoise", conflict="quiet",
 #' @name getUpperPlain.CovarianceNoise
 #' @aliases CovarianceNoise$upperPlain getUpperPlain.CovarianceNoise setUpperPlain.CovarianceNoise
 #' @S3method getUpperPlain CovarianceNoise
+#' @export getUpperPlain getUpperPlain.CovarianceNoise
 #'
 #' @param U A (named) vector of new upper bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -216,6 +221,7 @@ setMethodS3("setUpperPlain", "CovarianceNoise", conflict="quiet",
 #' Calculates a covariance matrix for the noise covariance specifically.
 #'
 #' @S3method K.specific CovarianceNoise
+#' @export K.specific K.specific.CovarianceNoise
 #' @name K.specific.CovarianceNoise
 #'
 #' @param X  X-values for the input points (i.e., where we have data)
@@ -248,6 +254,7 @@ setMethodS3("K.specific", "CovarianceNoise", conflict="quiet",
 #' parameter whose (plain) name is \code{param}.
 #'
 #' @S3method KDerivImplementation CovarianceNoise
+#' @export KDerivImplementation KDerivImplementation.CovarianceNoise
 #' @name KDerivImplementation.CovarianceNoise
 #'
 #' @param d  The Dataset whose X-values determine KInIn.
@@ -285,6 +292,7 @@ setMethodS3("KDerivImplementation", "CovarianceNoise", conflict="quiet",
 #' Calculate the Noise variance of the points at X.
 #'
 #' @S3method Variance CovarianceNoise
+#' @export Variance Variance.CovarianceNoise
 #' @name Variance.CovarianceNoise
 #'
 #' @param X  The points we want to know the noise variance at.

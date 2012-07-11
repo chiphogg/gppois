@@ -123,6 +123,7 @@ localize.mask <- function(X, X.L, X.R, ell) {
 #' @name getLogspaceNames.CovarianceSELocalized
 #' @aliases CovarianceSELocalized$logspaceNames getLogspaceNames.CovarianceSELocalized
 #' @S3method getLogspaceNames CovarianceSELocalized
+#' @export getLogspaceNames getLogspaceNames.CovarianceSELocalized
 #'
 #' @param ... Not used.
 #'
@@ -144,6 +145,7 @@ setMethodS3("getLogspaceNames", "CovarianceSELocalized", conflict="quiet",
 #' @name getParamNamesPlain.CovarianceSELocalized
 #' @aliases CovarianceSELocalized$paramNamesPlain getParamNamesPlain.CovarianceSELocalized
 #' @S3method getParamNamesPlain CovarianceSELocalized
+#' @export getParamNamesPlain getParamNamesPlain.CovarianceSELocalized
 #'
 #' @param ... Not used.
 #'
@@ -165,6 +167,7 @@ setMethodS3("getParamNamesPlain", "CovarianceSELocalized", conflict="quiet",
 #' @name getParamsPlain.CovarianceSELocalized
 #' @aliases CovarianceSELocalized$paramsPlain getParamsPlain.CovarianceSELocalized
 #' @S3method getParamsPlain CovarianceSELocalized
+#' @export getParamsPlain getParamsPlain.CovarianceSELocalized
 #'
 #' @param ... Not used.
 #'
@@ -207,6 +210,7 @@ setMethodS3("paramsPlainImplementation", "CovarianceSELocalized", conflict="quie
 #' @aliases getLowerPlain.CovarianceSELocalized
 #' @aliases setLowerPlain.CovarianceSELocalized
 #' @S3method getLowerPlain CovarianceSELocalized
+#' @export getLowerPlain getLowerPlain.CovarianceSELocalized
 #'
 #' @param L A (named) vector of new lower bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -256,6 +260,7 @@ setMethodS3("setLowerPlain", "CovarianceSELocalized", conflict="quiet",
 #' @aliases getUpperPlain.CovarianceSELocalized
 #' @aliases setUpperPlain.CovarianceSELocalized
 #' @S3method getUpperPlain CovarianceSELocalized
+#' @export getUpperPlain getUpperPlain.CovarianceSELocalized
 #'
 #' @param U A (named) vector of new upper bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -301,6 +306,7 @@ setMethodS3("setUpperPlain", "CovarianceSELocalized", conflict="quiet",
 #' covariance function.
 #'
 #' @S3method K.specific CovarianceSELocalized
+#' @export K.specific K.specific.CovarianceSELocalized
 #' @name K.specific.CovarianceSELocalized
 #'
 #' @param X  X-values for the input points (i.e., where we have data)
@@ -327,6 +333,7 @@ setMethodS3("K.specific", "CovarianceSELocalized", conflict="quiet",
 #' parameter whose (plain) name is \code{param}.
 #'
 #' @S3method KDerivImplementation CovarianceSELocalized
+#' @export KDerivImplementation KDerivImplementation.CovarianceSELocalized
 #' @name KDerivImplementation.CovarianceSELocalized
 #'
 #' @param d  The Dataset whose X-values determine KInIn.
@@ -377,6 +384,7 @@ setMethodS3("KDerivImplementation", "CovarianceSELocalized", conflict="quiet",
 #' uncertainty at each point.
 #'
 #' @S3method Variance CovarianceSELocalized
+#' @export Variance Variance.CovarianceSELocalized
 #' @name Variance.CovarianceSELocalized
 #'
 #' @param X  The points we want to know the localized SE variance at.

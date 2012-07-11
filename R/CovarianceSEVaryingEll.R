@@ -94,6 +94,7 @@ setConstructorS3("CovarianceSEVaryingEll", function(..., id="SEVaryingEll",
 #' @aliases CovarianceSEVaryingEll$logspaceNames
 #' @aliases getLogspaceNames.CovarianceSEVaryingEll
 #' @S3method getLogspaceNames CovarianceSEVaryingEll
+#' @export getLogspaceNames getLogspaceNames.CovarianceSEVaryingEll
 #'
 #' @param ... Not used.
 #'
@@ -117,6 +118,7 @@ setMethodS3("getLogspaceNames", "CovarianceSEVaryingEll", conflict="quiet",
 #' @aliases CovarianceSEVaryingEll$paramNamesPlain
 #' @aliases getParamNamesPlain.CovarianceSEVaryingEll
 #' @S3method getParamNamesPlain CovarianceSEVaryingEll
+#' @export getParamNamesPlain getParamNamesPlain.CovarianceSEVaryingEll
 #'
 #' @param ... Not used.
 #'
@@ -143,6 +145,7 @@ setMethodS3("getParamNamesPlain", "CovarianceSEVaryingEll", conflict="quiet",
 #' @aliases CovarianceSEVaryingEll$paramsPlain
 #' @aliases getParamsPlain.CovarianceSEVaryingEll
 #' @S3method getParamsPlain CovarianceSEVaryingEll
+#' @export getParamsPlain getParamsPlain.CovarianceSEVaryingEll
 #'
 #' @param ... Not used.
 #'
@@ -184,6 +187,7 @@ setMethodS3("paramsPlainImplementation", "CovarianceSEVaryingEll", conflict="qui
 #' @aliases getLowerPlain.CovarianceSEVaryingEll
 #' @aliases setLowerPlain.CovarianceSEVaryingEll
 #' @S3method getLowerPlain CovarianceSEVaryingEll
+#' @export getLowerPlain getLowerPlain.CovarianceSEVaryingEll
 #'
 #' @param L A (named) vector of new lower bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -217,6 +221,7 @@ setMethodS3("setLowerPlain", "CovarianceSEVaryingEll", conflict="quiet",
 #' @aliases getUpperPlain.CovarianceSEVaryingEll
 #' @aliases setUpperPlain.CovarianceSEVaryingEll
 #' @S3method getUpperPlain CovarianceSEVaryingEll
+#' @export getUpperPlain getUpperPlain.CovarianceSEVaryingEll
 #'
 #' @param U A (named) vector of new upper bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -245,6 +250,7 @@ setMethodS3("setUpperPlain", "CovarianceSEVaryingEll", conflict="quiet",
 #' Evaluate ell(X) at the applied X-points (by spline-interpolating)
 #'
 #' @S3method ell CovarianceSEVaryingEll
+#' @export ell ell.CovarianceSEVaryingEll
 #' @name ell.CovarianceSEVaryingEll
 #'
 #' @param X The X-values where we want to know \code{ell(X)}.
@@ -268,6 +274,7 @@ setMethodS3("ell", "CovarianceSEVaryingEll", conflict="quiet",
 #' Evaluate sigma.f(X) at the applied X-points (by spline-interpolating)
 #'
 #' @S3method sigma.f CovarianceSEVaryingEll
+#' @export sigma.f sigma.f.CovarianceSEVaryingEll
 #' @name sigma.f.CovarianceSEVaryingEll
 #'
 #' @param X The X-values where we want to know \code{sigma.f(X)}.
@@ -295,6 +302,7 @@ setMethodS3("sigma.f", "CovarianceSEVaryingEll", conflict="quiet",
 #' covariance function.
 #'
 #' @S3method K.specific CovarianceSEVaryingEll
+#' @export K.specific K.specific.CovarianceSEVaryingEll
 #' @name K.specific.CovarianceSEVaryingEll
 #'
 #' @param X  X-values for the input points (i.e., where we have data)
@@ -332,6 +340,7 @@ setMethodS3("K.specific", "CovarianceSEVaryingEll", conflict="quiet",
 #' parameter whose (plain) name is \code{param}.
 #'
 #' @S3method KDerivImplementation CovarianceSEVaryingEll
+#' @export KDerivImplementation KDerivImplementation.CovarianceSEVaryingEll
 #' @name KDerivImplementation.CovarianceSEVaryingEll
 #'
 #' @param d  The Dataset whose X-values determine KInIn.
@@ -355,6 +364,7 @@ setMethodS3("KDerivImplementation", "CovarianceSEVaryingEll", conflict="quiet",
 #' priori uncertainty at each point.
 #'
 #' @S3method Variance CovarianceSEVaryingEll
+#' @export Variance Variance.CovarianceSEVaryingEll
 #' @name Variance.CovarianceSEVaryingEll
 #'
 #' @param X  The points we want to know the nonstationary SE variance at.

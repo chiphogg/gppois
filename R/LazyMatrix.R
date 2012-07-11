@@ -44,6 +44,7 @@ setConstructorS3("LazyMatrix",
 #' @name getM.LazyMatrix
 #' @aliases M getM
 #' @S3method getM LazyMatrix
+#' @export getM getM.LazyMatrix
 #'
 #' @param ... Not used.
 #'
@@ -63,6 +64,7 @@ setMethodS3("getM", "LazyMatrix", conflict="quiet",
 #' whether the supplied "ingredients" are equal to the ones previously supplied.
 #'
 #' @S3method NeedToRecalculate LazyMatrix
+#' @export NeedToRecalculate NeedToRecalculate.LazyMatrix
 #' @name NeedToRecalculate.LazyMatrix
 #'
 #' @param ... Not used.
@@ -105,6 +107,7 @@ setMethodS3("NeedToRecalculate", "LazyMatrix", conflict="quiet",
 #' calculate it.
 #'
 #' @S3method StoreMatrix LazyMatrix
+#' @export StoreMatrix StoreMatrix.LazyMatrix
 #' @name StoreMatrix.LazyMatrix
 #'
 #' @param M The matrix to store.

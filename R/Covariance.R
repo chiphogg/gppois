@@ -54,6 +54,7 @@ setConstructorS3("Covariance",
 #' @name getId.Covariance
 #' @aliases Covariance$id getId.Covariance setId.Covariance
 #' @S3method getId Covariance
+#' @export getId getId.Covariance
 #'
 #' @param id A character string identifying this Covariance object.
 #' @param ... Not used.
@@ -85,6 +86,7 @@ setMethodS3("setId", "Covariance", conflict="quiet",
 #' @name getParamNames.Covariance
 #' @aliases Covariance$paramNames getParamNames.Covariance
 #' @S3method getParamNames Covariance
+#' @export getParamNames getParamNames.Covariance
 #'
 #' @param ... Not used.
 #'
@@ -146,6 +148,7 @@ setMethodS3("getParamNames", "Covariance", conflict="quiet",
 #' @name getParams.Covariance
 #' @aliases Covariance$params getParams.Covariance setParams.Covariance
 #' @S3method getParams Covariance
+#' @export getParams getParams.Covariance
 #'
 #' @param p (named numeric vector) New parameter values. (N.B: we \emph{only}
 #'      use ones which are named, and whose names match up with names of
@@ -211,6 +214,7 @@ setMethodS3("setParams", "Covariance", conflict="quiet",
 #' @aliases Covariance$paramsPlain setParamsPlain.Covariance getParamsPlain
 #' @aliases getParamsPlain.Covariance paramsPlain
 #' @S3method setParamsPlain Covariance
+#' @export setParamsPlain setParamsPlain.Covariance
 #'
 #' @param p A (named) vector of new parameter values (we \emph{only} use ones
 #'      which are named, and whose names match up with names of parameters.)
@@ -252,7 +256,9 @@ setMethodS3("setParamsPlain", "Covariance", conflict="quiet",
 #' @name setLower.Covariance
 #' @aliases Covariance$lower setLower.Covariance getLower getLower.Covariance
 #' @S3method setLower Covariance
+#' @export setLower setLower.Covariance
 #' @S3method getLower Covariance
+#' @export getLower getLower.Covariance
 #'
 #' @param L A (named) vector of new lower bounds on parameter values (we
 #'    \emph{only} use ones which are named, and whose names match up with names
@@ -297,7 +303,9 @@ setMethodS3("setLower", "Covariance", conflict="quiet",
 #' @name setUpper.Covariance
 #' @aliases Covariance$upper setUpper.Covariance getUpper getUpper.Covariance
 #' @S3method setUpper Covariance
+#' @export setUpper setUpper.Covariance
 #' @S3method getUpper Covariance
+#' @export getUpper getUpper.Covariance
 #'
 #' @param L A (named) vector of new upper bounds on parameter values (we
 #'    \emph{only} use ones which are named, and whose names match up with names
@@ -343,8 +351,8 @@ setMethodS3("setUpper", "Covariance", conflict="quiet",
 #' @param ... Not used.
 #'
 #' @return A deep clone of the Covariance object.
-#' @export
 #'
+#' @export
 #' @seealso \code{\link{Covariance}}
 clone.Covariance <- function(this, ...) {
   Cov <- clone.Object(this, ...)
@@ -377,6 +385,7 @@ setMethodS3("EncodeForTraining", "Covariance", conflict="quiet",
 #' fixing that parameter as constant.
 #'
 #' @S3method FixConstParam Covariance
+#' @export FixConstParam FixConstParam.Covariance
 #' @name FixConstParam.Covariance
 #'
 #' @param p.name  The (undecorated) name of the parameter to change.
@@ -423,9 +432,13 @@ setMethodS3("FixConstParam", "Covariance", conflict="quiet",
 #' @name K.Covariance
 #' @aliases KInIn KInOut KOutIn KOutOut
 #' @S3method KInIn Covariance
+#' @export KInIn KInIn.Covariance
 #' @S3method KInOut Covariance
+#' @export KInOut KInOut.Covariance
 #' @S3method KOutIn Covariance
+#' @export KOutIn KOutIn.Covariance
 #' @S3method KOutOut Covariance
+#' @export KOutOut KOutOut.Covariance
 #'
 #' @param d  A Dataset object encapsulating the data to train on.
 #' @param X.out  A matrix (with d$d columns) of X-locations where we want
@@ -463,6 +476,7 @@ setMethodS3("KOutOut", "Covariance", conflict="quiet",
 #' important for computing derivatives of the posterior probability function.
 #'
 #' @S3method KInInDeriv Covariance
+#' @export KInInDeriv KInInDeriv.Covariance
 #' @name KInInDeriv.Covariance
 #' @aliases KInInDeriv KInInDeriv.Covariance
 #'

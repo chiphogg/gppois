@@ -87,6 +87,7 @@ setConstructorS3("CovarianceSEAniso2D",
 #' @aliases CovarianceSEAniso2D$logspaceNames
 #' @aliases getLogspaceNames.CovarianceSEAniso2D
 #' @S3method getLogspaceNames CovarianceSEAniso2D
+#' @export getLogspaceNames getLogspaceNames.CovarianceSEAniso2D
 #'
 #' @param ... Not used.
 #'
@@ -109,6 +110,7 @@ setMethodS3("getLogspaceNames", "CovarianceSEAniso2D", conflict="quiet",
 #' @aliases CovarianceSEAniso2D$paramNamesPlain
 #' @aliases getParamNamesPlain.CovarianceSEAniso2D
 #' @S3method getParamNamesPlain CovarianceSEAniso2D
+#' @export getParamNamesPlain getParamNamesPlain.CovarianceSEAniso2D
 #'
 #' @param ... Not used.
 #'
@@ -130,6 +132,7 @@ setMethodS3("getParamNamesPlain", "CovarianceSEAniso2D", conflict="quiet",
 #' @name getParamsPlain.CovarianceSEAniso2D
 #' @aliases CovarianceSEAniso2D$paramsPlain getParamsPlain.CovarianceSEAniso2D
 #' @S3method getParamsPlain CovarianceSEAniso2D
+#' @export getParamsPlain getParamsPlain.CovarianceSEAniso2D
 #'
 #' @param ... Not used.
 #'
@@ -171,6 +174,7 @@ setMethodS3("paramsPlainImplementation", "CovarianceSEAniso2D", conflict="quiet"
 #' @aliases CovarianceSEAniso2D$lowerPlain getLowerPlain.CovarianceSEAniso2D
 #' @aliases setLowerPlain.CovarianceSEAniso2D
 #' @S3method getLowerPlain CovarianceSEAniso2D
+#' @export getLowerPlain getLowerPlain.CovarianceSEAniso2D
 #'
 #' @param L A (named) vector of new lower bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -214,6 +218,7 @@ setMethodS3("setLowerPlain", "CovarianceSEAniso2D", conflict="quiet",
 #' @aliases CovarianceSEAniso2D$upperPlain getUpperPlain.CovarianceSEAniso2D
 #' @aliases setUpperPlain.CovarianceSEAniso2D
 #' @S3method getUpperPlain CovarianceSEAniso2D
+#' @export getUpperPlain getUpperPlain.CovarianceSEAniso2D
 #'
 #' @param U A (named) vector of new upper bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -254,6 +259,7 @@ setMethodS3("setUpperPlain", "CovarianceSEAniso2D", conflict="quiet",
 #' squared-exponential covariance function.
 #'
 #' @S3method K.specific CovarianceSEAniso2D
+#' @export K.specific K.specific.CovarianceSEAniso2D
 #' @name K.specific.CovarianceSEAniso2D
 #'
 #' @param X  X-values for the input points (i.e., where we have data)
@@ -288,6 +294,7 @@ setMethodS3("K.specific", "CovarianceSEAniso2D", conflict="quiet",
 #' parameter whose (plain) name is \code{param}.
 #'
 #' @S3method KDerivImplementation CovarianceSEAniso2D
+#' @export KDerivImplementation KDerivImplementation.CovarianceSEAniso2D
 #' @name KDerivImplementation.CovarianceSEAniso2D
 #'
 #' @param d  The Dataset whose X-values determine KInIn.
@@ -332,6 +339,7 @@ setMethodS3("KDerivImplementation", "CovarianceSEAniso2D", conflict="quiet",
 #' a priori uncertainty at each point.
 #'
 #' @S3method Variance CovarianceSEAniso2D
+#' @export Variance Variance.CovarianceSEAniso2D
 #' @name Variance.CovarianceSEAniso2D
 #'
 #' @param X  The points we want to know the anisotropic 2D SE variance at.

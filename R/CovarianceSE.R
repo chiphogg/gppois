@@ -66,6 +66,7 @@ setConstructorS3("CovarianceSE", function(..., id="SE",
 #' @name getLogspaceNames.CovarianceSE
 #' @aliases CovarianceSE$logspaceNames getLogspaceNames.CovarianceSE
 #' @S3method getLogspaceNames CovarianceSE
+#' @export getLogspaceNames getLogspaceNames.CovarianceSE
 #'
 #' @param ... Not used.
 #'
@@ -87,6 +88,7 @@ setMethodS3("getLogspaceNames", "CovarianceSE", conflict="quiet",
 #' @name getParamNamesPlain.CovarianceSE
 #' @aliases CovarianceSE$paramNamesPlain getParamNamesPlain.CovarianceSE
 #' @S3method getParamNamesPlain CovarianceSE
+#' @export getParamNamesPlain getParamNamesPlain.CovarianceSE
 #'
 #' @param ... Not used.
 #'
@@ -108,6 +110,7 @@ setMethodS3("getParamNamesPlain", "CovarianceSE", conflict="quiet",
 #' @name getParamsPlain.CovarianceSE
 #' @aliases CovarianceSE$paramsPlain getParamsPlain.CovarianceSE
 #' @S3method getParamsPlain CovarianceSE
+#' @export getParamsPlain getParamsPlain.CovarianceSE
 #'
 #' @param ... Not used.
 #'
@@ -146,6 +149,7 @@ setMethodS3("paramsPlainImplementation", "CovarianceSE", conflict="quiet",
 #' @name getLowerPlain.CovarianceSE
 #' @aliases CovarianceSE$lowerPlain getLowerPlain.CovarianceSE setLowerPlain.CovarianceSE
 #' @S3method getLowerPlain CovarianceSE
+#' @export getLowerPlain getLowerPlain.CovarianceSE
 #'
 #' @param L A (named) vector of new lower bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -188,6 +192,7 @@ setMethodS3("setLowerPlain", "CovarianceSE", conflict="quiet",
 #' @name getUpperPlain.CovarianceSE
 #' @aliases CovarianceSE$upperPlain getUpperPlain.CovarianceSE setUpperPlain.CovarianceSE
 #' @S3method getUpperPlain CovarianceSE
+#' @export getUpperPlain getUpperPlain.CovarianceSE
 #'
 #' @param U A (named) vector of new upper bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -229,6 +234,7 @@ setMethodS3("setUpperPlain", "CovarianceSE", conflict="quiet",
 #' function.
 #'
 #' @S3method K.specific CovarianceSE
+#' @export K.specific K.specific.CovarianceSE
 #' @name K.specific.CovarianceSE
 #'
 #' @param X  X-values for the input points (i.e., where we have data)
@@ -252,6 +258,7 @@ setMethodS3("K.specific", "CovarianceSE", conflict="quiet",
 #' parameter whose (plain) name is \code{param}.
 #'
 #' @S3method KDerivImplementation CovarianceSE
+#' @export KDerivImplementation KDerivImplementation.CovarianceSE
 #' @name KDerivImplementation.CovarianceSE
 #'
 #' @param d  The Dataset whose X-values determine KInIn.
@@ -282,6 +289,7 @@ setMethodS3("KDerivImplementation", "CovarianceSE", conflict="quiet",
 #' at each point.
 #'
 #' @S3method Variance CovarianceSE
+#' @export Variance Variance.CovarianceSE
 #' @name Variance.CovarianceSE
 #'
 #' @param X  The points we want to know the SE variance at.
