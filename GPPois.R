@@ -145,7 +145,7 @@ setMethodS3("PlotCovariance2D", "Model", conflict="quiet",
     # Construct a data.frame for all the matrices
     point.out <- matrix(d$X[i, ], nrow=1)
     K.data <<- data.frame(X.1=d$X[, 1], X.2=d$X[, 2],
-      Cov=this$KTotal(d=d)[i, ],
+      Cov=gppois:::KTotal(this, d=d)[i, ],
       M=t(this$PredictionMatrix(d=d, X.out=point.out,
           contributions=this$contributionIds[
             which(this$contributionIds != 'noise')]))

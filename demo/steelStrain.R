@@ -44,7 +44,7 @@ print(M.aniso)
 # (In other words: find the Model parameters which best describe the data.)
 # !! This might take a few minutes after you begin !!
 DemoPause("Hit Enter to begin the training:")
-ItTakes(my.task="Train the anisotropic model",
+gppois:::ItTakes(my.task="Train the anisotropic model",
   how.i.do.it=M.aniso$Train(d=d.strain))
 
 # Having trained the Model, let's compute and plot the resulting fit surface.
