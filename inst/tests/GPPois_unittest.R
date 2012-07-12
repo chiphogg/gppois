@@ -1,56 +1,11 @@
-# GPPois_unittest.R: Unit tests for GPPois.R
-# Copyright (c) 2011 <+SOMEBODY+>
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# This function contains some unit tests I had written before I knew how to
+# make R packages.  I am currently (2012-07-12) in the process of integrating
+# them into the package, but much has changed and the task requires both time
+# and care.
 
-# Author: Charles R. Hogg III (2011) <charles.r.hogg@gmail.com>
-
-# FILE DESCRIPTION:
-# Unit tests for GPPois.R.
-
-# Testing library:
-library("testthat")
-# Needed in order to get 'melt' (and will also help with plotting later on):
-library("ggplot2")
-# File being tested:
-source("GPPois.R")
-
-################################################################################
-# Helper function tests
-
-context("Helper Functions")
-
-test_that("SmartTrace really does give the trace", {
-    m <- 1000
-    n <- 2000
-    m.n <- m * n
-    A <- matrix(runif(n=m.n, min=0, max=100), nrow=m, ncol=n)
-    B <- matrix(runif(n=m.n, min=0, max=100), nrow=n, ncol=m)
-    dumb.time <- system.time(trace.AB <- sum(diag(A %*% B)))
-    smrt.time <- system.time(smart.tr <- SmartTrace(A, B))
-    expect_equal(trace.AB, smart.tr)
-    expect_equivalent(smrt.time["user.self"] < dumb.time["user.self"], TRUE)
-})
-
-test_that("ClampNamed clamps and preserves names", {
-    x <- c(a=1, b=2, c=3)
-    lower <- c(c=1, b=3, a=5)
-    upper <- c(8, a=8, b=3, 9, c=2)
-    Clamped <- ClampNamed(x=x, lower=lower, upper=upper)
-    expect_that(names(x), is_equivalent_to(names(Clamped)))
-    n <- names(x)
-    expect_that(Clamped[n], is_identical_to(c(a=5, b=3, c=2)[n]))
-})
+# This file should not be called.  It won't be, because it doesn't start with
+# "test" or "helper", but just in case:
+return()
 
 ################################################################################
 # LazyMatrix tests
@@ -61,10 +16,9 @@ test_that("I have written tests for LazyMatrix", {
     expect_that(FALSE, is_true())
 })
 
+
 ################################################################################
 # Dataset tests
-
-context("Dataset")
 
 # Strain example
 adams.data <- DatasetFromFile(file="Creuziger_strain.dat", sep=',',
@@ -95,41 +49,6 @@ plot.flame.smoothed <- (plot.flame.base
   + stat_smooth()
   )
 
-test_that("Data offsets work as expected", {
-    expect_that(adams.data$dataOffset, is_equivalent_to(mean(adams.data$dpts)))
-    expect_that(mean(adams.data$xformedDpts), is_equivalent_to(0))
-    test.data <- DatasetFromFile(file="Creuziger_strain.dat",
-      sep=',', X.names=c("X", "Y"), column="exx", tol.factor=1e-4,
-      data.offset=c(0, exx=5))
-    expect_that(mean(test.data$xformedDpts), is_equivalent_to(5 + mean(
-          test.data$dpts)))
-    test.data$quantity <- "exy"
-    expect_that(mean(test.data$xformedDpts), is_equivalent_to(mean(
-          test.data$dpts)))
-})
-
-test_that("Dataset objects can be created from data.frame objects", {
-    expect_that(daves.data$id, is_equivalent_to("UNNAMED"))
-    expect_that(daves.data$d, is_equivalent_to(1))
-    expect_that(daves.data$quantity, is_equivalent_to("value"))
-    expect_that(daves.data$X, is_equivalent_to(as.matrix(daves.melted[,1])))
-})
-
-test_that("Columns can be selected", {
-    expect_that(adams.data$quantity <- "spurious", gives_warning())
-    expect_that(adams.data$quantity, is_equivalent_to("exx"))
-    adams.data$quantity <- "eyy"
-    expect_that(adams.data$quantity, is_equivalent_to("eyy"))
-})
-
-test_that("We can check whether datasets have the same 'X'", {
-    adam.clone <- clone(adams.data)
-    adam.clone$quantity <- "exy"
-    expect_that(adams.data$SameX(adam.clone), is_equivalent_to(TRUE))
-    adam.clone$DeleteRows(1:10)
-    expect_that(adams.data$SameX(adam.clone), is_equivalent_to(FALSE))
-})
-
 test_that("Noise variance is handled correctly", {
     custom.tol <- 1e-2
     igors.data <- DatasetFromFile(file="TiO2_powder.dat", id="TiO2Powder", sep='\t',
@@ -152,43 +71,8 @@ test_that("Noise variance is handled correctly", {
     expect_that(igors.data$noiseVar, is_equivalent_to(0.1234))
 })
 
-test_that("Rows can be deleted", {
-    sd.old <- sd(adams.data$dpts)
-    nv.old <- adams.data$noiseVar
-    n.old <- adams.data$n
-    # This datafile has lots of spurious rows, which are indicated by zeroes.
-    adams.data$DeleteRows(which(adams.data$dpts < mean(adams.data$dpts)))
-    expect_equivalent(adams.data$n < n.old, TRUE)
-    sd.new <- sd(adams.data$dpts)
-    nv.new <- adams.data$noiseVar
-    # We didn't manually specify a noise variance.  So, the noise variance
-    # should be proportional to the sample standard deviation, which should
-    # change when we delete some rows:
-    expect_equivalent(sd.old > sd.new, TRUE)
-    expect_equivalent((sd.old/sd.new)^2, nv.old/nv.new)
-})
-
 ################################################################################
 # Covariance tests
-
-context("Covariance")
-
-test_that("CovarianceSE behaves like an actual OBJECT", {
-    # First: create an object and test basic properties
-    Cov <- CovarianceSE(id="c1", ell=5, sigma.f.bounds=0:100)
-    expect_that(Cov$id, is_equivalent_to("c1"))
-    expect_that(Cov$paramNames, is_equivalent_to(c("c1.ell", "c1.sigma.f")))
-    expect_that(Cov$paramNamesPlain, is_equivalent_to(c("ell", "sigma.f")))
-    expect_that(Cov$params, is_equivalent_to(c(5, 50)))
-    expect_that(Cov$lowerPlain["ell"], is_equivalent_to(Cov$upperPlain["ell"]))
-    expect_that(Cov$lowerPlain["sigma.f"], is_equivalent_to(0))
-    expect_that(Cov$upperPlain["sigma.f"], is_equivalent_to(100))
-    # Now, change that object as if it were a reference
-    Cov$lowerPlain <- c(ell=3)
-    expect_that(Cov$lowerPlain["ell"], is_equivalent_to(3))
-    Cov$paramsPlain <- c(ell=4)
-    expect_that(Cov$paramsPlain["ell"], is_equivalent_to(4))
-})
 
 test_that("We can change upper and lower bounds for CovarianceSE ", {
     # First: does constructor clamping work?
@@ -273,7 +157,7 @@ context("CovarianceSE")
 test_that("Derivatives of K are correctly calculated", {
     # Generate a Covariance object and calculate K and derivatives.
     Cov <- CovarianceSE(ell=1, sigma.f=1,
-      ell.bounds=c(0,2), sigma.f.bounds=c(0,10))
+      ell.bounds=c(0.1, 10), sigma.f.bounds=c(0.1,10))
     model <- Model(id="deriv.test")
     model$AddCovariance(Cov)
     change <- 1e-5

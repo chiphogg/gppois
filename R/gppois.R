@@ -33,5 +33,33 @@ NULL
 #' @keywords datasets
 #' @name steelStrain
 #' @usage data(steelStrain)
-#' @format A data.frame with 3 variables and 3705 rows
+#' @format Two data.frames with 3 variables: \code{steelStrain} has 3460 rows of
+#'     training data, and \code{steelStrainGap} has 245 rows of test data
+#'     (representing the datapoints in the gap)
+NULL
+
+#' Flame speed vs. fuel concentration
+#'
+#' Flame speed measurement is a standard experiment, useful for calibrating
+#' computer models of combustion.  A mixture of fuel and oxygen is fed
+#' continuously into a long, straight tube.  The tube is ignited at one end, and
+#' the speed of the resulting flame front is measured.  The flame is fastest for
+#' some optimal fuel-to-air ratio, so the data look roughly like a "hump".
+#'
+#' These results were aggregated from a variety of papers in the literature.
+#' Since the total number of datapoints is small -- less than 100 -- it
+#' constitutes a very fast example system to illustrate Gaussian Process
+#' regression.
+#'
+#' \itemize{
+#'   \item fuelRatio: Ratio of fuel to oxygen (or oxygen to fuel?)
+#'   \item source: The source in the literature of each measurement
+#'   \item speed: The speed of the flame front
+#' }
+#'
+#' @docType data
+#' @keywords datasets
+#' @name flameSpeed
+#' @usage data(flameSpeed)
+#' @format A data.frame with 3 variables and 78 rows
 NULL
