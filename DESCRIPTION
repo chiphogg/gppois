@@ -13,7 +13,7 @@ LazyLoad: yes
 Suggests:
     debug,geometry,rgl,Cairo,ggplot2,testthat
 Depends:
-    R.oo
+    R.oo,R (>=2.14.0)
 URL: http://www.nist.gov/mml/ceramics/structure_determination/gppois.cfm
 Collate:
     'Covariance.R'
