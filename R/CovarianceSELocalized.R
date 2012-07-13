@@ -1,61 +1,43 @@
-############################################################################/**
-# @RdocClass CovarianceSELocalized
-#
-# @title "Localized Squared-exponential Covariance"
-#
-# \description{
-#   A squared-exponential covariance which is limited in spatial extent.
-#   In addition to the two usual parameters (i.e., the horizontal and vertical
-#   lengthscales), there are two \dQuote{boundary} parameters, \code{X.L} and
-#   \code{X.R}.  \code{sigma.f} transitions smoothly to zero outside the region
-#   between \code{X.L} and \code{X.R}.  The transition lengthscale is
-#   \code{ell} (if it were any smaller, it could introduce sub-\code{ell}
-#   features).
-#
-#   @classhierarchy
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) A string to identify this covariance object.}
-#   \item{ell}{(numeric) A characteristic horizontal scale for features in
-#      functions being modeled.}
-#   \item{sigma.f}{(numeric) A characteristic vertical scale for features in
-#      functions being modeled.}
-#   \item{X.L}{(numeric) The left boundary of the localized region.}
-#   \item{X.R}{(numeric) The right boundary of the localized region.}
-#   \item{ell.bounds}{(numeric) The range of values which \code{ell} might
-#      assume.}
-#   \item{sigma.f.bounds}{(numeric) The range of values which \code{sigma.f}
-#      might assume.}
-#   \item{X.L.bounds}{(numeric) The range of values which \code{X.L} might
-#      assume.}
-#   \item{X.R.bounds}{(numeric) The range of values which \code{X.R} might
-#      assume.}
-#   \item{...}{Not used.}
-# }
-#
-# \section{Covariance Parameters}{
-#   This section lists the fit parameters corresponding to this type of
-#   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
-#   optimized in log-space, consistent with the Jeffreys prior.
-#
-#   \describe{
-#     \item{ell}{(Scale parameter) The horizontal feature lengthscale.}
-#     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
-#     \item{X.L}{The left boundary of the localized region.}
-#     \item{X.R}{The right boundary of the localized region.}
-#   }
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# @author
-#*/###########################################################################
+#' Localized Squared-exponential Covariance
+#'
+#' A squared-exponential covariance which is limited in spatial extent.  In
+#' addition to the two usual parameters (i.e., the horizontal and vertical
+#' lengthscales), there are two \dQuote{boundary} parameters, \code{X.L} and
+#' \code{X.R}.  \code{sigma.f} transitions smoothly to zero outside the region
+#' between \code{X.L} and \code{X.R}.  The transition lengthscale is \code{ell}
+#' (if it were any smaller, it could introduce sub-\code{ell} features).
+#'
+#' @name CovarianceSELocalized
+#'
+#' @param id (character) A string to identify this covariance object. 
+#' @param ell (numeric) A characteristic horizontal scale for features in
+#'      functions being modeled. 
+#' @param sigma.f (numeric) A characteristic vertical scale for features in
+#'      functions being modeled. 
+#' @param X.L (numeric) The left boundary of the localized region. 
+#' @param X.R (numeric) The right boundary of the localized region. 
+#' @param ell.bounds (numeric) The range of values which \code{ell} might
+#'      assume. 
+#' @param sigma.f.bounds (numeric) The range of values which \code{sigma.f}
+#'      might assume. 
+#' @param X.L.bounds (numeric) The range of values which \code{X.L} might
+#'      assume. 
+#' @param X.R.bounds (numeric) The range of values which \code{X.R} might
+#'      assume. 
+#' @param ... Not used. 
+#' @export
+#'
+#' @section Covariance Parameters:
+#'   This section lists the fit parameters corresponding to this type of
+#'   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
+#'   optimized in log-space, consistent with the Jeffreys prior.
+#'
+#'   \describe{
+#'     \item{ell}{(Scale parameter) The horizontal feature lengthscale.}
+#'     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
+#'     \item{X.L}{The left boundary of the localized region.}
+#'     \item{X.R}{The right boundary of the localized region.}
+#'   }
 setConstructorS3("CovarianceSELocalized", function(..., id="SE",
     ell=NA, sigma.f=NA, X.L=NA, X.R=NA, ell.bounds=NA, sigma.f.bounds=NA,
     X.L.bounds=NA, X.R.bounds=NA) {
@@ -319,10 +301,10 @@ setMethodS3("setUpperPlain", "CovarianceSELocalized", conflict="quiet",
 #' @seealso \code{\link{CovarianceSELocalized}}
 setMethodS3("K.specific", "CovarianceSELocalized", conflict="quiet",
   function(this, X, X.out=X, ...) {
-    X.dist <<- DistanceMatrix(X=X, X.out=X.out)
+    X.dist <- DistanceMatrix(X=X, X.out=X.out)
     p <- this$getParamsPlain()
-    mask <<- localize.mask(X=X, X.L=p["X.L"], X.R=p["X.R"], ell=p["ell"])
-    mask.out <<- localize.mask(X=X.out, X.L=p["X.L"], X.R=p["X.R"], ell=p["ell"])
+    mask <- localize.mask(X=X, X.L=p["X.L"], X.R=p["X.R"], ell=p["ell"])
+    mask.out <- localize.mask(X=X.out, X.L=p["X.L"], X.R=p["X.R"], ell=p["ell"])
     return (outer(mask.out, mask) *
       (p["sigma.f"] ^ 2) * exp(-0.5 * (X.dist / p["ell"]) ^ 2))
   })

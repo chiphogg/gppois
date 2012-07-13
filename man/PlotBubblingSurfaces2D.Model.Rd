@@ -1,4 +1,5 @@
 \name{PlotBubblingSurfaces2D.Model}
+\alias{PlotBubblingSurfaces2D}
 \alias{PlotBubblingSurfaces2D.Model}
 \title{Animated uncertainty in a surface}
 \arguments{

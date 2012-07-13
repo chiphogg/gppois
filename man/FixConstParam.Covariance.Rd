@@ -1,4 +1,5 @@
 \name{FixConstParam.Covariance}
+\alias{FixConstParam}
 \alias{FixConstParam.Covariance}
 \title{Set a parameter to a constant value.}
 \arguments{

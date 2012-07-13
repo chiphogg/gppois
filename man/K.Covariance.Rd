@@ -1,9 +1,13 @@
 \name{K.Covariance}
 \alias{K.Covariance}
 \alias{KInIn}
+\alias{KInIn.Covariance}
 \alias{KInOut}
+\alias{KInOut.Covariance}
 \alias{KOutIn}
+\alias{KOutIn.Covariance}
 \alias{KOutOut}
+\alias{KOutOut.Covariance}
 \title{Covariance matrix}
 \arguments{
   \item{d}{A Dataset object encapsulating the data to train

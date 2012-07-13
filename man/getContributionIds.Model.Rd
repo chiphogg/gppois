@@ -1,5 +1,6 @@
 \name{getContributionIds.Model}
 \alias{Model$contributionIds}
+\alias{getContributionIds}
 \alias{getContributionIds.Model}
 \title{Id's of each contributing Covariance}
 \arguments{

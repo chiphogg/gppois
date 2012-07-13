@@ -1,4 +1,5 @@
 \name{PredictionMatrix.Model}
+\alias{PredictionMatrix}
 \alias{PredictionMatrix.Model}
 \title{Matrix connecting noisy data to true function}
 \arguments{

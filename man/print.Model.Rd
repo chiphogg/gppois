@@ -2,10 +2,10 @@
 \alias{print.Model}
 \title{Pretty-printing for Model objects}
 \usage{
-  \method{print}{Model} (this, indent = 0, ...)
+  \method{print}{Model} (x, indent = 0, ...)
 }
 \arguments{
-  \item{this}{The Model object to print.}
+  \item{x}{The Model object to print.}
 
   \item{indent}{Aids in formatting: the number of spaces to
   print before every line.}

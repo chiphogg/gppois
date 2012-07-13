@@ -1,9 +1,10 @@
 context("Dataset sanity check!")
 
 data(steelStrain)
+data(flameSpeed)
+
 d.strain.base <- Dataset(id="steel.strain", data=steelStrain,
   X.names=c("X", "Y"), column="exx", data.offset=0)
-data(flameSpeed)
 d.flame.base <- Dataset(data=flameSpeed, column="speed")
 
 test_that("/data is correctly read", {

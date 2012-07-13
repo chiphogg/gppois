@@ -11,6 +11,8 @@
   for each oscillator.}
 
   \item{n.times}{The final number of interpolated points.}
+
+  \item{...}{Not used.}
 }
 \value{
   A numeric matrix with n rows and n.times columns, showing

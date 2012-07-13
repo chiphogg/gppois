@@ -167,28 +167,31 @@ GriddedConvexHull <- function(X, spacing) {
 #' have data, and \code{X.out} is usually gridded points where we evaluate the
 #' Gaussian Process.  It looks for points in \code{X.out} which are "gap"
 #' points, i.e., far enough away from every point in \code{X}.  The threshhold
-#' is \code{gap.width}, which defaults to the largest nearest-neighbor distance
+#' is \code{gap.thresh}, which defaults to the largest nearest-neighbor distance
 #' in X.
 #'
 #' @param X  d-column matrix whose rows represent points where we have data.
 #' @param X.out  d-column matrix whose rows represent points where we want to
 #'      predict.
+#' @param gap.thresh  The threshhold distance which determines \sQuote{gap}
+#'    points, i.e., \sQuote{non-gap} points are closer than \code{gap.thresh} to
+#'    any datapoint.
 #' 
 #' @export
 #' @return  A logical matrix, of length NumPoints(X.out), TRUE if the
 #'    corresponding point in X.out is a "gap point".
-FindGapPoints <- function(X, X.out, gap.width=NA) {
+FindGapPoints <- function(X, X.out, gap.thresh=NA) {
 
   # Find the longest nearest-neighbor distance.
-  if (!(is.numeric(gap.width) && gap.width > 0)) {
+  if (!(is.numeric(gap.thresh) && gap.thresh > 0)) {
     DM <- as.matrix(dist(X))
     diag(DM) <- NA
-    gap.width <- max(apply(DM, 2, min, na.rm=TRUE))
+    gap.thresh <- max(apply(DM, 2, min, na.rm=TRUE))
     rm(DM)
   }
   # Find the closest X-point for each X.out-point.
   X.out.closest <- apply(DistanceMatrix(X=X, X.out=X.out), 1, min)
-  return (X.out.closest > gap.width)
+  return (X.out.closest > gap.thresh)
 }
 
 

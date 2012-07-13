@@ -1,4 +1,5 @@
 \name{Untransform.Dataset}
+\alias{Untransform}
 \alias{Untransform.Dataset}
 \title{Undo any transformations on the datapoints}
 \arguments{

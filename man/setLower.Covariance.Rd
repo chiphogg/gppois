@@ -1,6 +1,5 @@
 \name{setLower.Covariance}
 \alias{Covariance$lower}
-\alias{getLower}
 \alias{getLower.Covariance}
 \alias{setLower.Covariance}
 \title{Lower bounds for parameters using full names}
@@ -28,10 +27,6 @@
 }
 \seealso{
   \code{\link{getParamsPlain}}
-
-  \code{\link{getLowerPlain}}
-
-  \code{\link{setLowerPlain}}
 
   \code{\link{Covariance}}
 }

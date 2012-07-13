@@ -1,0 +1,29 @@
+gppois 0.2-0
+===============================================================================
+
+* Upgraded to use the latest version of R (2.15.1).
+
+* All documentation now uses roxygen2 (previously, functions used roxygen2, but
+  classes were documented with Rdoc from R.oo)
+
+DEMOS
+-----
+
+* Made a demo for the steelStrain data, to get a feel for the package.  It's
+  somewhat long (training can take upwards of 10 minutes), but the pictures are
+  pretty.
+
+DATASETS
+--------
+
+* steelStrain now includes all three strain columns, as well as a separate
+  data.frame with the "gap" datapoints
+
+* Added flameSpeed dataset
+
+BUG FIXES
+---------
+
+* getLower() and getUpper() now match positionally with getParams(), when
+  for.training is TRUE.  Model$Train() had been failing because of a defect in
+  how optim() handles bounds for the L-BFGS-B method.

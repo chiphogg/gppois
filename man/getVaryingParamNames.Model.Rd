@@ -1,5 +1,6 @@
 \name{getVaryingParamNames.Model}
 \alias{Model$varyingParamNames}
+\alias{getVaryingParamNames}
 \alias{getVaryingParamNames.Model}
 \title{Non-constant Model parameters}
 \arguments{

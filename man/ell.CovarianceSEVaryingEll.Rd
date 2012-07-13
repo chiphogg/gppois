@@ -1,4 +1,5 @@
 \name{ell.CovarianceSEVaryingEll}
+\alias{ell}
 \alias{ell.CovarianceSEVaryingEll}
 \title{ell(X)}
 \arguments{

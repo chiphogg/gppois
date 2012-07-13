@@ -1,4 +1,5 @@
 \name{sigma.f.CovarianceSEVaryingEll}
+\alias{sigma.f}
 \alias{sigma.f.CovarianceSEVaryingEll}
 \title{sigma.f(X)}
 \arguments{

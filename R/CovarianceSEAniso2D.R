@@ -1,58 +1,41 @@
-############################################################################/**
-# @RdocClass CovarianceSEAniso2D
-#
-# @title "2D Anisotropic SE Covariance"
-#
-# \description{
-#   A 2D squared-exponential covariance whose eigenvalues of the covariance
-#   matrix are not assumed identical.  In other words, features might vary more
-#   rapidly in one direction than in the orthogonal direction.
-#
-#   @classhierarchy
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) A string to identify this covariance object.}
-#   \item{ell.1}{(numeric) One characteristic horizontal scale for features in
-#      the functions.}
-#   \item{ell.2}{(numeric) Another characteristic horizontal scale for features
-#      in the functions.}
-#   \item{theta.1}{(numeric) The angle of the ell.1 direction.}
-#   \item{sigma.f}{(numeric) A characteristic vertical scale for features in
-#      functions being modeled.}
-#   \item{ell.1.bounds}{(numeric) The range of values which \code{ell.1} might
-#      assume.}
-#   \item{ell.2.bounds}{(numeric) The range of values which \code{ell.2} might
-#      assume.}
-#   \item{theta.1.bounds}{(numeric) The range of values which \code{theta.1}
-#      might assume.}
-#   \item{sigma.f.bounds}{(numeric) The range of values which \code{sigma.f}
-#      might assume.}
-#   \item{...}{Not used.}
-# }
-#
-# \section{Covariance Parameters}{
-#   This section lists the fit parameters corresponding to this type of
-#   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
-#   optimized in log-space, consistent with the Jeffreys prior.
-#
-#   \describe{
-#     \item{ell.1}{(Scale parameter) One horizontal feature lengthscale.}
-#     \item{ell.2}{(Scale parameter) Another horizontal feature lengthscale.}
-#     \item{theta.1}{The angle of the ell.1 axis}
-#     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
-#   }
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# @author
-#*/###########################################################################
+#' 2D anisotropic SE covariance
+#'
+#' A 2D squared-exponential covariance whose eigenvalues of the covariance
+#' matrix are not assumed identical.  In other words, features might vary more
+#' rapidly in one direction than in the orthogonal direction.
+#'
+#' @name CovarianceSEAniso2D
+#'
+#' @param id (character) A string to identify this covariance object. 
+#' @param ell.1 (numeric) One characteristic horizontal scale for features in
+#'      the functions. 
+#' @param ell.2 (numeric) Another characteristic horizontal scale for features
+#'      in the functions. 
+#' @param theta.1 (numeric) The angle of the ell.1 direction. 
+#' @param sigma.f (numeric) A characteristic vertical scale for features in
+#'      functions being modeled. 
+#' @param ell.1.bounds (numeric) The range of values which \code{ell.1} might
+#'      assume. 
+#' @param ell.2.bounds (numeric) The range of values which \code{ell.2} might
+#'      assume. 
+#' @param theta.1.bounds (numeric) The range of values which \code{theta.1}
+#'      might assume. 
+#' @param sigma.f.bounds (numeric) The range of values which \code{sigma.f}
+#'      might assume. 
+#' @param ... Not used. 
+#' @export
+#'
+#' @section Covariance Parameters:
+#'   This section lists the fit parameters corresponding to this type of
+#'   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
+#'   optimized in log-space, consistent with the Jeffreys prior.
+#'
+#'   \describe{
+#'     \item{ell.1}{(Scale parameter) One horizontal feature lengthscale.}
+#'     \item{ell.2}{(Scale parameter) Another horizontal feature lengthscale.}
+#'     \item{theta.1}{The angle of the ell.1 axis}
+#'     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
+#'   }
 setConstructorS3("CovarianceSEAniso2D",
   function(..., id="Aniso2D", ell.1=NA, ell.2=NA, theta.1=NA, sigma.f=NA,
     ell.1.bounds=NA, ell.2.bounds=NA, theta.1.bounds=NA, sigma.f.bounds=NA) {

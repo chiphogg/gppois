@@ -1,4 +1,5 @@
 \name{StoreMatrix.LazyMatrix}
+\alias{StoreMatrix}
 \alias{StoreMatrix.LazyMatrix}
 \title{Stores a calculated matrix}
 \arguments{

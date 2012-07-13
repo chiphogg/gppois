@@ -1,6 +1,4 @@
-library("testthat")
-library("gppois")
-
-cat("Yes, this file got called!")
+require("testthat")
+require("gppois")
 
 test_package("gppois")

@@ -1,41 +1,24 @@
-############################################################################/**
-# @RdocClass CovarianceNoise
-#
-# @title "Covariance describing random noise"
-#
-# \description{
-#   This subclass lets us treat noise in a unified way within our Model.
-#
-#   @classhierarchy
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) A string to identify this covariance object.}
-#   \item{sigma}{(numeric) The default value of the noise.}
-#   \item{sigma.bounds}{(numeric) The range of values which \code{sigma} might assume.}
-#   \item{...}{Not used.}
-# }
-#
-# \section{Covariance Parameters}{
-#   This section lists the fit parameters corresponding to this type of
-#   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
-#   optimized in log-space, consistent with the Jeffreys prior.
-#
-#   \describe{
-#     \item{sigma}{(Scale parameter) The magnitude (standard deviation) of the
-#        noise.}
-#   }
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# @author
-#*/###########################################################################
+#' CovarianceNoise: i.i.d. Gaussian noise
+#'
+#' This subclass lets us treat noise in a unified way within our Model.
+#'
+#' @name CovarianceNoise
+#'
+#' @export
+#' @param id (character) A string to identify this covariance object. 
+#' @param sigma (numeric) The default value of the noise. 
+#' @param sigma.bounds (numeric) The range of values which \code{sigma} might assume. 
+#' @param ... Not used. 
+#'
+#' @section Covariance Parameters:
+#'   This section lists the fit parameters corresponding to this type of
+#'   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
+#'   optimized in log-space, consistent with the Jeffreys prior.
+#'
+#'   \describe{
+#'     \item{sigma}{(Scale parameter) The magnitude (standard deviation) of the
+#'        noise.}
+#'   }
 setConstructorS3("CovarianceNoise",
   function(id="noise", sigma=NA, sigma.bounds=NA, ...) {
     # Ideas here are the same as for the CovarianceSE constructor, but simpler

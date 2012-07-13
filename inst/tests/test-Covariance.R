@@ -1,4 +1,3 @@
-return()
 context("CovarianceSE")
 
 test_that("CovarianceSE is constructed correctly", {

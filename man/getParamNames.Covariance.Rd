@@ -1,5 +1,6 @@
 \name{getParamNames.Covariance}
 \alias{Covariance$paramNames}
+\alias{getParamNames}
 \alias{getParamNames.Covariance}
 \title{ID-decorated names of Covariance parameters}
 \arguments{

@@ -26,4 +26,9 @@
   transform takes functions from this transformed space
   back into the original space.
 }
+\references{
+  Anscombe, F.J. (1948). The Transformation of Poisson,
+  Binomial and Negative-Binomial Data. Biometrika 35, pp.
+  246-254.
+}
 

@@ -11,7 +11,7 @@ Description: Analyzes data using Gaussian processes.  Supported noise models
 License: GPL-3
 LazyLoad: yes
 Suggests:
-    debug,geometry,rgl,Cairo,ggplot2
+    debug,geometry,rgl,Cairo,ggplot2,testthat
 Depends:
     R.oo
 URL: http://www.nist.gov/mml/ceramics/structure_determination/gppois.cfm
@@ -31,3 +31,4 @@ Collate:
     'poisson.R'
     'rgl.R'
     'utils.R'
+    'generics.R'
