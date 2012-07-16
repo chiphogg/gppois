@@ -8,8 +8,9 @@ x.out <- seq(from=min(ratio.range), to=max(ratio.range), length.out=200)
 # Plot the data
 ggplot2.installed <- require("ggplot2")
 if (ggplot2.installed) {
-  p <- ggplot(data=flameSpeed, aes(x=fuelRatio, y=speed, colour=source))
-  print(p + geom_point())
+  p <- (ggplot(data=flameSpeed, aes(x=fuelRatio, y=speed, colour=source))
+    + geom_point())
+  print(p)
 } else {
   with(flameSpeed, plot(fuelRatio, speed))
 }
@@ -51,4 +52,38 @@ print(m)
 # These correspond to the *geometric* mean of the lower and upper bounds.
 # There is no reason to think these values are any good!
 # Let's plot the model's fit and see...
-#m$PosteriorInterval(d=d.flame, X.out=x.out)
+result <- m$PosteriorInterval(d=d.flame, X.out=x.out)
+if (ggplot2.installed) {
+  p <- (p + geom_line(data=result, aes(x=X, y=mean), colour='red')
+    + geom_ribbon(data=result, aes(x=X, ymin=lower, ymax=upper), alpha=0.3,
+      colour='red', inherit.aes=FALSE)
+    )
+  print(p)
+} else {
+  points(col='red', type='l', x.out, result$mean)
+  points(col='red', type='l', x.out, result$lower)
+  points(col='red', type='l', x.out, result$upper)
+}
+
+###############################################################################
+# Not too bad... but it does seem to underestimate the peak.
+# Let's use an "Empirical Bayes" approach:
+# Train the Model parameters that best match the data
+DemoPause()
+m$Train(d=d.flame)
+print(m)
+
+###############################################################################
+# Now let's see how the updated plot looks...
+better <- m$PosteriorInterval(d=d.flame, X.out=x.out)
+if (ggplot2.installed) {
+  p <- (p + geom_line(data=better, aes(x=X, y=mean), colour='blue')
+    + geom_ribbon(data=better, aes(x=X, ymin=lower, ymax=upper), alpha=0.3,
+      colour='blue', inherit.aes=FALSE)
+    )
+  print(p)
+} else {
+  points(col='blue', type='l', x.out, better$mean)
+  points(col='blue', type='l', x.out, better$lower)
+  points(col='blue', type='l', x.out, better$upper)
+}
