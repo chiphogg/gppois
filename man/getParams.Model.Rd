@@ -1,6 +1,6 @@
 \name{getParams.Model}
-\alias{getParams.Model}
 \alias{Model$params}
+\alias{getParams.Model}
 \alias{setParams.Model}
 \title{Parameters for the Model}
 \arguments{
@@ -21,9 +21,8 @@
   A vector with the current values for each parameter.
 }
 \description{
-  A named vector of parameters governing this Model.  Note
-  that the names are \emph{decorated} by prepending the
-  Covariance id; this prevents namespace collisions.
+  A named vector of parameters governing this object
+  (\code{\link{Model}}, \code{\link{Covariance}}, etc.)
 }
 \seealso{
   \code{\link{getParams.Covariance}} for more about

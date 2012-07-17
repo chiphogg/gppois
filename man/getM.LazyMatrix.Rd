@@ -1,7 +1,7 @@
 \name{getM.LazyMatrix}
+\alias{M}
 \alias{getM}
 \alias{getM.LazyMatrix}
-\alias{M}
 \title{The previously-computed matrix}
 \arguments{
   \item{...}{Not used.}

@@ -1,48 +1,31 @@
-############################################################################/**
-# @RdocClass CovarianceSE
-#
-# @title "(S)quared-(E)xponential Covariance"
-#
-# \description{
-#   The standard squared-exponential covariance.  Governed by two parameters: a
-#   horizontal and a vertical lengthscale.
-#
-#   @classhierarchy
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) A string to identify this covariance object.}
-#   \item{ell}{(numeric) A characteristic horizontal scale for features in
-#      functions being modeled.}
-#   \item{sigma.f}{(numeric) A characteristic vertical scale for features in
-#      functions being modeled.}
-#   \item{ell.bounds}{(numeric) The range of values which \code{ell} might
-#      assume.}
-#   \item{sigma.f.bounds}{(numeric) The range of values which \code{sigma.f}
-#      might assume.}
-#   \item{...}{Not used.}
-# }
-#
-# \section{Covariance Parameters}{
-#   This section lists the fit parameters corresponding to this type of
-#   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
-#   optimized in log-space, consistent with the Jeffreys prior.
-#
-#   \describe{
-#     \item{ell}{(Scale parameter) The horizontal feature lengthscale.}
-#     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
-#   }
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# @author
-#*/###########################################################################
+#' CovarianceSE: (S)quared-(E)xponential covariance
+#'
+#' The standard squared-exponential covariance.  Governed by two parameters: a
+#' horizontal and a vertical lengthscale.
+#'
+#' @name CovarianceSE
+#'
+#' @param id (character) A string to identify this covariance object. 
+#' @param ell (numeric) A characteristic horizontal scale for features in
+#'      functions being modeled. 
+#' @param sigma.f (numeric) A characteristic vertical scale for features in
+#'      functions being modeled. 
+#' @param ell.bounds (numeric) The range of values which \code{ell} might
+#'      assume. 
+#' @param sigma.f.bounds (numeric) The range of values which \code{sigma.f}
+#'      might assume. 
+#' @param ... Not used. 
+#' @export
+#'
+#' @section Covariance Parameters:
+#'   This section lists the fit parameters corresponding to this type of
+#'   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
+#'   optimized in log-space, consistent with the Jeffreys prior.
+#'
+#'   \describe{
+#'     \item{ell}{(Scale parameter) The horizontal feature lengthscale.}
+#'     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
+#'   }
 setConstructorS3("CovarianceSE", function(..., id="SE",
     ell=NA, sigma.f=NA, ell.bounds=NA, sigma.f.bounds=NA) {
     ell.good <- InitializeBoundedQuantity(ok.range=c(0, Inf),
@@ -66,6 +49,7 @@ setConstructorS3("CovarianceSE", function(..., id="SE",
 #' @name getLogspaceNames.CovarianceSE
 #' @aliases CovarianceSE$logspaceNames getLogspaceNames.CovarianceSE
 #' @S3method getLogspaceNames CovarianceSE
+#' @export getLogspaceNames getLogspaceNames.CovarianceSE
 #'
 #' @param ... Not used.
 #'
@@ -87,6 +71,7 @@ setMethodS3("getLogspaceNames", "CovarianceSE", conflict="quiet",
 #' @name getParamNamesPlain.CovarianceSE
 #' @aliases CovarianceSE$paramNamesPlain getParamNamesPlain.CovarianceSE
 #' @S3method getParamNamesPlain CovarianceSE
+#' @export getParamNamesPlain getParamNamesPlain.CovarianceSE
 #'
 #' @param ... Not used.
 #'
@@ -108,6 +93,7 @@ setMethodS3("getParamNamesPlain", "CovarianceSE", conflict="quiet",
 #' @name getParamsPlain.CovarianceSE
 #' @aliases CovarianceSE$paramsPlain getParamsPlain.CovarianceSE
 #' @S3method getParamsPlain CovarianceSE
+#' @export getParamsPlain getParamsPlain.CovarianceSE
 #'
 #' @param ... Not used.
 #'
@@ -146,6 +132,9 @@ setMethodS3("paramsPlainImplementation", "CovarianceSE", conflict="quiet",
 #' @name getLowerPlain.CovarianceSE
 #' @aliases CovarianceSE$lowerPlain getLowerPlain.CovarianceSE setLowerPlain.CovarianceSE
 #' @S3method getLowerPlain CovarianceSE
+#' @export getLowerPlain getLowerPlain.CovarianceSE
+#' @S3method setLowerPlain CovarianceSE
+#' @export setLowerPlain setLowerPlain.CovarianceSE
 #'
 #' @param L A (named) vector of new lower bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -171,12 +160,12 @@ setMethodS3("setLowerPlain", "CovarianceSE", conflict="quiet",
     }
     L.posdef <- pmax(L, 0)  # SE has no possibly-negative parameters
     # Adjust upper bounds to make way for the new values of L
-    L.change <- this$PushUpperBounds(U.min=L.posdef)
+    L.change <- PushUpperBounds(this, U.min=L.posdef)
     L.vals <- this$getLowerPlain()
     L.vals[names(L.change)] <- L.change[names(L.change)]
     this$.ell.bounds[1] <- L.vals["ell"]
     this$.sigma.f.bounds[1] <- L.vals["sigma.f"]
-    this$ClampParams(warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
@@ -188,6 +177,9 @@ setMethodS3("setLowerPlain", "CovarianceSE", conflict="quiet",
 #' @name getUpperPlain.CovarianceSE
 #' @aliases CovarianceSE$upperPlain getUpperPlain.CovarianceSE setUpperPlain.CovarianceSE
 #' @S3method getUpperPlain CovarianceSE
+#' @export getUpperPlain getUpperPlain.CovarianceSE
+#' @S3method setUpperPlain CovarianceSE
+#' @export setUpperPlain setUpperPlain.CovarianceSE
 #'
 #' @param U A (named) vector of new upper bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -213,13 +205,13 @@ setMethodS3("setUpperPlain", "CovarianceSE", conflict="quiet",
     }
     U.posdef <- pmax(U, 0)  # SE has no possibly-negative parameters
     # Adjust lower bounds to make way for the new values of U
-    U.change <- this$PushLowerBounds(L.max=U.posdef)
+    U.change <- PushLowerBounds(this, L.max=U.posdef)
 
     U.vals <- this$getUpperPlain()
     U.vals[names(U.change)] <- U.change[names(U.change)]
     this$.ell.bounds[2] <- U.vals["ell"]
     this$.sigma.f.bounds[2] <- U.vals["sigma.f"]
-    this$ClampParams(warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
@@ -229,6 +221,7 @@ setMethodS3("setUpperPlain", "CovarianceSE", conflict="quiet",
 #' function.
 #'
 #' @S3method K.specific CovarianceSE
+#' @export K.specific K.specific.CovarianceSE
 #' @name K.specific.CovarianceSE
 #'
 #' @param X  X-values for the input points (i.e., where we have data)
@@ -252,6 +245,7 @@ setMethodS3("K.specific", "CovarianceSE", conflict="quiet",
 #' parameter whose (plain) name is \code{param}.
 #'
 #' @S3method KDerivImplementation CovarianceSE
+#' @export KDerivImplementation KDerivImplementation.CovarianceSE
 #' @name KDerivImplementation.CovarianceSE
 #'
 #' @param d  The Dataset whose X-values determine KInIn.
@@ -282,6 +276,7 @@ setMethodS3("KDerivImplementation", "CovarianceSE", conflict="quiet",
 #' at each point.
 #'
 #' @S3method Variance CovarianceSE
+#' @export Variance Variance.CovarianceSE
 #' @name Variance.CovarianceSE
 #'
 #' @param X  The points we want to know the SE variance at.

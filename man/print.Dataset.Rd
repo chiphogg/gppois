@@ -2,10 +2,10 @@
 \alias{print.Dataset}
 \title{Pretty-printing for Dataset objects}
 \usage{
-  \method{print}{Dataset} (this, ...)
+  \method{print}{Dataset} (x, ...)
 }
 \arguments{
-  \item{this}{The Dataset object to print.}
+  \item{x}{The Dataset object to print.}
 
   \item{...}{Not used.}
 }

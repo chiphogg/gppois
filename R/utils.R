@@ -66,7 +66,7 @@ ItTakes <- function(my.task, how.i.do.it) {
   #   Used for its side-effect.
   p.env <- parent.frame()
   cat(sprintf("%60s: ", my.task))
-  elapsed <- system.time(eval(substitute(how.i.do.it), env=p.env))
+  elapsed <- system.time(eval(substitute(how.i.do.it), envir=p.env))
   cat(sprintf("%12g sec\n", elapsed["user.self"]))
 }
 
@@ -321,7 +321,7 @@ SetupFileInfo <- function(name, type, name.default="DEFAULT") {
     if (name.has.ext) {
       ext.start <- ext.match[[1]][z]
       ext.stop <- ext.start + attr(ext.match[[1]], "match.length")[z]
-      type <- substr(x, ext.start + 1, ext.stop)
+      type <- substr(name, ext.start + 1, ext.stop)
     } else {
       type <- ""
     }
@@ -347,6 +347,7 @@ SetupFileInfo <- function(name, type, name.default="DEFAULT") {
 #' @param N  One-half the number of independent draws to take for each
 #'    oscillator.
 #' @param n.times  The final number of interpolated points.
+#' @param ... Not used.
 #'
 #' @export
 #' @return  A numeric matrix with n rows and n.times columns, showing the
@@ -411,7 +412,6 @@ PrintParams <- function(lower, params, upper, indent=0, ...) {
     cat(sprintf("%s  %15s   %14.8g   %14.8g   %14.8g\n", tab, name,
         lower[name], params[name], upper[name]))
   }
-
 }
 
 #' Error function
@@ -427,3 +427,14 @@ erf <- function(x) {
   2 * pnorm(sqrt(2) * x) - 1
 }
 
+#' Pause during demos
+#'
+#' Prompts the user for input, to break up the demos
+#'
+#' @param msg The prompt message to display
+#' @export
+DemoPause <- function(msg="Press Enter to continue:") {
+  cat(msg)
+  readline()
+  cat("\n")
+}

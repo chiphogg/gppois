@@ -1,73 +1,42 @@
-#############################################################################/**
-# @RdocClass Model
-#
-# @title "A trainable collection of Covariances"
-#
-# \description{
-#   This is the \emph{constructor} for a \code{Model} object:
-#   @get "title".
-#
-#   The \code{Model} expresses our beliefs or knowledge about a Dataset.  We
-#   assume a Dataset can be modeled as the sum of one or more Gaussian Process
-#   Covariance functions, each of which is governed by parameters.  The Model
-#   can then be trained on a Dataset, a process which selects the parameter
-#   values that best describe the data.  The model can then be used to make
-#   predictions about the true function -- either at noisy datapoints, or
-#   interpolating into data-free regions, or both.
-#
-#   This class should work just fine, as long as
-#     a) we are training on all the datapoints together (i.e., not breaking
-#        them up into subregions to divide-and-conquer), and
-#     b) this$params returns a vector which is amenable to simple optimization
-#        routines (i.e., none of the parameters require special treatment).
-#   If either of these conditions fail, a new approach is needed: either a
-#   specialized subclass should be created, or the problem should be broken
-#   into smaller pieces where these assumptions are good.
-#
-#   Ironically, \emph{both} these conditions fail for \emph{both} scenarios
-#   considered in our Journal of Applied Crystallography paper, despite the
-#   fact that I wrote this software to perform the analysis for that paper.
-#   I hope to remedy this in a future version.  However, even in the meantime,
-#   having these classes still makes it very much easier to build the
-#   specialized functions I need.  Moreover, experience has shown that the
-#   plain-vanilla class structure is already good enough for other applications
-#   unrelated to denoising of scattering curves.
-#
-#   Here is the class hierarchy:\cr
-#   @classhierarchy
-#
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) An id which identifies this Model.}
-#   \item{...}{Not used.}
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# \references{
-#    Hogg, C., K. Mullen, and I. Levin (2012). A Bayesian approach for
-#    denoising one-dimensional data. Journal of Applied Crystallography, 45(3),
-#    pp. 471-481.
-# }
-#
-# @author
-#*/###########################################################################
+#' Model: a trainable collection of Covariances
+#'
+#' The \code{Model} expresses our beliefs or knowledge about a
+#' \code{\link{Dataset}}.  We assume a \code{\link{Dataset}} can be modeled as
+#' the sum of one or more Gaussian Process Covariance functions, each of which
+#' is governed by parameters.  The \code{Model} can then be trained on a
+#' \code{\link{Dataset}}, a process which selects the parameter values that best
+#' describe the data.  The Model can then be used to make predictions about the
+#' true function -- either at noisy datapoints, or interpolating into data-free
+#' regions, or both.
+#'
+#' This class should work just fine, as long as a) we are training on all the
+#' datapoints together (i.e., not breaking them up into subregions to
+#' divide-and-conquer), and b) this$params returns a vector which is amenable to
+#' simple optimization routines (i.e., none of the parameters require special
+#' treatment).  If either of these conditions fail, a new approach is needed:
+#' either a specialized subclass should be created, or the problem should be
+#' broken into smaller pieces where these assumptions are good.
+#'
+#' Ironically, \emph{both} these conditions fail for \emph{both} scenarios
+#' considered in our Journal of Applied Crystallography paper, despite the fact
+#' that I wrote this software to perform the analysis for that paper.  I hope to
+#' remedy this in a future version.  However, even in the meantime, having these
+#' classes still makes it very much easier to build the specialized functions I
+#' need.  Moreover, experience has shown that the \sQuote{plain-vanilla} class
+#' structure is already good enough for other applications unrelated to
+#' denoising of scattering curves.
+#'
+#' @name Model
+#'
+#' @param id (character) An id which identifies this Model. 
+#' @param ... Not used. 
+#' @export
+#'
+#' @references  Hogg, C., K. Mullen, and I. Levin (2012). A Bayesian approach
+#'    for denoising one-dimensional data. Journal of Applied Crystallography,
+#'    45(3), pp. 471-481.
 setConstructorS3("Model",
   function(id="", ...) {
-    # Constructs a Model object with the given ID.
-    #
-    # Args:
-    #   id:  A string which labels this model.
-    #
-    # Returns:
-    #   A Model with the given ID.
-
     extend(Object(), "Model",
       .id             = id,
       .K.chol         = LazyMatrix(),
@@ -106,8 +75,8 @@ LogML <- function(par=model$getParams(for.training=TRUE), model, d,
   Y <- d$xformedDpts
   # The following calculation is based on Equation 5.8 in
   # Rasmussen and Williams (2005):
-  term.data.fit   <- -0.5 * t(Y) %*% model$KInv(d) %*% Y
-  term.complexity <- -0.5 * model$LogDetK(d)
+  term.data.fit   <- -0.5 * t(Y) %*% KInv(this=model, d) %*% Y
+  term.complexity <- -0.5 * LogDetK(this=model, d)
   term.num.dpts   <- -0.5 * d$n * log(2 * pi)
   return (term.data.fit + term.complexity + term.num.dpts)
 }
@@ -163,13 +132,14 @@ GradLogML <- function(par=model$getParams(for.training=TRUE), model, d,
   Y <- d$xformedDpts
   # The following calculations are based on Equation 5.9 in
   # Rasmussen and Williams (2005).
-  alpha <- model$KInv(d) %*% Y
-  mat.for.grad <- alpha %*% t(alpha) - model$KInv(d)
+  alpha <- KInv(this=model, d) %*% Y
+  mat.for.grad <- alpha %*% t(alpha) - KInv(this=model, d)
   var.names <- names(model$getParams(for.training=TRUE))
   good.names <- names(par)[which(names(par) %in% var.names)]
   grad <- c()
   for (p.n in good.names) {
-    grad[p.n] <- 0.5 * SmartTrace(model$KDeriv(d=d, param=p.n), mat.for.grad)
+    grad[p.n] <- 0.5 * SmartTrace(KDeriv(this=model, d=d, param=p.n),
+      mat.for.grad)
   }
   return (grad)
 }
@@ -180,8 +150,9 @@ GradLogML <- function(par=model$getParams(for.training=TRUE), model, d,
 #' function gives their ID's.
 #'
 #' @name getContributionIds.Model
-#' @aliases Model$contributionIds getContributionIds.Model
+#' @aliases getContributionIds Model$contributionIds getContributionIds.Model
 #' @S3method getContributionIds Model
+#' @export getContributionIds getContributionIds.Model
 #'
 #' @param this The Model object.
 #' @param ... Not used.
@@ -207,6 +178,9 @@ setMethodS3("getContributionIds", "Model", conflict="quiet",
 #' @name getId.Model
 #' @aliases Model$id getId.Model setId.Model
 #' @S3method getId Model
+#' @export getId getId.Model
+#' @S3method setId Model
+#' @export setId setId.Model
 #'
 #' @param this The \code{Model} whose contributions to list.
 #' @param id (character) The new ID for \code{this}.
@@ -230,14 +204,15 @@ setMethodS3("setId", "Model", conflict="quiet",
 
 #' Parameters for the Model
 #'
-#' A named vector of parameters governing this Model.  Note that the names are
-#' \emph{decorated} by prepending the Covariance id; this prevents namespace
-#' collisions.
+#' A named vector of parameters governing this object (\code{\link{Model}},
+#' \code{\link{Covariance}}, etc.)
 #'
 #' @name getParams.Model
 #' @aliases Model$params getParams.Model setParams.Model
 #' @S3method getParams Model
+#' @export getParams getParams.Model
 #' @S3method setParams Model
+#' @export setParams setParams.Model
 #'
 #' @param this The Model object.
 #' @param p A (named) vector of new parameter values (we ONLY use ones which are
@@ -283,10 +258,12 @@ setMethodS3("setParams", "Model", conflict="quiet",
 #'
 #' @name getLower.Model
 #' @aliases Model$lower getLower.Model setLower.Model
-#' @S3method getLower.Model Model
-#' @S3method setLower.Model Model
+#' @S3method getLower Model
+#' @export getLower getLower.Model
+#' @S3method setLower Model
+#' @export setLower setLower.Model
 #'
-#' @param this The Model object.
+#' @param this The object whose parameters to view or change.
 #' @param L A (named) vector of new parameter values (we ONLY use ones which are
 #'      named, and whose names match up with names of parameters.)
 #' @param for.training  If TRUE, we ignore "constant" parameters (i.e., where
@@ -308,6 +285,11 @@ setMethodS3("getLower", "Model", conflict="quiet",
     for (covar in this$.contributions) {
       L <- c(L, covar$getLower(for.training=for.training))
     }
+    if (for.training) {
+      unlog.params <- DecodeForTraining(L)
+      i.vary <- which(names(unlog.params) %in% this$getVaryingParamNames())
+      L <- L[i.vary]
+    }
     return (L)
   })
 setMethodS3("setLower", "Model", conflict="quiet",
@@ -324,8 +306,10 @@ setMethodS3("setLower", "Model", conflict="quiet",
 #'
 #' @name getUpper.Model
 #' @aliases Model$upper getUpper.Model setUpper.Model
-#' @S3method getUpper.Model Model
-#' @S3method setUpper.Model Model
+#' @S3method getUpper Model
+#' @export getUpper getUpper.Model
+#' @S3method setUpper Model
+#' @export setUpper setUpper.Model
 #'
 #' @param this The Model object.
 #' @param L A (named) vector of new parameter values (we ONLY use ones which are
@@ -349,6 +333,11 @@ setMethodS3("getUpper", "Model", conflict="quiet",
     for (covar in this$.contributions) {
       U <- c(U, covar$getUpper(for.training=for.training))
     }
+    if (for.training) {
+      unlog.params <- DecodeForTraining(U)
+      i.vary <- which(names(unlog.params) %in% this$getVaryingParamNames())
+      U <- U[i.vary]
+    }
     return (U)
   })
 setMethodS3("setUpper", "Model", conflict="quiet",
@@ -367,8 +356,9 @@ setMethodS3("setUpper", "Model", conflict="quiet",
 #' to be \dQuote{signal}.
 #'
 #' @name getSignalIds.Model
-#' @aliases Model$signalIds getSignalIds.Model
+#' @aliases getSignalIds Model$signalIds getSignalIds.Model
 #' @S3method getSignalIds Model
+#' @export getSignalIds getSignalIds.Model
 #'
 #' @param this The Model object.
 #' @param ... Not used.
@@ -384,22 +374,24 @@ setMethodS3("getSignalIds", "Model", conflict="quiet",
         which(this$getContributionIds() != 'noise')])
   })
 
-# Non-constant Model parameters
-#
-# Names of the parameters which are not constant.
-#
-# @name getVaryingParamNames.Model
-# @aliases Model$varyingParamNames getVaryingParamNames.Model
-# @S3method getVaryingParamNames Model
-#
-# @param this The Model object.
-# @param ... Not used.
-#
-# @usage Model$varyingParamNames
-#
-# @return The names of all parameters which are not constant.
-#
-# @seealso \code{\link{Model}}
+#' Non-constant Model parameters
+#'
+#' Names of the parameters which are not constant.
+#'
+#' @name getVaryingParamNames.Model
+#' @aliases getVaryingParamNames Model$varyingParamNames
+#'    getVaryingParamNames.Model
+#' @S3method getVaryingParamNames Model
+#' @export getVaryingParamNames getVaryingParamNames.Model
+#'
+#' @param this The Model object.
+#' @param ... Not used.
+#'
+#' @usage Model$varyingParamNames
+#'
+#' @return The names of all parameters which are not constant.
+#'
+#' @seealso \code{\link{Model}}
 setMethodS3("getVaryingParamNames", "Model", conflict="quiet",
   function(this, ...) {
     U <- this$getUpper()
@@ -420,7 +412,9 @@ setMethodS3("getVaryingParamNames", "Model", conflict="quiet",
 #' Covariance object, EXCEPT this Model object.)
 #'
 #' @S3method AddCovariance Model
+#' @export AddCovariance AddCovariance.Model
 #' @name AddCovariance.Model
+#' @aliases AddCovariance AddCovariance.Model
 #'
 #' @param covariance  A Covariance object to be cloned and added to this model.
 #' @param on.duplicate.id  (character) One of (\dQuote{rename},
@@ -465,6 +459,7 @@ setMethodS3("AddCovariance", "Model", conflict="quiet",
 #'
 #' @return A deep clone of the Model object.
 #'
+#' @export
 #' @seealso \code{\link{Model}}
 clone.Model <- function(this, ...) {
   M <- clone.Object(this)
@@ -486,7 +481,9 @@ clone.Model <- function(this, ...) {
 #' This method tells the Model to forget its results and free up some memory.
 #'
 #' @S3method Forget Model
+#' @export Forget Forget.Model
 #' @name Forget.Model
+#' @aliases Forget Forget.Model
 #'
 #' @param this The Model object.
 #' @param ... Not used.
@@ -507,7 +504,9 @@ setMethodS3("Forget", "Model", conflict="quiet",
 #' equal to the current parameter value.  Defaults to freezing all parameters.
 #'
 #' @S3method Freeze Model
+#' @export Freeze Freeze.Model
 #' @name Freeze.Model
+#' @aliases Freeze Freeze.Model
 #'
 #' @param this The Model object.
 #' @param p.names  The names of the parameters to freeze.
@@ -529,7 +528,9 @@ setMethodS3("Freeze", "Model", conflict="quiet",
 #' This is useful for taking random draws from the posterior.
 #'
 #' @S3method L Model
+#' @export L L.Model
 #' @name L.Model
+#' @aliases L L.Model
 #'
 #' @param this The Model object.
 #' @param d  The Dataset we're training on.
@@ -545,7 +546,7 @@ setMethodS3("Freeze", "Model", conflict="quiet",
 #' @seealso \code{\link{Model}}
 setMethodS3("L", "Model", conflict="quiet",
   function(this, d, X.out=d$X, contributions=this$getSignalIds(), ...) {
-    this$ComputeL(d=d, X.out=X.out, contributions=contributions)
+    ComputeL(this, d=d, X.out=X.out, contributions=contributions)
     return (this$.L$M)
   })
 
@@ -555,7 +556,9 @@ setMethodS3("L", "Model", conflict="quiet",
 #' id.
 #'
 #' @S3method NamedCovariance Model
+#' @export NamedCovariance NamedCovariance.Model
 #' @name NamedCovariance.Model
+#' @aliases NamedCovariance NamedCovariance.Model
 #'
 #' @param this The Model object.
 #' @param id (character) The ID of the Covariance to retrieve.
@@ -582,7 +585,9 @@ setMethodS3("NamedCovariance", "Model", conflict="quiet",
 #' This function helps visualize uncertainty using animations.  (See Details.)
 #'
 #' @S3method PlotBubblingSurfaces2D Model
+#' @export PlotBubblingSurfaces2D PlotBubblingSurfaces2D.Model
 #' @name PlotBubblingSurfaces2D.Model
+#' @aliases PlotBubblingSurfaces2D PlotBubblingSurfaces2D.Model
 #'
 #' @param this The Model object.
 #' @param d  The Dataset to evaluate the Model on.
@@ -651,7 +656,9 @@ setMethodS3("PlotBubblingSurfaces2D", "Model", conflict="quiet",
 #' at every point in 'X.out'.
 #'
 #' @S3method PosteriorMean Model
+#' @export PosteriorMean PosteriorMean.Model
 #' @name PosteriorMean.Model
+#' @aliases PosteriorMean PosteriorMean.Model
 #'
 #' @param this The Model object.
 #' @param d  The Dataset to train the Model on.
@@ -670,7 +677,7 @@ setMethodS3("PlotBubblingSurfaces2D", "Model", conflict="quiet",
 setMethodS3("PosteriorMean", "Model", conflict="quiet",
   function(this, d, X.out=d$X, contributions=this$getSignalIds(),
     untransform.result=TRUE, ...) {
-    contributions <- this$CheckContributionsAndWarn(contributions)
+    contributions <- CheckContributionsAndWarn(this, contributions)
     M <- this$PredictionMatrix(d=d, X.out=X.out, contributions=contributions)
     result <- M %*% d$xformedDpts
     if (untransform.result) {
@@ -685,7 +692,9 @@ setMethodS3("PosteriorMean", "Model", conflict="quiet",
 #' the input points.
 #'
 #' @S3method PredictionMatrix Model
+#' @export PredictionMatrix PredictionMatrix.Model
 #' @name PredictionMatrix.Model
+#' @aliases PredictionMatrix PredictionMatrix.Model
 #'
 #' @param this The Model object.
 #' @param d  The Dataset to train the Model on.
@@ -712,7 +721,7 @@ setMethodS3("PredictionMatrix", "Model", conflict="quiet",
       rm(covar.K)
       gc()
     }
-    M <- K.in.out %*% this$KInv(d=d)
+    M <- K.in.out %*% KInv(this, d=d)
     rm(K.in.out)
     gc()
     return (M)
@@ -724,7 +733,9 @@ setMethodS3("PredictionMatrix", "Model", conflict="quiet",
 #' the prediction at a given point, along with the prediction.
 #'
 #' @S3method PosteriorInterval Model
+#' @export PosteriorInterval PosteriorInterval.Model
 #' @name PosteriorInterval.Model
+#' @aliases PosteriorInterval PosteriorInterval.Model
 #'
 #' @param this The Model object.
 #' @param d  The Dataset to train the Model on.
@@ -759,7 +770,9 @@ setMethodS3("PosteriorInterval", "Model", conflict="quiet",
 #' Computes the posterior \dQuote{sigma} at a given point.
 #'
 #' @S3method PosteriorStandardDeviation Model
+#' @export PosteriorStandardDeviation PosteriorStandardDeviation.Model
 #' @name PosteriorStandardDeviation.Model
+#' @aliases PosteriorStandardDeviation PosteriorStandardDeviation.Model
 #'
 #' @param this The Model object.
 #' @param d  The Dataset to train the Model on.
@@ -777,7 +790,7 @@ setMethodS3("PosteriorInterval", "Model", conflict="quiet",
 #' @seealso \code{\link{Model}}
 setMethodS3("PosteriorStandardDeviation", "Model", conflict="quiet",
   function(this, d, X.out=d$X, contributions=this$getSignalIds(), ...) {
-    contributions <- this$CheckContributionsAndWarn(contributions)
+    contributions <- CheckContributionsAndWarn(this, contributions)
     # Calculate the posterior predictive mean.
     N.out <- NumPoints(X.out)
     K.in.out <- matrix(0, nrow=N.out, ncol=d$n)
@@ -807,23 +820,24 @@ setMethodS3("PosteriorStandardDeviation", "Model", conflict="quiet",
 #'
 #' @method print Model
 #'
-#' @param this The Model object to print.
+#' @param x The Model object to print.
 #' @param indent Aids in formatting: the number of spaces to print before every
 #'    line.
 #' @param ... Not used.
 #'
+#' @export
 #' @seealso \code{\link{Model}}
-print.Model <- function(this, indent=0, ...) {
+print.Model <- function(x, indent=0, ...) {
   tab <- Spaces(num=indent)
-  cat(sprintf("%s%s, id='%s'\n", tab, class(this)[1], this$id))
+  cat(sprintf("%s%s, id='%s'\n", tab, class(x)[1], x$id))
   cat(sprintf("%s%sCONTRIBUTING COVARIANCES:\n", tab, Spaces(2)))
-  for (covar in this$.contributions) {
+  for (covar in x$.contributions) {
     cat(sprintf("%s%sid=%-20s (%s)\n", tab, Spaces(4), Wrap(covar$id, "'"),
         class(covar)[1]))
   }
-  PrintParams(lower=this$lower, upper=this$upper, params=this$params,
+  PrintParams(lower=x$lower, upper=x$upper, params=x$params,
     indent=indent)
-  return (invisible(this))
+  return (invisible(x))
 }
 
 #' Uncertainty about the noise level
@@ -838,7 +852,9 @@ print.Model <- function(this, indent=0, ...) {
 #' magnitude ahead of time!)
 #'
 #' @S3method SetNoiseBounds Model
+#' @export SetNoiseBounds SetNoiseBounds.Model
 #' @name SetNoiseBounds.Model
+#' @aliases SetNoiseBounds SetNoiseBounds.Model
 #'
 #' @param this The Model object.
 #' @param sigma.vals  A numeric vector, such that range(sigma.vals) sets the
@@ -857,7 +873,9 @@ setMethodS3("SetNoiseBounds", "Model", conflict="quiet",
 #' Optimize this Model's parameters so they describe the given data.
 #'
 #' @S3method Train Model
+#' @export Train Train.Model
 #' @name Train.Model
+#' @aliases Train Train.Model
 #'
 #' @param this The Model object.
 #' @param d  (Dataset) The data which our parameters should describe.
@@ -961,7 +979,7 @@ setMethodS3("ComputeL", "Model", private=TRUE, conflict="quiet",
     ingredients <- list(X=d$X, X.out=X.out, noiseVar=d$noiseVar,
       params=this$params)
     if (this$.L$NeedToRecalculate(ingredients=ingredients)) {
-      this$ComputeKChol(d=d)
+      ComputeKChol(this, d=d)
       K.out.out <- d$noiseVar * diag(NumPoints(X.out))
       K.in.out <- matrix(0, nrow=NumPoints(X.out), ncol=NumPoints(d$X))
       for (c.id in contributions) {
@@ -989,7 +1007,7 @@ setMethodS3("ComputeKChol", "Model", private=TRUE, conflict="quiet",
     #   model.
     ingredients <- list(X=d$X, noiseVar=d$noiseVar, params=this$params)
     if (this$.K.chol$NeedToRecalculate(ingredients=ingredients)) {
-      K.tot <- this$KTotal(d=d)
+      K.tot <- KTotal(this, d=d)
       K.chol <- DebugIfError(chol.default, K.tot)
       this$.K.chol$StoreMatrix(M=K.chol, ingredients=ingredients)
     }
@@ -1078,7 +1096,7 @@ setMethodS3("KInv", "Model", private=TRUE, conflict="quiet",
     #
     # Returns:
     #   The inverse total covariance matrix for this model.
-    this$ComputeKChol(d=d)
+    ComputeKChol(this, d=d)
     return (chol2inv(this$.K.chol$M))
   })
 
@@ -1092,7 +1110,7 @@ setMethodS3("LogDetK", "Model", private=TRUE, conflict="quiet",
     #
     # Returns:
     #   The logarithm of the determinant of the model's covariance matrix.
-    this$ComputeKChol(d=d)
+    ComputeKChol(this, d=d)
     return (2 * sum(log(diag(this$.K.chol$M))))
   })
 

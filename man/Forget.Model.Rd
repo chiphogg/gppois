@@ -1,4 +1,5 @@
 \name{Forget.Model}
+\alias{Forget}
 \alias{Forget.Model}
 \title{Clear precomputed matrices from memory}
 \arguments{

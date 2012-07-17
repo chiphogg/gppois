@@ -15,6 +15,10 @@
 #' @export
 #' @return The transformed (\code{Anscombe}) or untransformed
 #'    (\code{AnscombeInverse}) data
+#'
+#' @references Anscombe, F.J. (1948). The Transformation of Poisson, Binomial
+#'    and Negative-Binomial Data. Biometrika 35, pp. 246-254.
+
 Anscombe <- function(Y.p) {
   return (sqrt(Y.p + 3.0 / 8.0))
 }

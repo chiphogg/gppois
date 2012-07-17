@@ -1,4 +1,5 @@
 \name{NamedCovariance.Model}
+\alias{NamedCovariance}
 \alias{NamedCovariance.Model}
 \title{Retrieve one contributing Covariance}
 \arguments{

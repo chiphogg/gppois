@@ -1,41 +1,24 @@
-############################################################################/**
-# @RdocClass CovarianceNoise
-#
-# @title "Covariance describing random noise"
-#
-# \description{
-#   This subclass lets us treat noise in a unified way within our Model.
-#
-#   @classhierarchy
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) A string to identify this covariance object.}
-#   \item{sigma}{(numeric) The default value of the noise.}
-#   \item{sigma.bounds}{(numeric) The range of values which \code{sigma} might assume.}
-#   \item{...}{Not used.}
-# }
-#
-# \section{Covariance Parameters}{
-#   This section lists the fit parameters corresponding to this type of
-#   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
-#   optimized in log-space, consistent with the Jeffreys prior.
-#
-#   \describe{
-#     \item{sigma}{(Scale parameter) The magnitude (standard deviation) of the
-#        noise.}
-#   }
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# @author
-#*/###########################################################################
+#' CovarianceNoise: i.i.d. Gaussian noise
+#'
+#' This subclass lets us treat noise in a unified way within our Model.
+#'
+#' @name CovarianceNoise
+#'
+#' @export
+#' @param id (character) A string to identify this covariance object. 
+#' @param sigma (numeric) The default value of the noise. 
+#' @param sigma.bounds (numeric) The range of values which \code{sigma} might assume. 
+#' @param ... Not used. 
+#'
+#' @section Covariance Parameters:
+#'   This section lists the fit parameters corresponding to this type of
+#'   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
+#'   optimized in log-space, consistent with the Jeffreys prior.
+#'
+#'   \describe{
+#'     \item{sigma}{(Scale parameter) The magnitude (standard deviation) of the
+#'        noise.}
+#'   }
 setConstructorS3("CovarianceNoise",
   function(id="noise", sigma=NA, sigma.bounds=NA, ...) {
     # Ideas here are the same as for the CovarianceSE constructor, but simpler
@@ -57,6 +40,7 @@ setConstructorS3("CovarianceNoise",
 #' @name getLogspaceNames.CovarianceNoise
 #' @aliases CovarianceNoise$logspaceNames getLogspaceNames.CovarianceNoise
 #' @S3method getLogspaceNames CovarianceNoise
+#' @export getLogspaceNames getLogspaceNames.CovarianceNoise
 #'
 #' @param ... Not used.
 #'
@@ -78,6 +62,7 @@ setMethodS3("getLogspaceNames", "CovarianceNoise", conflict="quiet",
 #' @name getParamNamesPlain.CovarianceNoise
 #' @aliases CovarianceNoise$paramNamesPlain getParamNamesPlain.CovarianceNoise
 #' @S3method getParamNamesPlain CovarianceNoise
+#' @export getParamNamesPlain getParamNamesPlain.CovarianceNoise
 #'
 #' @param ... Not used.
 #'
@@ -99,6 +84,7 @@ setMethodS3("getParamNamesPlain", "CovarianceNoise", conflict="quiet",
 #' @name getParamsPlain.CovarianceNoise
 #' @aliases CovarianceNoise$paramsPlain getParamsPlain.CovarianceNoise
 #' @S3method getParamsPlain CovarianceNoise
+#' @export getParamsPlain getParamsPlain.CovarianceNoise
 #'
 #' @param ... Not used.
 #'
@@ -133,6 +119,7 @@ setMethodS3("paramsPlainImplementation", "CovarianceNoise", conflict="quiet",
 #' @name getLowerPlain.CovarianceNoise
 #' @aliases CovarianceNoise$lowerPlain getLowerPlain.CovarianceNoise setLowerPlain.CovarianceNoise
 #' @S3method getLowerPlain CovarianceNoise
+#' @export getLowerPlain getLowerPlain.CovarianceNoise
 #'
 #' @param L A (named) vector of new lower bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -159,12 +146,12 @@ setMethodS3("setLowerPlain", "CovarianceNoise", conflict="quiet",
     L.posdef <- pmax(L, 0)  # Noise cannot be negative
 
     # Adjust upper bounds to make way for the new values of L
-    L.change <- this$PushUpperBounds(U.min=L.posdef)
+    L.change <- PushUpperBounds(this, U.min=L.posdef)
 
     L.vals <- this$getLowerPlain()
     L.vals[names(L.change)] <- L.change[names(L.change)]
     this$.sigma.bounds[1] <- L.vals["sigma"]
-    this$ClampParams(warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
@@ -176,6 +163,7 @@ setMethodS3("setLowerPlain", "CovarianceNoise", conflict="quiet",
 #' @name getUpperPlain.CovarianceNoise
 #' @aliases CovarianceNoise$upperPlain getUpperPlain.CovarianceNoise setUpperPlain.CovarianceNoise
 #' @S3method getUpperPlain CovarianceNoise
+#' @export getUpperPlain getUpperPlain.CovarianceNoise
 #'
 #' @param U A (named) vector of new upper bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -202,12 +190,12 @@ setMethodS3("setUpperPlain", "CovarianceNoise", conflict="quiet",
     U.posdef <- pmax(U, 0)  # SE has no possibly-negative parameters
 
     # Adjust lower bounds to make way for the new values of U
-    U.change <- this$PushLowerBounds(L.max=U.posdef)
+    U.change <- PushLowerBounds(this, L.max=U.posdef)
 
     U.vals <- this$getUpperPlain()
     U.vals[names(U.change)] <- U.change[names(U.change)]
     this$.sigma.bounds[2] <- U.vals["sigma"]
-    this$ClampParams(warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
@@ -216,6 +204,7 @@ setMethodS3("setUpperPlain", "CovarianceNoise", conflict="quiet",
 #' Calculates a covariance matrix for the noise covariance specifically.
 #'
 #' @S3method K.specific CovarianceNoise
+#' @export K.specific K.specific.CovarianceNoise
 #' @name K.specific.CovarianceNoise
 #'
 #' @param X  X-values for the input points (i.e., where we have data)
@@ -248,6 +237,7 @@ setMethodS3("K.specific", "CovarianceNoise", conflict="quiet",
 #' parameter whose (plain) name is \code{param}.
 #'
 #' @S3method KDerivImplementation CovarianceNoise
+#' @export KDerivImplementation KDerivImplementation.CovarianceNoise
 #' @name KDerivImplementation.CovarianceNoise
 #'
 #' @param d  The Dataset whose X-values determine KInIn.
@@ -285,6 +275,7 @@ setMethodS3("KDerivImplementation", "CovarianceNoise", conflict="quiet",
 #' Calculate the Noise variance of the points at X.
 #'
 #' @S3method Variance CovarianceNoise
+#' @export Variance Variance.CovarianceNoise
 #' @name Variance.CovarianceNoise
 #'
 #' @param X  The points we want to know the noise variance at.

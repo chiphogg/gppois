@@ -2,15 +2,15 @@
 \alias{print.Covariance}
 \title{Pretty-printing for Covariance objects}
 \usage{
-  \method{print}{Covariance} (this, indent = 0, ...)
+  \method{print}{Covariance} (x, indent = 0, ...)
 }
 \arguments{
-  \item{this}{The Covariance object to print.}
+  \item{x}{The Covariance object to print.}
 
   \item{indent}{Aids in formatting: the number of spaces to
   print before every line.}
 
-  \item{...}{Not used.}
+  \item{\dots}{Not used.}
 }
 \description{
   Prints out the id of the Covariance, followed by a list

@@ -1,4 +1,5 @@
 \name{PosteriorMean.Model}
+\alias{PosteriorMean}
 \alias{PosteriorMean.Model}
 \title{Best estimate of the true function}
 \arguments{

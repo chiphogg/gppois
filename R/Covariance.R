@@ -1,45 +1,28 @@
-############################################################################/**
-# @RdocClass Covariance
-#
-# @title "Superclass for all Covariance function objects"
-#
-# \description{
-#   \code{Covariance} is the superclass for more specific types (SE, Matern,
-#   etc.).  Nobody will actually make an object of type \code{Covariance};
-#   instead, they will use one of the derived classes (such as
-#   \code{link{CovarianceSE}}).
-#
-#   @get "title".
-#
-#   @classhierarchy
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) A string to identify this covariance object.}
-#   \item{...}{Not used.}
-# }
-#
-# \details{
-#    Regarding parameter names: the SUBCLASS has the responsibility to provide
-#    "plain-named" versions of all the virtual fields (paramNamesPlain,
-#    paramsPlain, lowerPlain, etc.).  The SUPERCLASS will automatically handle
-#    the "decorated" versions (paramNames, params, lower, etc.).
-#
-#    All Covariance subclasses should remember the param-values and Dataset
-#    they last used to compute their K-matrix.  If they get asked to compute it
-#    again, they will simply return the previously-computed result if these
-#    values have not changed.
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# @author
-#*/###########################################################################
+#' Covariance: superclass for covariance functions
+#'
+#' \code{Covariance} is the superclass for more specific types (SE, Matern,
+#' etc.).  Nobody will actually make an object of type \code{Covariance};
+#' instead, they will use one of the derived classes (such as
+#' \code{\link{CovarianceSE}}).
+#'
+#' @name Covariance
+#'
+#' @param id (character) A string to identify this covariance object. 
+#' @param ... Not used. 
+#' @export
+#'
+#' @details {
+#'    Regarding parameter names: the \emph{subclass} has the responsibility to
+#'    provide \sQuote{plain-named} versions of all the virtual fields
+#'    (\code{paramNamesPlain}, \code{paramsPlain}, \code{lowerPlain}, etc.).
+#'    The \emph{superclass} will automatically handle the "decorated" versions
+#'    (\code{paramNames}, \code{params}, \code{lower}, etc.).
+#'
+#'    All \code{Covariance} subclasses should remember the param-values and
+#'    \code{\link{Dataset}} they last used to compute their K-matrix.  If they
+#'    get asked to compute it again, they will simply return the
+#'    previously-computed result if these values have not changed.
+#' }
 setConstructorS3("Covariance",
   function(id="", ...) {
     extend(Object(), "Covariance",
@@ -54,6 +37,9 @@ setConstructorS3("Covariance",
 #' @name getId.Covariance
 #' @aliases Covariance$id getId.Covariance setId.Covariance
 #' @S3method getId Covariance
+#' @export getId getId.Covariance
+#' @S3method setId Covariance
+#' @export setId setId.Covariance
 #'
 #' @param id A character string identifying this Covariance object.
 #' @param ... Not used.
@@ -83,8 +69,9 @@ setMethodS3("setId", "Covariance", conflict="quiet",
 #' ambiguously named "ell".
 #'
 #' @name getParamNames.Covariance
-#' @aliases Covariance$paramNames getParamNames.Covariance
+#' @aliases getParamNames Covariance$paramNames getParamNames.Covariance
 #' @S3method getParamNames Covariance
+#' @export getParamNames getParamNames.Covariance
 #'
 #' @param ... Not used.
 #'
@@ -101,51 +88,55 @@ setMethodS3("getParamNames", "Covariance", conflict="quiet",
     if (!is.character(getId(this)) || nchar(getId(this)) < 1) {
       return (getParamNamesPlain(this))
     }
-    return (this$PrependId(getParamNamesPlain(this)))
+    return (PrependId(this=this, strings=getParamNamesPlain(this)))
   })
 
 #' Parameter values for this Covariance
 #'
 #' The current values of the parameters which govern this Covariance.
 #'
-#' \bold{Optimization mode}\cr
-#' By default, we return all parameters.  However, this would if the caller
-#' is an \emph{optimization} routine, there are at least two important
-#' drawbacks.  First, if any parameters are fixed, it's wasteful (and
-#' potentially hazardous) to pass these to the optimization routine.  Second,
-#' and more seriously, it assumes a flat prior on \emph{all} parameters, even
-#' "scale"-type parameters.  This causes the optimization to fail outright
-#' even in many simple cases.
+#' @section Optimization mode:
+#'   By default, we return all parameters.  However, this would if the caller is
+#'   an \emph{optimization} routine, there are at least two important drawbacks.
+#'   First, if any parameters are fixed, it's wasteful (and potentially
+#'   hazardous) to pass these to the optimization routine.  Second, and more
+#'   seriously, it assumes a flat prior on \emph{all} parameters, even
+#'   "scale"-type parameters.  This causes the optimization to fail outright
+#'   even in many simple cases.
 #'
-#' To circumvent these problems, we provide an \emph{optimization mode},
-#' which returns only non-constant parameters, and puts "scale"-type
-#' parameters in logspace.  (The latter corresponds to the Jeffreys prior:
-#' flat in \emph{log-space}, rather than real-space.  It represents
-#' uncertainty about the \emph{order of magnitude} of the parameter.)
+#'    To circumvent these problems, we provide an \emph{optimization mode},
+#'    which returns only non-constant parameters, and puts "scale"-type
+#'    parameters in logspace.  (The latter corresponds to the Jeffreys prior:
+#'    flat in \emph{log-space}, rather than real-space.  It represents
+#'    uncertainty about the \emph{order of magnitude} of the parameter.)
 #'
 #'
-#' \bold{Handling crossed boundaries}\cr
-#' The lower bound, upper bound, and value of every parameter must
-#' \emph{always} be properly ordered:\cr
-#' lower <= param <= upper\cr
-#' Sometimes a proposed move might violate that condition.  The way it's
-#' handled depends on whether it's a parameter that was moved, or a
-#' boundary:\cr
-#' \enumerate{
-#'   \item Moved \emph{parameter}\cr
-#'      The boundaries are hard.  The value will be clamped at the closest
-#'      allowable value, and a warning will be given.  (Note that this implies a
-#'      parameter can be set "constant" by setting its upper bound equal to its
-#'      lower bound.)
-#'   \item Moved \emph{boundary}\cr
-#'       A moved boundary can "push" the parameter value, or even the other
-#'       boundary.  e.g., if you have (lower=3, param=4, upper=5) and set upper
-#'       to 2, the final state will be (lower=2, param=2, upper=2).
-#' }
+#'
+#' @section Handling crossed boundaries:
+#'     The lower bound, upper bound, and value of every parameter must
+#'     \emph{always} be properly ordered:\cr
+#'       lower <= param <= upper\cr
+#'     Sometimes a proposed move might violate that condition.  The way it's
+#'     handled depends on whether it's a \emph{parameter} that was moved, or a
+#'     \emph{boundary}:
+#'     \itemize{
+#'       \item Moved \emph{parameter}\cr
+#'         The boundaries are hard.  The value will be clamped at the closest
+#'         allowable value, and a warning will be given.  (Note that this
+#'         implies a parameter can be set "constant" by setting its upper bound
+#'         equal to its lower bound.)
+#'       \item Moved \emph{boundary}\cr
+#'         A moved boundary can "push" the parameter value, or even the other
+#'         boundary.  e.g., if you have (lower=3, param=4, upper=5) and set
+#'         upper to 2, the final state will be (lower=2, param=2, upper=2).
+#'     }
 #'
 #' @name getParams.Covariance
 #' @aliases Covariance$params getParams.Covariance setParams.Covariance
+#' @S3method setParams Covariance
+#' @export setParams setParams.Covariance
 #' @S3method getParams Covariance
+#' @export getParams getParams.Covariance
 #'
 #' @param p (named numeric vector) New parameter values. (N.B: we \emph{only}
 #'      use ones which are named, and whose names match up with names of
@@ -168,16 +159,16 @@ setMethodS3("getParams", "Covariance", conflict="quiet",
     p <- getParamsPlain(this)
     names(p) <- getParamNames(this)
     if (for.training) {
-      p <- this$EncodeForTraining(p)
+      p <- EncodeForTraining(this, p)
     }
     return (p)
   })
 setMethodS3("setParams", "Covariance", conflict="quiet",
   function(this, p, for.training=FALSE, ...) {
     if (for.training) {
-      p <- this$DecodeForTraining(p)
+      p <- DecodeForTraining(p)
     }
-    p.plain <- this$UndecorateNames(p=p)
+    p.plain <- UndecorateNames(this, p=p)
     this$setParamsPlain(p=p.plain)
     return (invisible(this))
   })
@@ -196,21 +187,22 @@ setMethodS3("setParams", "Covariance", conflict="quiet",
 #' \emph{undecorated} names.
 #'
 #' I do not provide anything like the \code{for.training} option from
-#' \code{\link{getParams}}, because it doesn't make any sense.  The training
-#' functions always have to use the \emph{decorated} names, or else risk name
-#' collisions.
+#' \code{\link[=getParams.Covariance]{getParams}}, because it doesn't make any
+#' sense.  The training functions always have to use the \emph{decorated} names,
+#' or else risk name collisions.
 #'
-#' \bold{Note for developers}\cr
-#' For developers who plan to write new Covariance classes: the corresponding
-#' \emph{accessor} method is the responsibility of subclasses.  i.e., you must
-#' define a method "getParamsPlain" for your class.  (I suggest looking at the
-#' corresponding methods for the \code{\link{CovarianceSE}} class to get
-#' started.)
+#' @section Note for developers:
+#r     For developers who plan to write new Covariance classes: the
+#'     corresponding \emph{accessor} method is the responsibility of subclasses.
+#'     i.e., you must define a method "getParamsPlain" for your class.  (I
+#'     suggest looking at the corresponding methods for the
+#'     \code{\link{CovarianceSE}} class to get started.)
 #'
 #' @name setParamsPlain.Covariance
-#' @aliases Covariance$paramsPlain setParamsPlain.Covariance getParamsPlain
-#' @aliases getParamsPlain.Covariance paramsPlain
+#' @aliases setParamsPlain Covariance$paramsPlain setParamsPlain.Covariance
+#'    getParamsPlain getParamsPlain.Covariance paramsPlain
 #' @S3method setParamsPlain Covariance
+#' @export setParamsPlain setParamsPlain.Covariance
 #'
 #' @param p A (named) vector of new parameter values (we \emph{only} use ones
 #'      which are named, and whose names match up with names of parameters.)
@@ -219,8 +211,6 @@ setMethodS3("setParams", "Covariance", conflict="quiet",
 #' @usage Covariance$paramsPlain <- c(name1=value1, name2=value2, ...)
 #'
 #' @seealso \code{\link{getParamsPlain}}
-#' @seealso \code{\link{getLowerPlain}}
-#' @seealso \code{\link{setLowerPlain}}
 #' @seealso \code{\link{Covariance}}
 setMethodS3("setParamsPlain", "Covariance", conflict="quiet",
   function(this, p, ...) {
@@ -231,11 +221,11 @@ setMethodS3("setParamsPlain", "Covariance", conflict="quiet",
     p.good.names[to.change] <- p[to.change]
     # paramsPlainImplementation requires a vector with a value for every
     # parameter; we took care of this above.
-    this$paramsPlainImplementation(p=p.good.names)
-    p.clamped <- this$ClampedParamVals(p=p.good.names)
+    paramsPlainImplementation(this, p=p.good.names)
+    p.clamped <- ClampedParamVals(this, p=p.good.names)
     p.names <- names(p.clamped)
     clamped <- which(p.good.names[p.names] != p.clamped[p.names])
-    this$paramsPlainImplementation(p=p.clamped)
+    paramsPlainImplementation(this, p=p.clamped)
     if (any(clamped)) {
       culprits <- paste(sep='', collapse=' ', '"', p.names[clamped], '"')
       warning(paste("These parameters had to be clamped:\n", culprits, "\n"))
@@ -250,9 +240,12 @@ setMethodS3("setParamsPlain", "Covariance", conflict="quiet",
 #' page for \code{\link{paramsPlain}} for further commentary on name decoration.
 #'
 #' @name setLower.Covariance
-#' @aliases Covariance$lower setLower.Covariance getLower getLower.Covariance
+#' @aliases Covariance$lower setLower.Covariance
+#'    getLower.Covariance
 #' @S3method setLower Covariance
+#' @export setLower setLower.Covariance
 #' @S3method getLower Covariance
+#' @export getLower getLower.Covariance
 #'
 #' @param L A (named) vector of new lower bounds on parameter values (we
 #'    \emph{only} use ones which are named, and whose names match up with names
@@ -266,15 +259,13 @@ setMethodS3("setParamsPlain", "Covariance", conflict="quiet",
 #' @usage Covariance$lower <- c(name1=value1, name2=value2, ...)
 #'
 #' @seealso \code{\link{getParamsPlain}}
-#' @seealso \code{\link{getLowerPlain}}
-#' @seealso \code{\link{setLowerPlain}}
 #' @seealso \code{\link{Covariance}}
 setMethodS3("getLower", "Covariance", conflict="quiet",
   function(this, for.training=FALSE, ...) {
     L <- this$getLowerPlain()
     names(L) <- this$getParamNames()
     if (for.training) {
-      L <- this$EncodeForTraining(L)
+      L <- EncodeForTraining(this, L)
     }
     return (L)
 })
@@ -283,7 +274,7 @@ setMethodS3("setLower", "Covariance", conflict="quiet",
     if (for.training) {
       L <- DecodeForTraining(L)
     }
-    L.plain <- this$UndecorateNames(L)
+    L.plain <- UndecorateNames(this, L)
     this$setLowerPlain(L=L.plain)
     return (invisible(this))
 })
@@ -295,9 +286,12 @@ setMethodS3("setLower", "Covariance", conflict="quiet",
 #' page for \code{\link{paramsPlain}} for further commentary on name decoration.
 #'
 #' @name setUpper.Covariance
-#' @aliases Covariance$upper setUpper.Covariance getUpper getUpper.Covariance
+#' @aliases Covariance$upper setUpper.Covariance
+#'    getUpper.Covariance
 #' @S3method setUpper Covariance
+#' @export setUpper setUpper.Covariance
 #' @S3method getUpper Covariance
+#' @export getUpper getUpper.Covariance
 #'
 #' @param L A (named) vector of new upper bounds on parameter values (we
 #'    \emph{only} use ones which are named, and whose names match up with names
@@ -311,24 +305,22 @@ setMethodS3("setLower", "Covariance", conflict="quiet",
 #' @usage Covariance$upper <- c(name1=value1, name2=value2, ...)
 #'
 #' @seealso \code{\link{getParamsPlain}}
-#' @seealso \code{\link{getUpperPlain}}
-#' @seealso \code{\link{setUpperPlain}}
 #' @seealso \code{\link{Covariance}}
 setMethodS3("getUpper", "Covariance", conflict="quiet",
   function(this, for.training=FALSE, ...) {
     U <- this$getUpperPlain()
     names(U) <- this$getParamNames()
     if (for.training) {
-      U <- this$EncodeForTraining(U)
+      U <- EncodeForTraining(this, U)
     }
     return (U)
   })
 setMethodS3("setUpper", "Covariance", conflict="quiet",
   function(this, U, for.training=FALSE, ...) {
     if (for.training) {
-      U <- this$DecodeForTraining(U)
+      U <- DecodeForTraining(U)
     }
-    U.plain <- this$UndecorateNames(U)
+    U.plain <- UndecorateNames(this, U)
     this$setUpperPlain(U=U.plain)
     return (invisible(this))
   })
@@ -344,6 +336,7 @@ setMethodS3("setUpper", "Covariance", conflict="quiet",
 #'
 #' @return A deep clone of the Covariance object.
 #'
+#' @export
 #' @seealso \code{\link{Covariance}}
 clone.Covariance <- function(this, ...) {
   Cov <- clone.Object(this, ...)
@@ -363,7 +356,7 @@ setMethodS3("EncodeForTraining", "Covariance", conflict="quiet",
     # Returns:
     #   'values', but with scale-type parameters changed to their log (and
     #   appropriately renamed)
-    logspace.names <- this$PrependId(this$logspaceNames)
+    logspace.names <- PrependId(this, this$logspaceNames)
     i.log <- which(names(values) %in% logspace.names)
     values[i.log] <- log(values[i.log])
     names(values)[i.log] <- paste(sep="", names(values)[i.log], LogspaceTag())
@@ -376,7 +369,9 @@ setMethodS3("EncodeForTraining", "Covariance", conflict="quiet",
 #' fixing that parameter as constant.
 #'
 #' @S3method FixConstParam Covariance
+#' @export FixConstParam FixConstParam.Covariance
 #' @name FixConstParam.Covariance
+#' @aliases FixConstParam FixConstParam.Covariance
 #'
 #' @param p.name  The (undecorated) name of the parameter to change.
 #' @param p.value  The new constant value for the named parameter.
@@ -420,11 +415,16 @@ setMethodS3("FixConstParam", "Covariance", conflict="quiet",
 #' }
 #'
 #' @name K.Covariance
-#' @aliases KInIn KInOut KOutIn KOutOut
+#' @aliases KInIn KInOut KOutIn KOutOut KInIn.Covariance KInOut.Covariance
+#'    KOutIn.Covariance KOutOut.Covariance
 #' @S3method KInIn Covariance
+#' @export KInIn KInIn.Covariance
 #' @S3method KInOut Covariance
+#' @export KInOut KInOut.Covariance
 #' @S3method KOutIn Covariance
+#' @export KOutIn KOutIn.Covariance
 #' @S3method KOutOut Covariance
+#' @export KOutOut KOutOut.Covariance
 #'
 #' @param d  A Dataset object encapsulating the data to train on.
 #' @param X.out  A matrix (with d$d columns) of X-locations where we want
@@ -462,6 +462,7 @@ setMethodS3("KOutOut", "Covariance", conflict="quiet",
 #' important for computing derivatives of the posterior probability function.
 #'
 #' @S3method KInInDeriv Covariance
+#' @export KInInDeriv KInInDeriv.Covariance
 #' @name KInInDeriv.Covariance
 #' @aliases KInInDeriv KInInDeriv.Covariance
 #'
@@ -485,7 +486,7 @@ setMethodS3("KInInDeriv", "Covariance", conflict="quiet",
   function(this, d, param, ...) {
     if (param %in% this$paramNames) {
       names(param) <- param
-      param.plain <- names(this$UndecorateNames(p=param))
+      param.plain <- names(UndecorateNames(this, p=param))
       K.deriv <- this$KDerivImplementation(d=d, param=param.plain)
     } else {
       K.deriv <- matrix(0, nrow=d$n, ncol=d$n)
@@ -493,7 +494,7 @@ setMethodS3("KInInDeriv", "Covariance", conflict="quiet",
     return (K.deriv)
   })
 
-setMethodS3("PrependId", "Covariance", conflict="quiet",
+setMethodS3("PrependId", "Covariance", private=TRUE, conflict="quiet",
   function(this, strings, ...) {
     return (paste(sep='.', this$getId(), strings))
   })
@@ -506,19 +507,20 @@ setMethodS3("PrependId", "Covariance", conflict="quiet",
 #'
 #' @method print Covariance
 #'
-#' @param this The Covariance object to print.
+#' @param x The Covariance object to print.
 #' @param indent Aids in formatting: the number of spaces to print before every
 #'    line.
-#' @param ... Not used.
+#' @param \dots Not used.
 #'
+#' @export
 #' @seealso \code{\link{Covariance}}
-print.Covariance <- function(this, indent=0, ...) {
+print.Covariance <- function(x, indent=0, ...) {
   tab <- paste(collapse='', rep(' ', indent))
-  cat(sprintf("%sCovariance, id=%-20s (%s)\n", tab, Wrap(this$id, "'"),
-      class(this)[1]))
-  PrintParams(lower=this$lowerPlain, params=this$paramsPlain,
-    upper=this$upperPlain, indent=indent, ...)
-  return (invisible(this))
+  cat(sprintf("%sCovariance, id=%-20s (%s)\n", tab, Wrap(x$id, "'"),
+      class(x)[1]))
+  PrintParams(lower=x$lowerPlain, params=x$paramsPlain,
+    upper=x$upperPlain, indent=indent, ...)
+  return (invisible(x))
 }
 
 LogspaceTag <- function() {
@@ -566,7 +568,6 @@ setMethodS3("ClampedParamVals", "Covariance", private=TRUE, conflict="quiet",
     lower <- this$getLowerPlain()
     upper <- this$getUpperPlain()
     p.new <- ClampNamed(x=p, lower=lower, upper=upper)
-    p.p <- p
     if (warn && !isTRUE(all.equal(p.new[names(p)], p[names(p)]))) {
       culprits <- paste(sep='', collapse=' ', '"',
         names(p)[which(p != p.new)], '"')
@@ -590,7 +591,7 @@ setMethodS3("ClampParams", "Covariance", private=TRUE, conflict="quiet",
 
     # The following *should* be OK, as long as neither setParams nor
     # setParamsPlain calls ClampParams...
-    this$setParamsPlain(p=this$ClampedParamVals(warn=warn))
+    this$setParamsPlain(p=ClampedParamVals(this, warn=warn))
     return (invisible(this))
   })
 
@@ -685,4 +686,143 @@ setMethodS3("PushLowerBounds", "Covariance", private=TRUE, conflict="quiet",
     }
     return (L.max[to.change])
   })
+
+################################################################################
+# GENERICS
+#
+# See top of 'generics.R' for explanation.  This is the first case referenced
+# therein.
+
+#' Covariance matrix implementation
+#'
+#' "Pure virtual" method to calculate a covariance matrix for a specific
+#' subclass.
+#'
+#' @export K.specific
+#' @name K.specific
+#'
+#' @param X  X-values for the input points (i.e., where we have data)
+#' @param X.out  X-values for the points desired to predict
+#' @param ... Not used.
+#'
+#' @return The covariance matrix taking \code{X} into \code{X.out}, based on the
+#'    parameter values in \code{this}.
+NULL
+
+#' Element-wise derivatives of Covariance matrix
+#'
+#' "Pure virtual" method to calculate the element-wise derivative of
+#' \code{\link{KInIn}}, with respect to the parameter whose (plain) name is
+#' \code{param}.
+#'
+#' @export KDerivImplementation
+#' @name KDerivImplementation
+#'
+#' @param X  X-values for the input points (i.e., where we have data)
+#' @param X.out  X-values for the points desired to predict
+#' @param ... Not used.
+#'
+#' @return The covariance matrix taking \code{X} into \code{X.out}, based on the
+#'    parameter values in \code{this}.
+NULL
+
+#' SE variance at each point
+#'
+#' "Pure virtual" method to calculate the SE variance of the points at X: i.e.,
+#' the a priori uncertainty at each point.
+#'
+#' @export Variance
+#' @name Variance
+#'
+#' @param X  The points we want to know the SE variance at.
+#' @param \dots Not used.
+#'
+#' @return A numeric vector of the same length as X, with the corresponding
+#'    SE variance.
+NULL
+
+#' Names of "scale"-type parameters
+#'
+#' A character vector of names, indicating which parameters are considered to be
+#' \dQuote{scale} parameters.  (Read \dQuote{Optimization mode} section of
+#' \code{\link{getParams.Covariance}} to see what this means.)
+#'
+#' @name getLogspaceNames
+#' @export getLogspaceNames
+#'
+#' @param \dots  Not used.
+#'
+#' @usage CovarianceSE$logspaceNames
+#'
+#' @return Names of parameters to be optimized in logspace.
+#'
+#' @seealso \code{\link{CovarianceSE}}
+NULL
+
+#' Lower bounds for plain-named parameters
+#'
+#' Objects governed by parameters also have boundaries on those parameters.
+#' These R.oo functions retrieve and/or set these lower bounds.
+#'
+#' Covariance objects usually decorate their parameter names by prepending the
+#' id.  This lets us combine several Covariance objects into a single model,
+#' without worrying about parameter names colliding.  Often, though, we need to
+#' refer to the \dQuote{plain} names -- something like \code{ell} instead of
+#' \code{SE_1.ell}.  That is what these \dQuote{plain-named} versions are for.
+#'
+#' Boundaries push obstacles aside when they are changed.  For example, suppose
+#' a parameter and its bounds are set as (lower=3, param=4, upper=5).  Setting
+#' lower to 6 will result in values (lower=6, param=6, upper=6): the other
+#' values are "dragged along".
+#'
+#' @name lowerPlain
+#' @aliases getLowerPlain setLowerPlain
+#' @export getLowerPlain setLowerPlain
+#'
+#' @seealso \code{\link{lower}}
+#' @seealso \code{\link{paramsPlain}}
+#' @seealso \code{\link{upperPlain}}
+NULL
+
+#' Upper bounds for plain-named parameters
+#'
+#' Objects governed by parameters also have boundaries on those parameters.
+#' These R.oo functions retrieve and/or set these upper bounds.
+#'
+#' Covariance objects usually decorate their parameter names by prepending the
+#' id.  This lets us combine several Covariance objects into a single model,
+#' without worrying about parameter names colliding.  Often, though, we need to
+#' refer to the \dQuote{plain} names -- something like \code{ell} instead of
+#' \code{SE_1.ell}.  That is what these \dQuote{plain-named} versions are for.
+#'
+#' Boundaries push obstacles aside when they are changed.  For example, suppose
+#' a parameter and its bounds are set as (lower=3, param=4, upper=5).  Setting
+#' lower to 6 will result in values (lower=6, param=6, upper=6): the other
+#' values are "dragged along".
+#'
+#' @name upperPlain
+#' @aliases getUpperPlain setUpperPlain
+#' @export getUpperPlain setUpperPlain
+#'
+#' @seealso \code{\link{lowerPlain}}
+#' @seealso \code{\link{paramsPlain}}
+#' @seealso \code{\link{upper}}
+NULL
+
+#' Undecorated parameter names
+#'
+#' Covariance objects usually decorate their parameter names by prepending the
+#' id.  This lets us combine several Covariance objects into a single model,
+#' without worrying about parameter names colliding.  Often, though, we need to
+#' refer to the \dQuote{plain} names -- something like \code{ell} instead of
+#' \code{SE_1.ell}.  That is what these \dQuote{plain-named} versions are for.
+#'
+#' @name paramNamesPlain
+#' @aliases getParamNamesPlain
+#' @export getParamNamesPlain
+#'
+#' @seealso \code{\link{lowerPlain}}
+#' @seealso \code{\link{paramsPlain}}
+#' @seealso \code{\link{upperPlain}}
+NULL
 

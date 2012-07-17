@@ -1,4 +1,5 @@
 \name{AddCovariance.Model}
+\alias{AddCovariance}
 \alias{AddCovariance.Model}
 \title{Add a new Covariance to this Model}
 \arguments{

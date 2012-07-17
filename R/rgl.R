@@ -1,6 +1,9 @@
 #' Set the aspect ratio for rgl
 #'
 #' Changes the ratio of datapoints to X-points in the rgl window.
+#'
+#' @param Y.scale  (numeric) The factor by which to scale the datapoints for
+#'    display
 ScaleY <- function(Y.scale) {
   Y.scale.old <- par3d()$scale[2]
   # Only scale the Y-axis if we haven't already
@@ -24,6 +27,8 @@ ScaleY <- function(Y.scale) {
 #' @param tri  3-column matrix of indices into X, whose rows are triangles.
 #' @param new.window  Whether to open a new window
 #' @param Y.scale  The factor for scaling Y when plotting.
+#' @param \dots Other parameters (such as \code{color}) to be passed to
+#'    \code{\link[rgl]{rgl.triangles}}
 #'
 #' @export
 PlotSurface <- function(X, Y, dY=NA, tri=NA, new.window=FALSE,

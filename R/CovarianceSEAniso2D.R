@@ -1,58 +1,41 @@
-############################################################################/**
-# @RdocClass CovarianceSEAniso2D
-#
-# @title "2D Anisotropic SE Covariance"
-#
-# \description{
-#   A 2D squared-exponential covariance whose eigenvalues of the covariance
-#   matrix are not assumed identical.  In other words, features might vary more
-#   rapidly in one direction than in the orthogonal direction.
-#
-#   @classhierarchy
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) A string to identify this covariance object.}
-#   \item{ell.1}{(numeric) One characteristic horizontal scale for features in
-#      the functions.}
-#   \item{ell.2}{(numeric) Another characteristic horizontal scale for features
-#      in the functions.}
-#   \item{theta.1}{(numeric) The angle of the ell.1 direction.}
-#   \item{sigma.f}{(numeric) A characteristic vertical scale for features in
-#      functions being modeled.}
-#   \item{ell.1.bounds}{(numeric) The range of values which \code{ell.1} might
-#      assume.}
-#   \item{ell.2.bounds}{(numeric) The range of values which \code{ell.2} might
-#      assume.}
-#   \item{theta.1.bounds}{(numeric) The range of values which \code{theta.1}
-#      might assume.}
-#   \item{sigma.f.bounds}{(numeric) The range of values which \code{sigma.f}
-#      might assume.}
-#   \item{...}{Not used.}
-# }
-#
-# \section{Covariance Parameters}{
-#   This section lists the fit parameters corresponding to this type of
-#   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
-#   optimized in log-space, consistent with the Jeffreys prior.
-#
-#   \describe{
-#     \item{ell.1}{(Scale parameter) One horizontal feature lengthscale.}
-#     \item{ell.2}{(Scale parameter) Another horizontal feature lengthscale.}
-#     \item{theta.1}{The angle of the ell.1 axis}
-#     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
-#   }
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# @author
-#*/###########################################################################
+#' 2D anisotropic SE covariance
+#'
+#' A 2D squared-exponential covariance whose eigenvalues of the covariance
+#' matrix are not assumed identical.  In other words, features might vary more
+#' rapidly in one direction than in the orthogonal direction.
+#'
+#' @name CovarianceSEAniso2D
+#'
+#' @param id (character) A string to identify this covariance object. 
+#' @param ell.1 (numeric) One characteristic horizontal scale for features in
+#'      the functions. 
+#' @param ell.2 (numeric) Another characteristic horizontal scale for features
+#'      in the functions. 
+#' @param theta.1 (numeric) The angle of the ell.1 direction. 
+#' @param sigma.f (numeric) A characteristic vertical scale for features in
+#'      functions being modeled. 
+#' @param ell.1.bounds (numeric) The range of values which \code{ell.1} might
+#'      assume. 
+#' @param ell.2.bounds (numeric) The range of values which \code{ell.2} might
+#'      assume. 
+#' @param theta.1.bounds (numeric) The range of values which \code{theta.1}
+#'      might assume. 
+#' @param sigma.f.bounds (numeric) The range of values which \code{sigma.f}
+#'      might assume. 
+#' @param ... Not used. 
+#' @export
+#'
+#' @section Covariance Parameters:
+#'   This section lists the fit parameters corresponding to this type of
+#'   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
+#'   optimized in log-space, consistent with the Jeffreys prior.
+#'
+#'   \describe{
+#'     \item{ell.1}{(Scale parameter) One horizontal feature lengthscale.}
+#'     \item{ell.2}{(Scale parameter) Another horizontal feature lengthscale.}
+#'     \item{theta.1}{The angle of the ell.1 axis}
+#'     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
+#'   }
 setConstructorS3("CovarianceSEAniso2D",
   function(..., id="Aniso2D", ell.1=NA, ell.2=NA, theta.1=NA, sigma.f=NA,
     ell.1.bounds=NA, ell.2.bounds=NA, theta.1.bounds=NA, sigma.f.bounds=NA) {
@@ -87,6 +70,7 @@ setConstructorS3("CovarianceSEAniso2D",
 #' @aliases CovarianceSEAniso2D$logspaceNames
 #' @aliases getLogspaceNames.CovarianceSEAniso2D
 #' @S3method getLogspaceNames CovarianceSEAniso2D
+#' @export getLogspaceNames getLogspaceNames.CovarianceSEAniso2D
 #'
 #' @param ... Not used.
 #'
@@ -109,6 +93,7 @@ setMethodS3("getLogspaceNames", "CovarianceSEAniso2D", conflict="quiet",
 #' @aliases CovarianceSEAniso2D$paramNamesPlain
 #' @aliases getParamNamesPlain.CovarianceSEAniso2D
 #' @S3method getParamNamesPlain CovarianceSEAniso2D
+#' @export getParamNamesPlain getParamNamesPlain.CovarianceSEAniso2D
 #'
 #' @param ... Not used.
 #'
@@ -130,6 +115,7 @@ setMethodS3("getParamNamesPlain", "CovarianceSEAniso2D", conflict="quiet",
 #' @name getParamsPlain.CovarianceSEAniso2D
 #' @aliases CovarianceSEAniso2D$paramsPlain getParamsPlain.CovarianceSEAniso2D
 #' @S3method getParamsPlain CovarianceSEAniso2D
+#' @export getParamsPlain getParamsPlain.CovarianceSEAniso2D
 #'
 #' @param ... Not used.
 #'
@@ -171,6 +157,7 @@ setMethodS3("paramsPlainImplementation", "CovarianceSEAniso2D", conflict="quiet"
 #' @aliases CovarianceSEAniso2D$lowerPlain getLowerPlain.CovarianceSEAniso2D
 #' @aliases setLowerPlain.CovarianceSEAniso2D
 #' @S3method getLowerPlain CovarianceSEAniso2D
+#' @export getLowerPlain getLowerPlain.CovarianceSEAniso2D
 #'
 #' @param L A (named) vector of new lower bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -193,7 +180,7 @@ setMethodS3("getLowerPlain", "CovarianceSEAniso2D", conflict="quiet",
 setMethodS3("setLowerPlain", "CovarianceSEAniso2D", conflict="quiet",
   function(this, L, ...) {
     # Adjust upper bounds to make way for the new values of L
-    L.change <- this$PushUpperBounds(U.min=L)
+    L.change <- PushUpperBounds(this, U.min=L)
 
     L.vals <- this$getLowerPlain()
     L.vals[names(L.change)] <- L.change[names(L.change)]
@@ -201,7 +188,7 @@ setMethodS3("setLowerPlain", "CovarianceSEAniso2D", conflict="quiet",
     this$.ell.2.bounds[1] <- L.vals["ell.2"]
     this$.theta.1.bounds[1] <- L.vals["theta.1"]
     this$.sigma.f.bounds[1] <- L.vals["sigma.f"]
-    this$ClampParams(warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
@@ -214,6 +201,7 @@ setMethodS3("setLowerPlain", "CovarianceSEAniso2D", conflict="quiet",
 #' @aliases CovarianceSEAniso2D$upperPlain getUpperPlain.CovarianceSEAniso2D
 #' @aliases setUpperPlain.CovarianceSEAniso2D
 #' @S3method getUpperPlain CovarianceSEAniso2D
+#' @export getUpperPlain getUpperPlain.CovarianceSEAniso2D
 #'
 #' @param U A (named) vector of new upper bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -236,7 +224,7 @@ setMethodS3("getUpperPlain", "CovarianceSEAniso2D", conflict="quiet",
 setMethodS3("setUpperPlain", "CovarianceSEAniso2D", conflict="quiet",
   function(this, U, ...) {
     # Adjust lower bounds to make way for the new values of U
-    U.change <- this$PushLowerBounds(L.max=U)
+    U.change <- PushLowerBounds(this, L.max=U)
 
     U.vals <- this$getUpperPlain()
     U.vals[names(U.change)] <- U.change[names(U.change)]
@@ -244,7 +232,7 @@ setMethodS3("setUpperPlain", "CovarianceSEAniso2D", conflict="quiet",
     this$.ell.2.bounds[2] <- U.vals["ell.2"]
     this$.theta.1.bounds[2] <- U.vals["theta.1"]
     this$.sigma.f.bounds[2] <- U.vals["sigma.f"]
-    this$ClampParams(warn=TRUE)
+    ClampParams(this, warn=TRUE)
     return (this)
   })
 
@@ -254,6 +242,7 @@ setMethodS3("setUpperPlain", "CovarianceSEAniso2D", conflict="quiet",
 #' squared-exponential covariance function.
 #'
 #' @S3method K.specific CovarianceSEAniso2D
+#' @export K.specific K.specific.CovarianceSEAniso2D
 #' @name K.specific.CovarianceSEAniso2D
 #'
 #' @param X  X-values for the input points (i.e., where we have data)
@@ -288,6 +277,7 @@ setMethodS3("K.specific", "CovarianceSEAniso2D", conflict="quiet",
 #' parameter whose (plain) name is \code{param}.
 #'
 #' @S3method KDerivImplementation CovarianceSEAniso2D
+#' @export KDerivImplementation KDerivImplementation.CovarianceSEAniso2D
 #' @name KDerivImplementation.CovarianceSEAniso2D
 #'
 #' @param d  The Dataset whose X-values determine KInIn.
@@ -332,6 +322,7 @@ setMethodS3("KDerivImplementation", "CovarianceSEAniso2D", conflict="quiet",
 #' a priori uncertainty at each point.
 #'
 #' @S3method Variance CovarianceSEAniso2D
+#' @export Variance Variance.CovarianceSEAniso2D
 #' @name Variance.CovarianceSEAniso2D
 #'
 #' @param X  The points we want to know the anisotropic 2D SE variance at.

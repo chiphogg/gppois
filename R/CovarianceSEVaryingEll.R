@@ -1,83 +1,51 @@
-############################################################################/**
-# @RdocClass CovarianceSEVaryingEll
-#
-# @title "Nonstationary Squared-Exponential Covariance"
-#
-# \description{
-#   A \emph{nonstationary} squared-exponential covariance (meaning that the
-#   parameters are \emph{no longer} independent of the covariates).  It is
-#   governed by the two usual parameters (i.e., the horizontal and vertical
-#   lengthscales \code{ell} and \code{sigma.f}), but \code{ell} now
-#   depends on \code{X}.
-#
-#   Note that it cannot easily be optimized within the current paradigm!
-#   Usually in \pkg{gppois}, a Model is trained on a Dataset by varying the
-#   hyperparameters, which are assumed to be small and finite in number.  But
-#   now \code{ell} is a continuous function -- there are infinitely many
-#   hyperparameters!  Even if we only care about the denoised values of each
-#   datapoint, we still have one hyperparameter per datapoint, which is far too
-#   many for most optimizers.
-#
-#   The solution is to optimize it with a different paradigm: the \emph{focus
-#   regions} approach (Hogg et al. 2012).  If \code{ell(X)} varies slowly, we
-#   can break our function into pieces, perform local fits, and interpolate the
-#   resulting values of \code{ell}.  This functionality is not yet integrated
-#   into the main package.
-#
-#   @classhierarchy
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) A string to identify this covariance object.}
-#   \item{X.ell}{(numeric) The X-values where \code{ell} is specified.}
-#   \item{ell}{(numeric) A series of local values for the characteristic
-#      horizontal scale for features in functions being modeled.}
-#   \item{sigma.f}{(numeric) A characteristic vertical scale for features in
-#      functions being modeled.}
-#   \item{...}{Not used.}
-# }
-#
-# \section{Covariance Parameters}{
-#   This section lists the fit parameters corresponding to this type of
-#   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
-#   optimized in log-space, consistent with the Jeffreys prior.
-#
-#   \describe{
-#     \item{ell}{(Scale parameter) The horizontal feature lengthscale.}
-#     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
-#   }
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# \references{
-#    Hogg, C., K. Mullen, and I. Levin (2012). A Bayesian approach for
-#    denoising one-dimensional data. Journal of Applied Crystallography, 45(3),
-#    pp. 471-481.
-# }
-#
-# @author
-#*/###########################################################################
+#' Nonstationary Squared-Exponential Covariance
+#'
+#' A \emph{nonstationary} squared-exponential covariance (meaning that the
+#' parameters are \emph{no longer} independent of the covariates).  It is
+#' governed by the two usual parameters (i.e., the horizontal and vertical
+#' lengthscales \code{ell} and \code{sigma.f}), but \code{ell} now depends on
+#' \code{X}.
+#'
+#' Note that it cannot easily be optimized within the current paradigm!  Usually
+#' in \pkg{gppois}, a Model is trained on a Dataset by varying the
+#' hyperparameters, which are assumed to be small and finite in number.  But now
+#' \code{ell} is a continuous function -- there are infinitely many
+#' hyperparameters!  Even if we only care about the denoised values of each
+#' datapoint, we still have one hyperparameter per datapoint, which is far too
+#' many for most optimizers.
+#'
+#' The solution is to optimize it with a different paradigm: the \emph{focus
+#' regions} approach (Hogg et al. 2012).  If \code{ell(X)} varies slowly, we can
+#' break our function into pieces, perform local fits, and interpolate the
+#' resulting values of \code{ell}.  This functionality is not yet integrated
+#' into the main package.
+#'
+#' @name CovarianceSEVaryingEll
+#'
+#' @param id (character) A string to identify this covariance object. 
+#' @param X.ell (numeric) The X-values where \code{ell} is specified. 
+#' @param ell (numeric) A series of local values for the characteristic
+#'      horizontal scale for features in functions being modeled. 
+#' @param sigma.f (numeric) A characteristic vertical scale for features in
+#'      functions being modeled. 
+#' @param ... Not used. 
+#' @export
+#'
+#' @section Covariance Parameters:
+#'   This section lists the fit parameters corresponding to this type of
+#'   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
+#'   optimized in log-space, consistent with the Jeffreys prior.
+#'
+#'   \describe{
+#'     \item{ell}{(Scale parameter) The horizontal feature lengthscale.}
+#'     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
+#'   }
+#'
+#' @references  Hogg, C., K. Mullen, and I. Levin (2012). A Bayesian approach for
+#'    denoising one-dimensional data. Journal of Applied Crystallography, 45(3),
+#'    pp. 471-481.
 setConstructorS3("CovarianceSEVaryingEll", function(..., id="SEVaryingEll",
     X.ell=NA, ell=NA, sigma.f=NA) {
-    # Constructs a CovarianceSEVaryingEll object with the given parameter
-    # values.
-    #
-    # Args:
-    #   X.ell:  numeric vector of X-values corresponding to 'ell'
-    #   ell: Samples of ell(X) (a characteristic lengthscale over which
-    #      function values are correlated) at the locations in X.ell.
-    #   sigma.f: The "vertical" lengthscale.
-    #
-    # Returns:
-    #   CovarianceSEVaryingEll object with the given parameter values.
-
-    # Construct the CovarianceSEVaryingEll object:
     extend(Covariance(..., id=id), "CovarianceSEVaryingEll",
       .X.ell   = X.ell,
       .ell     = ell,
@@ -94,6 +62,7 @@ setConstructorS3("CovarianceSEVaryingEll", function(..., id="SEVaryingEll",
 #' @aliases CovarianceSEVaryingEll$logspaceNames
 #' @aliases getLogspaceNames.CovarianceSEVaryingEll
 #' @S3method getLogspaceNames CovarianceSEVaryingEll
+#' @export getLogspaceNames getLogspaceNames.CovarianceSEVaryingEll
 #'
 #' @param ... Not used.
 #'
@@ -117,6 +86,7 @@ setMethodS3("getLogspaceNames", "CovarianceSEVaryingEll", conflict="quiet",
 #' @aliases CovarianceSEVaryingEll$paramNamesPlain
 #' @aliases getParamNamesPlain.CovarianceSEVaryingEll
 #' @S3method getParamNamesPlain CovarianceSEVaryingEll
+#' @export getParamNamesPlain getParamNamesPlain.CovarianceSEVaryingEll
 #'
 #' @param ... Not used.
 #'
@@ -143,6 +113,7 @@ setMethodS3("getParamNamesPlain", "CovarianceSEVaryingEll", conflict="quiet",
 #' @aliases CovarianceSEVaryingEll$paramsPlain
 #' @aliases getParamsPlain.CovarianceSEVaryingEll
 #' @S3method getParamsPlain CovarianceSEVaryingEll
+#' @export getParamsPlain getParamsPlain.CovarianceSEVaryingEll
 #'
 #' @param ... Not used.
 #'
@@ -184,6 +155,7 @@ setMethodS3("paramsPlainImplementation", "CovarianceSEVaryingEll", conflict="qui
 #' @aliases getLowerPlain.CovarianceSEVaryingEll
 #' @aliases setLowerPlain.CovarianceSEVaryingEll
 #' @S3method getLowerPlain CovarianceSEVaryingEll
+#' @export getLowerPlain getLowerPlain.CovarianceSEVaryingEll
 #'
 #' @param L A (named) vector of new lower bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -217,6 +189,7 @@ setMethodS3("setLowerPlain", "CovarianceSEVaryingEll", conflict="quiet",
 #' @aliases getUpperPlain.CovarianceSEVaryingEll
 #' @aliases setUpperPlain.CovarianceSEVaryingEll
 #' @S3method getUpperPlain CovarianceSEVaryingEll
+#' @export getUpperPlain getUpperPlain.CovarianceSEVaryingEll
 #'
 #' @param U A (named) vector of new upper bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -245,7 +218,9 @@ setMethodS3("setUpperPlain", "CovarianceSEVaryingEll", conflict="quiet",
 #' Evaluate ell(X) at the applied X-points (by spline-interpolating)
 #'
 #' @S3method ell CovarianceSEVaryingEll
+#' @export ell ell.CovarianceSEVaryingEll
 #' @name ell.CovarianceSEVaryingEll
+#' @aliases ell ell.CovarianceSEVaryingEll
 #'
 #' @param X The X-values where we want to know \code{ell(X)}.
 #' @param ... Not used.
@@ -268,7 +243,9 @@ setMethodS3("ell", "CovarianceSEVaryingEll", conflict="quiet",
 #' Evaluate sigma.f(X) at the applied X-points (by spline-interpolating)
 #'
 #' @S3method sigma.f CovarianceSEVaryingEll
+#' @export sigma.f sigma.f.CovarianceSEVaryingEll
 #' @name sigma.f.CovarianceSEVaryingEll
+#' @aliases sigma.f sigma.f.CovarianceSEVaryingEll
 #'
 #' @param X The X-values where we want to know \code{sigma.f(X)}.
 #' @param ... Not used.
@@ -295,6 +272,7 @@ setMethodS3("sigma.f", "CovarianceSEVaryingEll", conflict="quiet",
 #' covariance function.
 #'
 #' @S3method K.specific CovarianceSEVaryingEll
+#' @export K.specific K.specific.CovarianceSEVaryingEll
 #' @name K.specific.CovarianceSEVaryingEll
 #'
 #' @param X  X-values for the input points (i.e., where we have data)
@@ -332,6 +310,7 @@ setMethodS3("K.specific", "CovarianceSEVaryingEll", conflict="quiet",
 #' parameter whose (plain) name is \code{param}.
 #'
 #' @S3method KDerivImplementation CovarianceSEVaryingEll
+#' @export KDerivImplementation KDerivImplementation.CovarianceSEVaryingEll
 #' @name KDerivImplementation.CovarianceSEVaryingEll
 #'
 #' @param d  The Dataset whose X-values determine KInIn.
@@ -355,6 +334,7 @@ setMethodS3("KDerivImplementation", "CovarianceSEVaryingEll", conflict="quiet",
 #' priori uncertainty at each point.
 #'
 #' @S3method Variance CovarianceSEVaryingEll
+#' @export Variance Variance.CovarianceSEVaryingEll
 #' @name Variance.CovarianceSEVaryingEll
 #'
 #' @param X  The points we want to know the nonstationary SE variance at.

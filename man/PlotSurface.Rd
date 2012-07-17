@@ -19,6 +19,9 @@
   \item{new.window}{Whether to open a new window}
 
   \item{Y.scale}{The factor for scaling Y when plotting.}
+
+  \item{\dots}{Other parameters (such as \code{color}) to
+  be passed to \code{\link[rgl]{rgl.triangles}}}
 }
 \description{
   This function takes a set of function values (\code{Y})

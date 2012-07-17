@@ -1,6 +1,6 @@
 \name{getId.Model}
-\alias{getId.Model}
 \alias{Model$id}
+\alias{getId.Model}
 \alias{setId.Model}
 \title{ID string for this Model}
 \arguments{

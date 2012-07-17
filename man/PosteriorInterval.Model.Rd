@@ -1,4 +1,5 @@
 \name{PosteriorInterval.Model}
+\alias{PosteriorInterval}
 \alias{PosteriorInterval.Model}
 \title{Best estimate, including uncertainty}
 \arguments{

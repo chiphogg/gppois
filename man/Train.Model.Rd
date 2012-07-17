@@ -1,4 +1,5 @@
 \name{Train.Model}
+\alias{Train}
 \alias{Train.Model}
 \title{Train a Model on a Dataset}
 \arguments{

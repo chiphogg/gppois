@@ -1,4 +1,5 @@
 \name{PosteriorStandardDeviation.Model}
+\alias{PosteriorStandardDeviation}
 \alias{PosteriorStandardDeviation.Model}
 \title{Pointwise uncertainty}
 \arguments{

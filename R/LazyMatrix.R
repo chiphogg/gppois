@@ -1,33 +1,12 @@
-#############################################################################/**
-# @RdocClass LazyMatrix
-#
-# @title "Wrapper to avoid recomputing matrices"
-#
-# \description{
-#   This is the \emph{constructor} for a \code{LazyMatrix} object:
-#   @get "title".
-#
-#   Note that this class doesn't do any actual computation!  It just stores the
-#   results, and also tells other code whether or not it needs to.
-#
-#   Here is the class hierarchy: 
-#   @classhierarchy
-#
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{...}{Not used.}
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# @author
-#*/###########################################################################
+#' Wrapper to avoid recomputing matrices
+#'
+#' Note that this class doesn't do any actual computation!  It just stores the
+#' results, and also tells other code whether or not it needs to recompute.
+#'
+#' @name LazyMatrix
+#'
+#' @param ... Not used. 
+#' @export
 setConstructorS3("LazyMatrix",
   function(...) {
     extend(Object(), "LazyMatrix",
@@ -44,6 +23,7 @@ setConstructorS3("LazyMatrix",
 #' @name getM.LazyMatrix
 #' @aliases M getM
 #' @S3method getM LazyMatrix
+#' @export getM getM.LazyMatrix
 #'
 #' @param ... Not used.
 #'
@@ -63,7 +43,9 @@ setMethodS3("getM", "LazyMatrix", conflict="quiet",
 #' whether the supplied "ingredients" are equal to the ones previously supplied.
 #'
 #' @S3method NeedToRecalculate LazyMatrix
+#' @export NeedToRecalculate NeedToRecalculate.LazyMatrix
 #' @name NeedToRecalculate.LazyMatrix
+#' @aliases NeedToRecalculate NeedToRecalculate.LazyMatrix
 #'
 #' @param ... Not used.
 #'
@@ -105,7 +87,9 @@ setMethodS3("NeedToRecalculate", "LazyMatrix", conflict="quiet",
 #' calculate it.
 #'
 #' @S3method StoreMatrix LazyMatrix
+#' @export StoreMatrix StoreMatrix.LazyMatrix
 #' @name StoreMatrix.LazyMatrix
+#' @aliases StoreMatrix StoreMatrix.LazyMatrix
 #'
 #' @param M The matrix to store.
 #' @param ... Not used.

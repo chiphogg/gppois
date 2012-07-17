@@ -1,4 +1,5 @@
 \name{Plot2D.Dataset}
+\alias{Plot2D}
 \alias{Plot2D.Dataset}
 \title{Scatterplot for 2D dataset}
 \arguments{
@@ -8,7 +9,7 @@
   \item{dist.factor}{The ratio of the datapoint radius to
   the minimum datapoint separation.}
 
-  \item{...}{Not used.}
+  \item{...}{Other graphical parameters for rgl functions.}
 }
 \value{
   Used for its side-effect.
