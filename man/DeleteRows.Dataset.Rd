@@ -1,4 +1,5 @@
 \name{DeleteRows.Dataset}
+\alias{DeleteRows}
 \alias{DeleteRows.Dataset}
 \title{Delete datapoints}
 \arguments{

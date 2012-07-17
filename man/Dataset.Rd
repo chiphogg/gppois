@@ -1,94 +1,71 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Do not modify this file since it was automatically generated from:
-% 
-%  R/Dataset.R
-% 
-% by the Rdoc compiler part of the R.oo package.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \name{Dataset}
-\docType{class}
 \alias{Dataset}
-
-
 \title{A wrapper class for data being analyzed}
-
-\description{
-  This is the \emph{constructor} for a \code{Dataset} object:
-  A wrapper class for data being analyzed.
-
-  Here is the class hierarchy:
-  Package:   \cr
-\bold{Class Dataset}\cr
-
-\code{\link[R.oo]{Object}}\cr
-\code{~~|}\cr
-\code{~~+--}\code{Dataset}\cr
-
-\bold{Directly known subclasses:}\cr
-\cr
-
-public static class \bold{Dataset}\cr
-extends \link[R.oo]{Object}\cr
-
-
-
-}
-
-\usage{Dataset(id="UNNAMED", data=data.frame(), X.names="X", noise.var=c(), column="", poisson.names=c(), tol.factor=1e-04, data.offset=c(), ...)}
-
 \arguments{
-  \item{id}{(character) An id which identifies this Dataset.}
+  \item{id}{(character) An id which identifies this
+  Dataset.}
+
   \item{data}{(\code{data.frame}) The raw data.}
-  \item{X.names}{(character vector) The names of the columns which represent
-     covariates.  (NB: the length of this vector implicitly defines the
-     dimensionality of the data: if you give 2 column names, you have a 2D
-     dataset.)}
-  \item{noise.var}{(named numeric vector) Desired noise levels for each
-     column (i.e., a threshhold for precision: we don't care about
-     differences smaller than the corresponding scale).}
-  \item{column}{(character) The name of the quantity to select for analysis.}
-  \item{poisson.names}{(character vector) The column names which represent
-     Poisson data.}
-  \item{tol.factor}{(numeric) The relative tolerance factor: by default, we
-     set the noise variance for each column to \code{tol.factor * sd(col)}.}
-  \item{data.offset}{(named numeric vector) An optional offset which is
-     subtracted from each column.  If an unnamed value is included, it is
-     treated as a default.  The "default default" is to subtract off the mean
-     for each column.}
+
+  \item{X.names}{(character vector) The names of the
+  columns which represent covariates.  (NB: the length of
+  this vector implicitly defines the dimensionality of the
+  data: if you give 2 column names, you have a 2D
+  dataset.)}
+
+  \item{noise.var}{(named numeric vector) Desired noise
+  levels for each column (i.e., a threshhold for precision:
+  we don't care about differences smaller than the
+  corresponding scale).}
+
+  \item{column}{(character) The name of the quantity to
+  select for analysis.}
+
+  \item{poisson.names}{(character vector) The column names
+  which represent Poisson data.}
+
+  \item{tol.factor}{(numeric) The relative tolerance
+  factor: by default, we set the noise variance for each
+  column to \code{tol.factor * sd(col)}.}
+
+  \item{data.offset}{(named numeric vector) An optional
+  offset which is subtracted from each column.  If an
+  unnamed value is included, it is treated as a default.
+  The "default default" is to subtract off the mean for
+  each column.}
+
   \item{...}{Not used.}
 }
+\description{
+  This is the constructor for a \code{Dataset} object:
+  basically, a wrapper for data.frame objects with some
+  added knowledge that helps out the Model.  For example:
+  \itemize{ \item It knows which columns are independent
+  (\sQuote{x}-type) variables, and which columns represent
+  datapoints \item It knows the dimensionality of the data,
+  and how many datapoints there are \item It keeps track of
+  both the raw datapoints, and \dQuote{transformed}
+  versions which are easier to analyze with Gaussian
+  processes.  \item It knows }
+}
+\section{Data transformations}{
+  There are two "types" of data transformation: baseline
+  adjustments (for Gaussian data), and the Anscombe
+  transform (for turning Poisson into Gaussian).
 
-\section{Fields and Methods}{
- \bold{Methods:}\cr
-\tabular{rll}{
- \tab \code{\link[R:DeleteRows.Dataset]{DeleteRows}} \tab Delete datapoints.\cr
- \tab \code{\link[R:getDataOffset.Dataset]{getDataOffset}} \tab The offset for this dataset.\cr
- \tab \code{\link[R:getD.Dataset]{getD}} \tab The dimensionality of the Dataset.\cr
- \tab \code{\link[R:getDpts.Dataset]{getDpts}} \tab Datapoint values.\cr
- \tab \code{getId} \tab  -\cr
- \tab \code{\link[R:getIsPoisson.Dataset]{getIsPoisson}} \tab Is the current column Poisson?.\cr
- \tab \code{\link[R:getN.Dataset]{getN}} \tab The number of datapoints.\cr
- \tab \code{\link[R:getNoiseVar.Dataset]{getNoiseVar}} \tab Noise variance for current column.\cr
- \tab \code{getQuantity} \tab  -\cr
- \tab \code{\link[R:getX.Dataset]{getX}} \tab X-values.\cr
- \tab \code{\link[R:getXformedDpts.Dataset]{getXformedDpts}} \tab Transformed datapoint values.\cr
- \tab \code{\link[R:MSR.Dataset]{MSR}} \tab Mean square residuals.\cr
- \tab \code{\link[R:Plot2D.Dataset]{Plot2D}} \tab Scatterplot for 2D dataset.\cr
- \tab \code{\link[R:print.Dataset]{print}} \tab Pretty-printing for Dataset objects.\cr
- \tab \code{\link[R:RemoveRange.Dataset]{RemoveRange}} \tab Remove datapoints within a given range.\cr
- \tab \code{\link[R:Same.Dataset]{Same}} \tab Check whether two Datasets are identical.\cr
- \tab \code{setId} \tab  -\cr
- \tab \code{setQuantity} \tab  -\cr
- \tab \code{\link[R:Untransform.Dataset]{Untransform}} \tab Undo any transformations on the datapoints.\cr
+  \describe{ \item{\strong{Baseline adjustments}}{
+  Currently, this amounts to subtracting a constant from
+  the data (defaults to the mean).  However, future
+  versions should be more flexible: let the user specify
+  anything up to quadratic using \dQuote{const},
+  \dQuote{lin}, or \dQuote{quad}, and keep track of the
+  coefficients (so we can apply it to regions outside or
+  between the datapoints).} \item{\strong{Anscombe
+  transform}}{ See \code{\link{Anscombe}}.  This
+  transformation takes data with independent Poisson noise,
+  and turns it into independent \emph{Gaussian} noise --
+  with a \strong{constant} variance of 1/4.  Basically,
+  this ability puts the \dQuote{pois} in \dQuote{gppois}.
+  } }
 }
 
-
- \bold{Methods inherited from Object}:\cr
-as.character, attachLocally, attach, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, [[<-, [[, $<-, $, objectSize, print, registerFinalizer, save
-
-
-}
-
-\author{Charles R. Hogg III}
-\keyword{classes}

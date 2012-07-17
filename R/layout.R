@@ -13,8 +13,8 @@ LayoutNewGridPage <- function(Layout, ...) {
   #
   # Returns:
   #   Used for its side-effect.
-  grid.newpage()
-  pushViewport(viewport(layout = Layout))
+  grid::grid.newpage()
+  grid::pushViewport(grid::viewport(layout = Layout))
 }
 
 Subplot <- function(x, y) {
@@ -28,5 +28,5 @@ Subplot <- function(x, y) {
   #
   # Returns:
   #   Used for its side-effect.
-  viewport(layout.pos.row=x, layout.pos.col=y)
+  grid::viewport(layout.pos.row=x, layout.pos.col=y)
 }

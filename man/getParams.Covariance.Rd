@@ -25,16 +25,16 @@
   The current values of the parameters which govern this
   Covariance.
 }
-\details{
-  \bold{Optimization mode}\cr By default, we return all
-  parameters.  However, this would if the caller is an
-  \emph{optimization} routine, there are at least two
-  important drawbacks.  First, if any parameters are fixed,
-  it's wasteful (and potentially hazardous) to pass these
-  to the optimization routine.  Second, and more seriously,
-  it assumes a flat prior on \emph{all} parameters, even
-  "scale"-type parameters.  This causes the optimization to
-  fail outright even in many simple cases.
+\section{Optimization mode}{
+  By default, we return all parameters.  However, this
+  would if the caller is an \emph{optimization} routine,
+  there are at least two important drawbacks.  First, if
+  any parameters are fixed, it's wasteful (and potentially
+  hazardous) to pass these to the optimization routine.
+  Second, and more seriously, it assumes a flat prior on
+  \emph{all} parameters, even "scale"-type parameters.
+  This causes the optimization to fail outright even in
+  many simple cases.
 
   To circumvent these problems, we provide an
   \emph{optimization mode}, which returns only non-constant
@@ -43,22 +43,24 @@
   \emph{log-space}, rather than real-space.  It represents
   uncertainty about the \emph{order of magnitude} of the
   parameter.)
+}
 
-  \bold{Handling crossed boundaries}\cr The lower bound,
-  upper bound, and value of every parameter must
-  \emph{always} be properly ordered:\cr lower <= param <=
-  upper\cr Sometimes a proposed move might violate that
-  condition.  The way it's handled depends on whether it's
-  a parameter that was moved, or a boundary:\cr \enumerate{
-  \item Moved \emph{parameter}\cr The boundaries are hard.
-  The value will be clamped at the closest allowable value,
-  and a warning will be given.  (Note that this implies a
+\section{Handling crossed boundaries}{
+  The lower bound, upper bound, and value of every
+  parameter must \emph{always} be properly ordered:\cr
+  lower <= param <= upper\cr Sometimes a proposed move
+  might violate that condition.  The way it's handled
+  depends on whether it's a \emph{parameter} that was
+  moved, or a \emph{boundary}: \itemize{ \item Moved
+  \emph{parameter}\cr The boundaries are hard.  The value
+  will be clamped at the closest allowable value, and a
+  warning will be given.  (Note that this implies a
   parameter can be set "constant" by setting its upper
   bound equal to its lower bound.)  \item Moved
   \emph{boundary}\cr A moved boundary can "push" the
   parameter value, or even the other boundary.  e.g., if
   you have (lower=3, param=4, upper=5) and set upper to 2,
-  the final state will be (lower=2, param=2, upper=2). }
+  the final state will be (lower=2, param=2, upper=2).  }
 }
 \seealso{
   \code{\link{getParamsPlain.Covariance}}

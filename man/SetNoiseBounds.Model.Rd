@@ -1,4 +1,5 @@
 \name{SetNoiseBounds.Model}
+\alias{SetNoiseBounds}
 \alias{SetNoiseBounds.Model}
 \title{Uncertainty about the noise level}
 \arguments{

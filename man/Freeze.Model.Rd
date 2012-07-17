@@ -1,4 +1,5 @@
 \name{Freeze.Model}
+\alias{Freeze}
 \alias{Freeze.Model}
 \title{Make some parameters constant}
 \arguments{

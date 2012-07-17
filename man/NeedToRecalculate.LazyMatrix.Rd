@@ -1,4 +1,5 @@
 \name{NeedToRecalculate.LazyMatrix}
+\alias{NeedToRecalculate}
 \alias{NeedToRecalculate.LazyMatrix}
 \title{Decides whether we need to recompute}
 \arguments{

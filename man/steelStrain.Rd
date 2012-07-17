@@ -1,8 +1,11 @@
 \docType{data}
 \name{steelStrain}
 \alias{steelStrain}
+\alias{steelStrainGap}
 \title{Strain on a stretched steel plate}
-\format{A data.frame with 3 variables and 3705 rows}
+\format{Two data.frames with 3 variables: \code{steelStrain} has 3460 rows of
+    training data, and \code{steelStrainGap} has 245 rows of test data
+    (representing the datapoints in the gap)}
 \description{
   A dataset containing digital image correlation (DIC)
   measurements of strain from a stretched steel plate.
@@ -19,7 +22,8 @@
 \details{
   \itemize{ \item X: X-coordinate on the plate \item Y:
   Y-coordinate on the plate \item exx: xx-compenent of the
-  strain }
+  strain \item exy: xy-compenent of the strain \item eyy:
+  yy-compenent of the strain }
 }
 \keyword{datasets}
 

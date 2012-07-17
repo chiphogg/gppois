@@ -1,4 +1,5 @@
 \name{RemoveRange.Dataset}
+\alias{RemoveRange}
 \alias{RemoveRange.Dataset}
 \title{Remove datapoints within a given range}
 \arguments{

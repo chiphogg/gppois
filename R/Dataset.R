@@ -1,48 +1,61 @@
-#############################################################################/**
-# @RdocClass Dataset
-#
-# @title "A wrapper class for data being analyzed"
-#
-# \description{
-#   This is the \emph{constructor} for a \code{Dataset} object:
-#   @get "title".
-#
-#   Here is the class hierarchy: 
-#   @classhierarchy
-#
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) An id which identifies this Dataset.}
-#   \item{data}{(\code{data.frame}) The raw data.}
-#   \item{X.names}{(character vector) The names of the columns which represent
-#      covariates.  (NB: the length of this vector implicitly defines the
-#      dimensionality of the data: if you give 2 column names, you have a 2D
-#      dataset.)}
-#   \item{noise.var}{(named numeric vector) Desired noise levels for each
-#      column (i.e., a threshhold for precision: we don't care about
-#      differences smaller than the corresponding scale).}
-#   \item{column}{(character) The name of the quantity to select for analysis.}
-#   \item{poisson.names}{(character vector) The column names which represent
-#      Poisson data.}
-#   \item{tol.factor}{(numeric) The relative tolerance factor: by default, we
-#      set the noise variance for each column to \code{tol.factor * sd(col)}.}
-#   \item{data.offset}{(named numeric vector) An optional offset which is
-#      subtracted from each column.  If an unnamed value is included, it is
-#      treated as a default.  The "default default" is to subtract off the mean
-#      for each column.}
-#   \item{...}{Not used.}
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# @author
-#*/###########################################################################
+#' A wrapper class for data being analyzed
+#'
+#' This is the constructor for a \code{Dataset} object: basically, a
+#' wrapper for data.frame objects with some added knowledge that helps out the
+#' Model.  For example:
+#' \itemize{
+#'   \item It knows which columns are independent (\sQuote{x}-type) variables,
+#'      and which columns represent datapoints
+#'   \item It knows the dimensionality of the data, and how many datapoints
+#'      there are
+#'   \item It keeps track of both the raw datapoints, and \dQuote{transformed}
+#'      versions which are easier to analyze with Gaussian processes.
+#'   \item It knows 
+#' }
+#'
+#' @section Data transformations:
+#'   There are two "types" of data transformation: baseline adjustments (for
+#'   Gaussian data), and the Anscombe transform (for turning Poisson into
+#'   Gaussian).
+#'
+#'   \describe{
+#'     \item{\strong{Baseline adjustments}}{
+#'       Currently, this amounts to subtracting a constant from the data
+#'       (defaults to the mean).  However, future versions should be more
+#'       flexible: let the user specify anything up to quadratic using
+#'       \dQuote{const}, \dQuote{lin}, or \dQuote{quad}, and keep track of the
+#'       coefficients (so we can apply it to regions outside or between the
+#'       datapoints).}
+#'     \item{\strong{Anscombe transform}}{
+#'       See \code{\link{Anscombe}}.  This transformation takes data with
+#'       independent Poisson noise, and turns it into independent
+#'       \emph{Gaussian} noise -- with a \strong{constant} variance of 1/4.
+#'       Basically, this ability puts the \dQuote{pois} in \dQuote{gppois}.
+#'     }
+#'   }
+#'
+#' @name Dataset
+#'
+#' @param id (character) An id which identifies this Dataset. 
+#' @param data (\code{data.frame}) The raw data. 
+#' @param X.names (character vector) The names of the columns which represent
+#'      covariates.  (NB: the length of this vector implicitly defines the
+#'      dimensionality of the data: if you give 2 column names, you have a 2D
+#'      dataset.) 
+#' @param noise.var (named numeric vector) Desired noise levels for each
+#'      column (i.e., a threshhold for precision: we don't care about
+#'      differences smaller than the corresponding scale). 
+#' @param column (character) The name of the quantity to select for analysis. 
+#' @param poisson.names (character vector) The column names which represent
+#'      Poisson data. 
+#' @param tol.factor (numeric) The relative tolerance factor: by default, we
+#'      set the noise variance for each column to \code{tol.factor * sd(col)}. 
+#' @param data.offset (named numeric vector) An optional offset which is
+#'      subtracted from each column.  If an unnamed value is included, it is
+#'      treated as a default.  The "default default" is to subtract off the mean
+#'      for each column. 
+#' @param ... Not used. 
+#' @export
 setConstructorS3("Dataset",
   function(id="UNNAMED", data=data.frame(), X.names="X", noise.var=c(), column="",
     poisson.names=c(), tol.factor=1e-4, data.offset=c(), ...) {
@@ -313,6 +326,8 @@ setMethodS3("getXformedDpts", "Dataset", conflict="quiet",
 #' @aliases id getId setId getId.Dataset setId.Dataset
 #' @S3method getId Dataset
 #' @export getId getId.Dataset
+#' @S3method setId Dataset
+#' @export setId setId.Dataset
 #'
 #' @param ... Not used.
 #'
@@ -472,6 +487,7 @@ setMethodS3("getX", "Dataset", conflict="quiet",
 #' @S3method DeleteRows Dataset
 #' @export DeleteRows DeleteRows.Dataset
 #' @name DeleteRows.Dataset
+#' @aliases DeleteRows DeleteRows.Dataset
 #'
 #' @param indices The indices of the datapoints to be removed.
 #' @param ... Not used.
@@ -498,6 +514,7 @@ setMethodS3("DeleteRows", "Dataset", conflict="quiet",
 #' @S3method MSR Dataset
 #' @export MSR MSR.Dataset
 #' @name MSR.Dataset
+#' @aliases MSR MSR.Dataset
 #'
 #' @param test.data A sequence of datapoints, which live in the same space as
 #'      xformedDpts (i.e., same offset, and Anscombe-transformed if Poisson).
@@ -525,6 +542,7 @@ setMethodS3("MSR", "Dataset", conflict="quiet",
 #' plotted using the \code{max.points} parameter.
 #'
 #' @name Plot2D.Dataset
+#' @aliases Plot2D Plot2D.Dataset
 #' @S3method Plot2D Dataset
 #' @export Plot2D Plot2D.Dataset
 #'
@@ -565,28 +583,28 @@ setMethodS3("Plot2D", "Dataset", conflict="quiet",
 #' various quantities which can be selected (name, type, range, and noise
 #' variance).
 #'
-#' @S3method print Dataset
+#' @method print Dataset
 #'
-#' @param this The Dataset object to print.
+#' @param x The Dataset object to print.
 #' @param ... Not used.
 #'
 #' @export
 #' @seealso \code{\link{Dataset}}
-print.Dataset <- function(this, ...) {
+print.Dataset <- function(x, ...) {
   cat(sprintf("Dataset '%s': %d datapoints in %d dimensions.\n",
-      this$id, this$n, this$d))
+      x$id, x$n, x$d))
   # Ruler:
   #     1...5...10...15...20...25...30...35...40...45...50...55...60...65...70
   s <- "            NAME:            RANGE:"
   s.quantities <- paste(sep='', s,       "      NOISE VARIANCE:\n")
   s.covariates <- paste(sep='', s,       "\n")
   format.str <- "%17s%4s%14.8g%21s\n"
-  raw.data <- this$.data.frame
+  raw.data <- x$.data.frame
   quantity.names <- colnames(raw.data)
   decoration <- "------------------"
   cat(sprintf("%16s%s%s%s\n", '', decoration, 'Covariates:', decoration))
   cat(s.covariates)
-  X.indices <- which(quantity.names %in% this$.X.names)
+  X.indices <- which(quantity.names %in% x$.X.names)
   for (X.i in X.indices) {
     cat(sprintf(format.str, quantity.names[X.i], '',
         diff(range(raw.data[, X.i])), ''))
@@ -595,14 +613,14 @@ print.Dataset <- function(this, ...) {
       decoration, '', "('*' = currently selected; 'P' = Poisson)"))
   cat(s.quantities)
   for (X.i in (1:ncol(raw.data))[-X.indices]) {
-    sel <- ifelse(quantity.names[X.i] == this$quantity, '*', ' ')
-    pois <- ifelse(quantity.names[X.i] %in% this$.poisson, 'P', ' ')
+    sel <- ifelse(quantity.names[X.i] == x$quantity, '*', ' ')
+    pois <- ifelse(quantity.names[X.i] %in% x$.poisson, 'P', ' ')
     flag <- sprintf('(%s%s)', sel, pois)
     cat(sprintf(format.str, quantity.names[X.i], flag,
         diff(range(raw.data[, X.i])),
-        sprintf('%17.8g', this$.noise.var[X.i])))
+        sprintf('%17.8g', x$.noise.var[X.i])))
   }
-  return (invisible(this))
+  return (invisible(x))
 }
 
 #' Remove datapoints within a given range
@@ -615,6 +633,7 @@ print.Dataset <- function(this, ...) {
 #' @S3method RemoveRange Dataset
 #' @export RemoveRange RemoveRange.Dataset
 #' @name RemoveRange.Dataset
+#' @aliases RemoveRange RemoveRange.Dataset
 #'
 #' @param X.min The left boundary of the X-range to remove.
 #' @param X.max The right boundary of the X-range to remove.
@@ -648,6 +667,7 @@ setMethodS3("RemoveRange", "Dataset", conflict="quiet",
 #' @S3method Same Dataset
 #' @export Same Same.Dataset
 #' @name Same.Dataset
+#' @aliases Same Same.Dataset
 #'
 #' @param d The Dataset for comparison.
 #' @param compare The attributes (e.g., X, noiseVar, etc.) to check for
@@ -716,6 +736,7 @@ setMethodS3("Same", "Dataset", conflict="quiet",
 #' @S3method Untransform Dataset
 #' @export Untransform Untransform.Dataset
 #' @name Untransform.Dataset
+#' @aliases Untransform Untransform.Dataset
 #'
 #' @param values A numeric vector whose values "live" in the
 #'      \emph{transformed} scale.

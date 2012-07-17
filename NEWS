@@ -1,0 +1,43 @@
+gppois News
+
+CHANGES IN VERSION 0.2-0 (2012-07-16)
+
+MAJOR CHANGES:
+
+  * Upgraded to use the latest version of R (2.15.1); now requires >= 2.14.0 so
+    NAMESPACE works correctly
+
+  * All documentation now uses roxygen2 (previously, functions used roxygen2,
+    but classes were documented with Rdoc from R.oo)
+
+  * I have begun converting my old unit tests.  Package now does some unit
+    testing, but it's presently incomplete
+
+DEMOS:
+
+  * Added 'flameSpeed' demo, to illustrate how to analyze data with this
+    package.  Few datapoints, so it's fairly fast.
+
+  * Another demo, 'steelStrain', is somewhat long (training can take upwards of
+    10 minutes), but the pictures are pretty.
+
+DATASETS:
+
+  * Added three new datasets
+    - simXrayAu2nm is simulated data from our JAC paper
+    - xrayTiO2np20nm is experimental data from our JAC paper
+    - flameSpeed is used for a simple demo
+
+  * steelStrain now includes all three strain columns, as well as a separate
+    data.frame with the "gap" datapoints
+
+MINOR FEATURES:
+
+  * Plot2D.Dataset: clearing previously-plotted material is now *optional*;
+    pass clear=FALSE to prevent it
+
+BUG FIXES:
+
+  * getLower() and getUpper() now match positionally with getParams(), when
+  * for.training is TRUE.  Model$Train() had been failing because of a defect
+    in how optim() handles bounds for the L-BFGS-B method.

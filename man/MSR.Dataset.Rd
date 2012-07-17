@@ -1,4 +1,5 @@
 \name{MSR.Dataset}
+\alias{MSR}
 \alias{MSR.Dataset}
 \title{Mean square residuals}
 \arguments{

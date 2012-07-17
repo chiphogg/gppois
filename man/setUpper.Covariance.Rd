@@ -1,6 +1,5 @@
 \name{setUpper.Covariance}
 \alias{Covariance$upper}
-\alias{getUpper}
 \alias{getUpper.Covariance}
 \alias{setUpper.Covariance}
 \title{Upper bounds for parameters using full names}
@@ -28,10 +27,6 @@
 }
 \seealso{
   \code{\link{getParamsPlain}}
-
-  \code{\link{getUpperPlain}}
-
-  \code{\link{setUpperPlain}}
 
   \code{\link{Covariance}}
 }

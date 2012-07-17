@@ -1,5 +1,6 @@
 \name{getSignalIds.Model}
 \alias{Model$signalIds}
+\alias{getSignalIds}
 \alias{getSignalIds.Model}
 \title{ID's of non-noise Covariances}
 \arguments{

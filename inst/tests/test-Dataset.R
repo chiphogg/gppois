@@ -1,10 +1,17 @@
-context("Dataset")
+context("Dataset sanity check!")
 
 data(steelStrain)
+data(flameSpeed)
+
 d.strain.base <- Dataset(id="steel.strain", data=steelStrain,
   X.names=c("X", "Y"), column="exx", data.offset=0)
-data(flameSpeed)
 d.flame.base <- Dataset(data=flameSpeed, column="speed")
+
+test_that("/data is correctly read", {
+    expect_equivalent(nrow(steelStrain), 3460)
+})
+
+context("Dataset")
 
 test_that("Dataset objects are created correctly from data.frames", {
     d.strain <- clone(d.strain.base)
@@ -32,14 +39,5 @@ test_that("Rows can be deleted", {
     n.rows <- d.strain$n
     d.strain$DeleteRows(1:10)
     expect_false(d.strain$n == n.rows)
-})
-
-test_that("We can check whether datasets have the same 'X'", {
-    d.strain <- clone(d.strain.base)
-    d.strain.clone <- clone(d.strain)
-    d.strain.clone$quantity <- "exy"
-    expect_true(d.strain$SameX(d.strain.clone))
-    d.strain.clone$DeleteRows(1:10)
-    expect_false(d.strain$SameX(d.strain.clone))
 })
 

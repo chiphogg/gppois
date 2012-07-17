@@ -1,4 +1,5 @@
 \name{Plot2D.Dataset}
+\alias{Plot2D}
 \alias{Plot2D.Dataset}
 \title{Scatterplot for 2D dataset}
 \arguments{

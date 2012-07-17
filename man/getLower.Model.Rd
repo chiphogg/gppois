@@ -4,7 +4,8 @@
 \alias{setLower.Model}
 \title{Lower bounds for parameters}
 \arguments{
-  \item{this}{The Model object.}
+  \item{this}{The object whose parameters to view or
+  change.}
 
   \item{L}{A (named) vector of new parameter values (we
   ONLY use ones which are named, and whose names match up

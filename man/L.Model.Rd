@@ -1,4 +1,5 @@
 \name{L.Model}
+\alias{L}
 \alias{L.Model}
 \title{Lower Cholesky root of covariance matrix}
 \arguments{

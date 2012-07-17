@@ -1,48 +1,31 @@
-############################################################################/**
-# @RdocClass CovarianceSE
-#
-# @title "(S)quared-(E)xponential Covariance"
-#
-# \description{
-#   The standard squared-exponential covariance.  Governed by two parameters: a
-#   horizontal and a vertical lengthscale.
-#
-#   @classhierarchy
-# }
-#
-# @synopsis
-#
-# \arguments{
-#   \item{id}{(character) A string to identify this covariance object.}
-#   \item{ell}{(numeric) A characteristic horizontal scale for features in
-#      functions being modeled.}
-#   \item{sigma.f}{(numeric) A characteristic vertical scale for features in
-#      functions being modeled.}
-#   \item{ell.bounds}{(numeric) The range of values which \code{ell} might
-#      assume.}
-#   \item{sigma.f.bounds}{(numeric) The range of values which \code{sigma.f}
-#      might assume.}
-#   \item{...}{Not used.}
-# }
-#
-# \section{Covariance Parameters}{
-#   This section lists the fit parameters corresponding to this type of
-#   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
-#   optimized in log-space, consistent with the Jeffreys prior.
-#
-#   \describe{
-#     \item{ell}{(Scale parameter) The horizontal feature lengthscale.}
-#     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
-#   }
-# }
-#
-# \section{Fields and Methods}{
-#  @allmethods
-#
-# }
-#
-# @author
-#*/###########################################################################
+#' CovarianceSE: (S)quared-(E)xponential covariance
+#'
+#' The standard squared-exponential covariance.  Governed by two parameters: a
+#' horizontal and a vertical lengthscale.
+#'
+#' @name CovarianceSE
+#'
+#' @param id (character) A string to identify this covariance object. 
+#' @param ell (numeric) A characteristic horizontal scale for features in
+#'      functions being modeled. 
+#' @param sigma.f (numeric) A characteristic vertical scale for features in
+#'      functions being modeled. 
+#' @param ell.bounds (numeric) The range of values which \code{ell} might
+#'      assume. 
+#' @param sigma.f.bounds (numeric) The range of values which \code{sigma.f}
+#'      might assume. 
+#' @param ... Not used. 
+#' @export
+#'
+#' @section Covariance Parameters:
+#'   This section lists the fit parameters corresponding to this type of
+#'   Covariance.  Any parameters marked as \dQuote{(Scale parameter)} will be
+#'   optimized in log-space, consistent with the Jeffreys prior.
+#'
+#'   \describe{
+#'     \item{ell}{(Scale parameter) The horizontal feature lengthscale.}
+#'     \item{sigma.f}{(Scale parameter) The vertical feature lengthscale.}
+#'   }
 setConstructorS3("CovarianceSE", function(..., id="SE",
     ell=NA, sigma.f=NA, ell.bounds=NA, sigma.f.bounds=NA) {
     ell.good <- InitializeBoundedQuantity(ok.range=c(0, Inf),
@@ -150,6 +133,8 @@ setMethodS3("paramsPlainImplementation", "CovarianceSE", conflict="quiet",
 #' @aliases CovarianceSE$lowerPlain getLowerPlain.CovarianceSE setLowerPlain.CovarianceSE
 #' @S3method getLowerPlain CovarianceSE
 #' @export getLowerPlain getLowerPlain.CovarianceSE
+#' @S3method setLowerPlain CovarianceSE
+#' @export setLowerPlain setLowerPlain.CovarianceSE
 #'
 #' @param L A (named) vector of new lower bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)
@@ -193,6 +178,8 @@ setMethodS3("setLowerPlain", "CovarianceSE", conflict="quiet",
 #' @aliases CovarianceSE$upperPlain getUpperPlain.CovarianceSE setUpperPlain.CovarianceSE
 #' @S3method getUpperPlain CovarianceSE
 #' @export getUpperPlain getUpperPlain.CovarianceSE
+#' @S3method setUpperPlain CovarianceSE
+#' @export setUpperPlain setUpperPlain.CovarianceSE
 #'
 #' @param U A (named) vector of new upper bounds (we ONLY use ones which are
 #'    named, and whose names match up with names of parameters.)

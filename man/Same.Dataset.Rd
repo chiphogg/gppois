@@ -1,4 +1,5 @@
 \name{Same.Dataset}
+\alias{Same}
 \alias{Same.Dataset}
 \title{Check whether two Datasets are identical}
 \arguments{
