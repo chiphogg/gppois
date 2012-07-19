@@ -116,10 +116,23 @@ NULL
 #'
 #' \itemize{
 #'   \item fuelRatio: Ratio of fuel to oxygen (or oxygen to fuel?)
-#'   \item source: The source in the literature of each measurement
+#'   \item source: The source in the literature of each measurement (see
+#'      references below)
 #'   \item speed: The speed of the flame front
 #' }
 #'
+#' @references  \emph{VE&L 94}: C. M. Vagelopoulos, F. N. Egolfopoulos, C. K. Law,
+#'    Proc. Combust. Inst. 25 (1994), 1341-1347.
+#' @references  \emph{Gu 00}: X. J. Gu, M. Z. Haq, M. Lawes, R. Woolley, Combust. Flame
+#'    121 (2000), 41-58.
+#' @references  \emph{B&dG 08}: K. J. Bosschaart, L. P. H. de Goey, Combust. Flame 136
+#'    (2004), 261-269.
+#' @references  \emph{EZ&L 90}: F. N. Egolfopoulos, D. L. Zhu, C. K. Law, Proc.
+#'    Combust. Inst.  23 (1991), 471-478.
+#' @references  \emph{HA&F 98}: M. I. Hassan, K. T. Aung, G. M. Faeth, Combust. Flame
+#'    115 (1998), 539-550.
+#' @references  \emph{V&E 98}: C. M. Vagelopoulos, F. N. Egolfopoulos, Proc. Combust.
+#'    Inst. 27 (1998), 513-519.
 #' @docType data
 #' @keywords datasets
 #' @name flameSpeed
