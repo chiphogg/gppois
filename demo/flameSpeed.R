@@ -8,8 +8,11 @@ x.out <- seq(from=min(ratio.range), to=max(ratio.range), length.out=200)
 # Plot the data
 ggplot2.installed <- require("ggplot2")
 if (ggplot2.installed) {
-  p <- (ggplot(data=flameSpeed, aes(x=fuelRatio, y=speed, colour=source))
-    + geom_point())
+  p <- (ggplot(data=flameSpeed, aes(x=fuelRatio, y=speed))
+    + geom_point()
+    + scale_x_continuous("Fuel ratio")
+    + scale_y_continuous("Flame speed")
+    + opts(title="Flame speed vs. fuel ratio", legend.position="none"))
   print(p)
 } else {
   with(flameSpeed, plot(fuelRatio, speed))
@@ -19,7 +22,8 @@ if (ggplot2.installed) {
 # In gppois, we wrap our data in a Dataset object.  For help, type:
 # > ?Dataset
 DemoPause()
-d.flame <- Dataset(data=flameSpeed, column="speed", X.names="fuelRatio")
+d.flame <- Dataset(data=flameSpeed, column="speed", X.names="fuelRatio",
+  data.offset=0)
 
 ###############################################################################
 # Now, it's time to set up a Model for this system.
@@ -34,7 +38,7 @@ print(m)
 # We'll give generous but reasonable boundaries, based on eyeballing the plot.
 DemoPause()
 c.SE <- CovarianceSE(id="signal",
-  ell.bounds=c(0.2, 2), sigma.f.bounds=c(1, 50))
+  ell.bounds=c(0.2, 10), sigma.f.bounds=c(0.5, 50))
 m$AddCovariance(c.SE)
 print(m)
 
@@ -56,7 +60,8 @@ result <- m$PosteriorInterval(d=d.flame, X.out=x.out)
 if (ggplot2.installed) {
   p <- (p + geom_line(data=result, aes(x=X, y=mean), colour='red')
     + geom_ribbon(data=result, aes(x=X, ymin=lower, ymax=upper), alpha=0.3,
-      colour='red', inherit.aes=FALSE)
+      fill='red', inherit.aes=FALSE)
+    + opts(title="Fit with ARBITRARY parameters")
     )
   print(p)
 } else {
@@ -66,8 +71,8 @@ if (ggplot2.installed) {
 }
 
 ###############################################################################
-# Not too bad... but it does seem to underestimate the peak.
-# Let's use an "Empirical Bayes" approach:
+# As we can see, the fit is lousy.
+# Let's use an "Empirical Bayes" approach to fix this:
 # Train the Model parameters that best match the data
 DemoPause()
 m$Train(d=d.flame)
@@ -79,7 +84,8 @@ better <- m$PosteriorInterval(d=d.flame, X.out=x.out)
 if (ggplot2.installed) {
   p <- (p + geom_line(data=better, aes(x=X, y=mean), colour='blue')
     + geom_ribbon(data=better, aes(x=X, ymin=lower, ymax=upper), alpha=0.3,
-      colour='blue', inherit.aes=FALSE)
+      fill='blue', inherit.aes=FALSE)
+    + opts(title="Fit with TRAINED parameters")
     )
   print(p)
 } else {
